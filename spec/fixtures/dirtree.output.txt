@@ -1,0 +1,14 @@
+```
+dirtree/
+├── subdirA/
+|   ├── aFile.txt
+|   ├── bDir/
+|   |   ├── aFile.txt
+|   |   └── bFile.txt
+|   └── cFile.txt
+└── subdirB/
+    ├── bFile.md
+    └── subdirC/
+        ├── aFile.txt
+        └── bFile.txt
+```

@@ -1,3 +1,56 @@
+# thought-example
+
+> An example to show what thought generates on with the vanilla template.
+
+
+# Installation
+
+```
+npm install thought-example
+```
+
+## Usage
+
+The following example demonstrates how to use this module:
+
+```js
+var multiply = require('thought-example')
+
+var x = 3
+var y = 4
+var xy = multiply(x, y)
+
+console.log(xy)
+```
+
+This will generate the following output
+
+```
+12
+```
+
+#  API-reference
+
+## multiply
+
+Multiplies two numbers
+
+### Parameters:
+
+* a: **number** - the first number    
+* b: **number** - the second number    
+
+### Returns:
+    
+* **number** - the product of &#x60;a&#x60; and &#x60;b&#x60;
+
+
+
+## License
+
+`thought-example` is published under the MIT-license. 
+See [LICENSE.md](LICENSE.md) for details.
+
 ## Contributing Guidelines
 
 <!-- Taken from @tunnckoCore: https://github.com/tunnckoCore/coreflow-templates/blob/master/template/CONTRIBUTING.md -->

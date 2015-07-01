@@ -7,30 +7,33 @@
 
 'use strict'
 
-var path = require("path");
+var path = require('path')
+var customize = require('customize')
+var Q = require('q')
+var qfs = require('q-io/fs')
+var program = require('commander')
 
-module.exports = function thought(customize) {
+/**
+ * Execute Thought in the current directory
+ * @param {object} options
+ * @param {string} options.cwd the working directory to use for
+ */
+module.exports = function thought (options) {
+  options = options || {}
 
-  return customize
-    .registerEngine("handlebars", require("customize-engine-handlebars"))
-    .merge({
-      handlebars: {
-        partials: "handlebars/partials",
-        templates: "handlebars/templates",
-        helpers: require("./handlebars/helpers.js"),
-        data: {
-          'package': require("./package.json")
-        }
-        //, preprocessor: require("./handlebars/preprocessor.js")
-      }
+  customize()
+    // Load `customize`-spec
+    .load(require('./customize.js')(options.cwd || '.'))
+    .run()
+    .then(function (result) {
+      console.log(result)
+      return Q.all(Object.keys(result.handlebars).map(function (filename) {
+        qfs.write(filename, result.handlebars[filename])
+        return filename
+      }))
     })
-    .merge({
-      handlebars: {
-        partials: path.join(".thought", "partials"),
-        templates: path.join(".thought", "templates"),
-      }
+    .done(function (filenames) {
+      console.log('The following files were updated: ' + filenames.join(', '))
     })
-    //.tap(console.log)
-
 
 }

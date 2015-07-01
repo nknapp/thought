@@ -1,7 +1,7 @@
 {
-  "name": "thought",
+  "name": "thought-example",
   "version": "0.0.0",
-  "description": "A customizable documentation generator for github projects",
+  "description": "An example to show what thought generates on with the vanilla template.",
   "repository": {
     "type": "git",
     "url": "https://github.com/nknapp/thought.git"
@@ -15,10 +15,7 @@
     "url": "https://github.com/nknapp/thought/issues"
   },
   "main": "index.js",
-  "bin": {
-    "thought": "bin/thought.js"
-  },
-  "preferGlobal": true,
+  "preferGlobal": false,
   "license": "MIT",
   "scripts": {
     "pretest": "npm list --depth=0 -g standard || npm -g install standard",
@@ -28,13 +25,7 @@
   },
   "dependencies": {
     "commander": "^2.8.1",
-    "find-package": "^1.0.0",
-    "get-promise": "^1.3.1",
-    "lodash": "^3.10.0",
-    "multilang-apidocs": "^0.1.0",
-    "q": "^1.4.1",
-    "q-deep": "^1.0.1",
-    "q-io": "^1.13.1"
+    "find-package": "^1.0.0"
   },
   "devDependencies": {
     "jasmine": "^2.3.1"

@@ -1,0 +1,26 @@
+**This project is not ready yet. It's in development and the documentation is merely a self-test
+of the project. Better come back later**
+
+
+## Overview / Motivation
+
+The goal of Thought is making the documentation just as easy as thinking about it.
+
+Generating a simple `README.md` just requires executing `thought` in your project directories.
+Thought will run your `package.json` through a Handlebars template with a list of registered partials in order to 
+do that.
+
+Since that is mostly not exactly what you want, it is possible to override each of the partials with your own 
+and to create more templates that result in multiple markdown files in your repo.
+
+Thought offers a small list of simple helpers to
+
+* parse jsdoc-comments (not only in javascript-files but in many languages) and include them at any location in 
+  your documenation files. 
+* include any file
+* include javascript example files (replacing `require` of the main module by the module name)
+* run example files or any program and include the output
+ 
+
+
+

@@ -1,14 +1,34 @@
-**This project is not ready yet. It's in development and the documentation is merely a self-test
-of the project. Better come back later**
 
-## CLI usage
+## Usage
 
 
 The simplest usage is just to run `thought` from your project root directory.
 In the default configuration, this will generate a `README.md` from the information in the `package.json`.
 
+Consider the following example: 
+
+{{{dirtree 'examples/example-project' '!**/README.md'}}}
+
+#### index.js
+
+{{{include 'examples/example-project/index.js'}}}
+
+#### example.js
+
+{{{include 'examples/example-project/examples/example.js'}}}
+
+#### example.js
+
+{{{include 'examples/example-project/examples/example.js'}}}
+
+
+### CLI options
+
 Calling `thought --help` will print a command-line reference:
 
-{{{exec 'bin/thought.js --help' ''}}}
+{{{exec 'bin/thought.js --help'}}}
 
+## Calling `thought` from node.
+
+{{{example 'examples/javascript-usage.js' 'txt'}}}
 
