@@ -22,9 +22,11 @@ module.exports = {
    * @returns {string}
    */
   include: function (filename, language) {
-    return '```' + language + '\n' +
-      fs.readFileSync(filename, 'utf-8') +
-      '\n```\n'
+    return '```'
+      + (_.isString(language) ? language : "")
+      + '\n'
+      + fs.readFileSync(filename, 'utf-8')
+      + '\n```\n'
   },
 
   /**

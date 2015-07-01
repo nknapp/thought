@@ -55,7 +55,7 @@ Consider the following example:
 
 #### index.js
 
-```[object Object]
+```
 /*!
  * thought <https://github.com/nknapp/thought>
  *
@@ -81,7 +81,7 @@ module.exports = function multiply (a, b) {
 
 #### example.js
 
-```[object Object]
+```
 var multiply = require('../')
 
 var x = 3
@@ -95,7 +95,7 @@ console.log(xy)
 
 #### example.js
 
-```[object Object]
+```
 var multiply = require('../')
 
 var x = 3
