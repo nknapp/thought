@@ -6,7 +6,11 @@
 
 Add text here
 
-## CLI usaage
+**This project is not ready yet. It's in development and the documentation is merely a self-test
+of the project. Better come back later**
+
+## CLI usage
+
 
 The simplest usage is just to run `thought` from your project root directory.
 In the default configuration, this will generate a `README.md` from the information in the `package.json`.
