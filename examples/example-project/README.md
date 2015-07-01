@@ -35,14 +35,12 @@ This will generate the following output
 
 Multiplies two numbers
 
-### Parameters:
+* Parameters:
+  * a: **number** - the first number    
+  * b: **number** - the second number    
 
-* a: **number** - the first number    
-* b: **number** - the second number    
-
-### Returns:
-    
-* **number** - the product of &#x60;a&#x60; and &#x60;b&#x60;
+* Returns:
+  * **number** - the product of &#x60;a&#x60; and &#x60;b&#x60;
 
 
 
