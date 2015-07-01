@@ -15,9 +15,6 @@
  */
 'use strict'
 
-var customize = require('customize')
-var Q = require('q')
-var qfs = require('q-io/fs')
 var program = require('commander')
 
 program

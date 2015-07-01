@@ -12,7 +12,7 @@
 
 'use strict'
 
-var thought = require('../')
+// var thought = require('../')
 
 describe('thought:', function () {
   // body

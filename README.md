@@ -42,70 +42,27 @@ npm install -g thought
 The simplest usage is just to run `thought` from your project root directory.
 In the default configuration, this will generate a `README.md` from the information in the `package.json`.
 
-Consider the following example: 
+Consider the following example 
 
-<pre>
-[example-project](examples/example-project)/
-├── [LICENSE.md](examples/example-project/LICENSE.md)
-├── [examples](examples/example-project/examples)/
-|   └── [example.js](examples/example-project/examples/example.js)
-├── [index.js](examples/example-project/index.js)
-└── [package.json](examples/example-project/package.json)
-</pre>
-
-#### index.js
-
-```
-/*!
- * thought <https://github.com/nknapp/thought>
- *
- * Copyright (c) 2015 Nils Knappmeier.
- * Released under the MIT license.
- */
-
-'use strict'
-
-/**
- * Multiplies two numbers
- * @param {number} a the first number
- * @param {number} b the second number
- * @return {number} the product of `a` and `b`
- * @api public
- */
-module.exports = function multiply (a, b) {
-  return a * b
-}
-
+```example-project/
+├── LICENSE.md
+├── examples/
+|   └── example.js
+├── index.js
+└── package.json
 ```
 
+and have a look at the files
+[index.js](examples/example-project/index.js),
+[examples/example.js](examples/example-project/examples/example.js) and
+[examples/example.js](examples/example-project/examples/example.js),
+[LICENSE.md](examples/example-project/LICENSE.md),
+[package.json](examples/example-project/package.json)
 
-#### example.js
+Thought will render information from `package.json`, include the `exampeles/examples.js`, 
+execute the `examples/example.js` file and include the process-output and reference the `LICENSE.md`.
 
-```
-var multiply = require('../')
-
-var x = 3
-var y = 4
-var xy = multiply(x, y)
-
-console.log(xy)
-
-```
-
-
-#### example.js
-
-```
-var multiply = require('../')
-
-var x = 3
-var y = 4
-var xy = multiply(x, y)
-
-console.log(xy)
-
-```
-
+The resulting `README.md` can be viewed [here](examples/example-project/README.md)
 
 
 ### CLI options
@@ -135,6 +92,15 @@ thought({
 
 
 #  API-reference
+
+## thought
+
+Execute Thought in the current directory
+
+* Parameters:
+  * options: **object**     
+  * options.cwd: **string** - the working directory to use as project root    
+
 
 
 

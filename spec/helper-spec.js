@@ -6,7 +6,7 @@
  */
 
 /* global describe */
-// /* global it */
+/* global it */
 // /* global xdescribe */
 // /* global xit */
 /* global expect */
@@ -25,7 +25,7 @@ describe('thought-helper', function () {
     })
 
     it('should filter specific entries throw globs', function () {
-      expect(helpers.dirtree('spec/fixtures/dirtree','!**/subdirB'))
+      expect(helpers.dirtree('spec/fixtures/dirtree', '!**/subdirB'))
         .toBe(fs.readFileSync('spec/fixtures/dirtree.output.filtered.txt', { encoding: 'utf-8'}))
 
     })

@@ -35,7 +35,7 @@ module.exports = function createSpec (workingDir) {
       .merge({
         handlebars: {
           partials: path.join(workingDir, '.thought', 'partials'),
-          templates: path.join(workingDir, '.thought', 'templates'),
+          templates: path.join(workingDir, '.thought', 'templates')
         }
       })
       // .tap(console.log)

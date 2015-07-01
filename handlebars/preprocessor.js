@@ -1,8 +1,7 @@
 var qfs = require('q-io/fs')
-var apidocs = require('multilang-apidocs')
 var _ = require('lodash')
 var path = require('path')
-var Q = require('q')
+// var Q = require('q')
 var deep = require('q-deep')
 var debug = require('debug')('thought:preprocessor')
 

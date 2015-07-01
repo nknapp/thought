@@ -22,11 +22,11 @@ module.exports = {
    * @returns {string}
    */
   include: function (filename, language) {
-    return '```'
-      + (_.isString(language) ? language : "")
-      + '\n'
-      + fs.readFileSync(filename, 'utf-8')
-      + '\n```\n'
+    return '```' +
+      (_.isString(language) ? language : '') +
+      '\n' +
+      fs.readFileSync(filename, 'utf-8') +
+      '\n```\n'
   },
 
   /**
@@ -78,10 +78,10 @@ module.exports = {
    * @returns {string}
    */
   dirtree: function (dirPath, glob) {
-    debug("glob",glob);
-    return '<pre>\n'
-      + createDirectoryTree(dirPath, [], glob ? minimatch.filter(glob) : _.constant(true))
-      + '\n</pre>'
+    debug('glob', glob)
+    return '```\n' +
+      createDirectoryTree(dirPath, [], glob ? minimatch.filter(glob) : _.constant(true)) +
+      '\n```'
   }
 }
 
@@ -92,33 +92,33 @@ module.exports = {
  * @returns {*}
  */
 function createDirectoryTree (somePath, isLast, filter) {
-  debug("filter",filter);
+  debug('filter', filter)
   var prefix = isLast.map(function (isLastVal, index, array) {
-      return index < array.length - 1
-        ? (isLastVal ? '    ' : '|   ')
-        : (isLastVal ? '└── ' : '├── ');
-    }).join('');
+    return index < array.length - 1
+      ? (isLastVal ? '    ' : '|   ')
+      : (isLastVal ? '└── ' : '├── ')
+  }).join('')
 
-  var filelink = "["+path.basename(somePath)+"]("+somePath+")";
+  var filelink = path.basename(somePath)
 
   if (fs.statSync(somePath).isFile()) {
     if (filter && !filter(somePath)) {
-      debug("Omitting "+ somePath + " based on glob")
-      return "";
+      debug('Omitting ' + somePath + ' based on glob')
+      return ''
     }
-    return prefix + filelink;
+    return prefix + filelink
   }
   return prefix + filelink + '/\n' + fs.readdirSync(somePath)
-      .map(function(entry) {
+      .map(function (entry) {
         return path.join(somePath, entry)
       })
       .filter(filter)
       .map(function (entry, index, array) {
-      return createDirectoryTree(
-        entry,
-        isLast.concat([index >= array.length - 1]),
-        filter
-      )
-    }).join('\n')
+        return createDirectoryTree(
+          entry,
+          isLast.concat([index >= array.length - 1]),
+          filter
+        )
+      }).join('\n')
 
 }
