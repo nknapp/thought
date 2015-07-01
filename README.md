@@ -44,7 +44,8 @@ In the default configuration, this will generate a `README.md` from the informat
 
 Consider the following example 
 
-```example-project/
+```
+example-project/
 ├── LICENSE.md
 ├── examples/
 |   └── example.js
@@ -111,4 +112,4 @@ See [LICENSE.md](LICENSE.md) for details.
 
 ## Contributing 
 
-See [CONTRIBUTING.md] for details about code-style and for developer documentation.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details about code-style and for developer documentation.
