@@ -57,6 +57,12 @@ module.exports = {
       '\n```'
   },
 
+  exists: function(filename) {
+    return fs.existsSync(filename);
+  },
+
+
+
   exec: function (command, language) {
     var start = ''
     var end = ''
@@ -95,8 +101,8 @@ function createDirectoryTree (somePath, isLast, filter) {
   debug('filter', filter)
   var prefix = isLast.map(function (isLastVal, index, array) {
     return index < array.length - 1
-      ? (isLastVal ? '    ' : '|   ')
-      : (isLastVal ? '└── ' : '├── ')
+      ? (isLastVal ? '    ' : '\u2502   ')
+      : (isLastVal ? '\u2514\u2500\u2500 ' : '\u251C\u2500\u2500 ')
   }).join('')
 
   var filelink = path.basename(somePath)

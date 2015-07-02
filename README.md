@@ -48,7 +48,7 @@ Consider the following example
 example-project/
 ├── LICENSE.md
 ├── examples/
-|   └── example.js
+│   └── example.js
 ├── index.js
 └── package.json
 ```
