@@ -2,9 +2,6 @@
 
 > A customizable documentation generator for github projects
 
-**This project is not ready yet. It's in development and the documentation is merely a self-test
-of the project. Better come back later**
-
 
 ## Overview / Motivation
 
@@ -92,7 +89,7 @@ thought({
 ```
 
 
-#  API-reference
+##  API-reference
 
 ## thought
 
