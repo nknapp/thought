@@ -1,14 +1,31 @@
+*Thought is still in development. It might be worth looking at it already, but I'm still trying to 
+document my own projects with it, so the default templates will change as I go along. It's not ready
+for production use at the moment.*
 
 ## Overview / Motivation
 
 The goal of Thought is making the documentation just as easy as thinking about it.
+
+Are you sometimes annoyed about documentation that does represent the current state of the project? 
+Like example-snippets that don't work or have a different output when you actually run them?
+
+Most of the time, the problem is, that the documentation lives too far away from the code. 
+The API-reference is up-to-date most of the time, because it is actually maintained next 
+to the code. But what about the rest?
+
+With Thought, you can assemble documentation from a variety of places. You can include API-docs into
+your README, you can include example and actuall *run* them to include the output. You can include
+the command line reference by calling the main program with a `--help` parameter.
+
+When your examples throw errors, you will notice that. When you make changes to your code, 
+the example output in your documentation will change as well!
 
 Generating a simple `README.md` just requires executing `thought` in your project directories.
 Thought will run your `package.json` through a Handlebars template with a list of registered partials in order to 
 do that.
 
 Since that is mostly not exactly what you want, it is possible to override each of the partials with your own 
-and to create more templates that result in multiple markdown files in your repo.
+and to create more templates each of which will result in one markdown-file in your repo.
 
 Thought offers a small list of simple helpers to
 
@@ -18,6 +35,10 @@ Thought offers a small list of simple helpers to
 * include javascript example files (replacing `require` of the main module by the module name)
 * run example files or any program and include the output
  
+I have taken a lot of inspiration form [verb](https://github.com/verbose/verb) by Jon Schlinkert, but I wanted 
+something simpler. There are other simple README-generators out there that you can't adapt, so the idea of 
+using `package.json` to generate a README.md is not new.
+
 
 
 
