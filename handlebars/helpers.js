@@ -5,14 +5,25 @@ var cp = require('child_process')
 var _ = require('lodash')
 var debug = require('debug')('thought:helpers')
 var minimatch = require('minimatch')
+var glob = require("glob");
 
 module.exports = {
-  apidocs: function (filename) {
-    var comments = apidocs(fs.readFileSync(filename, 'utf-8'), {
-      filename: filename
-    })
-    // console.log(comments.filteredComments)
-    return comments.join('\n')
+  /**
+   * Include the apidocs from a file. The `multilang-apidocs` package
+   * is used to extract the comments from the file.
+   * @param {string} a glob-pattern to find the files to analyze
+   * @returns {string}
+   */
+  apidocs: function (globPattern) {
+    var files = glob.sync(globPattern)
+    debug("apidoc files",files);
+    return files.map(function(file) {
+      var comments = apidocs(fs.readFileSync(file, 'utf-8'), {
+        filename: file
+      })
+      debug("extracted comments",comments);
+      return comments.join('\n')
+    }).join('\n');
   },
 
   /**
@@ -38,9 +49,21 @@ module.exports = {
   },
 
   /**
-   * Includes an example file into the template, replacing
-   * the `require('../')` by `require('module-name')` (only single-quotes are replaced)
-   * @param filename
+   * Includes an example file into the template, replacing `require()` calls to the current module
+   * by `require('module-name')` (only single-quotes are replaced)
+   * If your file is `examples/example.js`, you would do
+   * ```js
+   * var fn = require('../');
+   * ```
+   * to load your module. That way, you get an executable script.
+   * The helper will when include
+   * ```js
+   * var fn = require('module-name');
+   * ```
+   * in your docs, which is what a user of the module will do.
+   *
+   * @param {string} filename the name of the example file
+   * @api public
    */
   example: function (filename) {
     // Relative path to the current module (e.g. "../"). This path must be replaced
@@ -57,12 +80,24 @@ module.exports = {
       '\n```'
   },
 
+  /**
+   * Return true if a file exists
+   * @param {string} filename the path to the file
+   * @return {boolean} true, if the file or diectory exists
+   * @api public
+   */
   exists: function(filename) {
     return fs.existsSync(filename);
   },
 
-
-
+  /**
+   * Execute a commad and include the output in a fenced code-block.
+   * @param {string} command the command, passed to `child-process#execSync()`
+   * @param {string} language the language tag that should be attached to the fence
+   *    (like `js` or `bash`). If this is set to `raw`, the output is included as-is, without fences.
+   * @returns {string} the output of `execSync`, enclosed in fences.
+   * @api public
+   */
   exec: function (command, language) {
     var start = ''
     var end = ''
@@ -82,6 +117,7 @@ module.exports = {
    * @param dirPath the base directory
    * @param glob an optional glob-expression to filter the files included in the tree.
    * @returns {string}
+   * @api public
    */
   dirtree: function (dirPath, glob) {
     debug('glob', glob)
