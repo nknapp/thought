@@ -24,7 +24,7 @@ module.exports = function createSpec (workingDir) {
         handlebars: {
           partials: path.join(__dirname, 'handlebars', 'partials'),
           templates: path.join(__dirname, 'handlebars', 'templates'),
-          helpers: require('./handlebars/helpers.js'),
+          helpers: require.resolve('./handlebars/helpers.js'),
           data: {
             'package': require(path.resolve('package.json')),
             'workingDir': workingDir
@@ -35,7 +35,8 @@ module.exports = function createSpec (workingDir) {
       .merge({
         handlebars: {
           partials: path.join(workingDir, '.thought', 'partials'),
-          templates: path.join(workingDir, '.thought', 'templates')
+          templates: path.join(workingDir, '.thought', 'templates'),
+          helpers: path.join(workingDir, '.thought', 'handlebars-helpers,js')
         }
       })
       // .tap(console.log)
