@@ -5,7 +5,7 @@ var cp = require('child_process')
 var _ = require('lodash')
 var debug = require('debug')('thought:helpers')
 var minimatch = require('minimatch')
-var glob = require("glob");
+var glob = require('glob')
 
 module.exports = {
   /**
@@ -16,14 +16,14 @@ module.exports = {
    */
   apidocs: function (globPattern) {
     var files = glob.sync(globPattern)
-    debug("apidoc files",files);
-    return files.map(function(file) {
+    debug('apidoc files', files)
+    return files.map(function (file) {
       var comments = apidocs(fs.readFileSync(file, 'utf-8'), {
         filename: file
       })
-      debug("extracted comments",comments);
+      debug('extracted comments', comments)
       return comments.join('\n')
-    }).join('\n');
+    }).join('\n')
   },
 
   /**
@@ -53,12 +53,12 @@ module.exports = {
    * by `require('module-name')` (only single-quotes are replaced)
    * If your file is `examples/example.js`, you would do
    * ```js
-   * var fn = require('../');
+   * var fn = require('../')
    * ```
    * to load your module. That way, you get an executable script.
    * The helper will when include
    * ```js
-   * var fn = require('module-name');
+   * var fn = require('module-name')
    * ```
    * in your docs, which is what a user of the module will do.
    *
@@ -86,8 +86,8 @@ module.exports = {
    * @return {boolean} true, if the file or diectory exists
    * @api public
    */
-  exists: function(filename) {
-    return fs.existsSync(filename);
+  exists: function (filename) {
+    return fs.existsSync(filename)
   },
 
   /**
@@ -122,24 +122,89 @@ module.exports = {
   dirtree: function (dirPath, glob) {
     debug('glob', glob)
     return '```\n' +
-      createDirectoryTree(dirPath, [], glob ? minimatch.filter(glob) : _.constant(true)) +
+      renderTree(createDirectoryTree(dirPath, [], glob ? minimatch.filter(glob) : _.constant(true)), []) +
       '\n```'
+  },
+
+  /**
+   * Renders a object hierarchy like
+   *
+   * ```js
+   * {
+   *    name: 'example-project/',
+   *    children: [
+   *      {
+   *        name: 'LICENSE.md'
+   *      },
+   *      {
+   *        name: 'examples/',
+   *        children: [
+   *          {
+   *            name: 'example.js'
+   *          },
+   *        ]
+   *      },
+   *      {
+   *        name: 'index.js'
+   *      },
+   *      {
+   *        name: 'package.json'
+   *      }
+   *    ]
+   * }
+   * ```
+   *
+   * into
+   *
+   * ```
+   * example-project/
+   * ├── LICENSE.md
+   * ├── examples/
+   * │   └── example.js
+   * ├── index.js
+   * └── package.json
+   * ```
+   *
+   * @param object
+   */
+  renderTree: function (object) {
+    return renderTree(object,[]);
   }
 }
 
 /**
- *
- * @param somePath
- * @param state an array of boolean values, showing whether the current element on each level is the last element in the list
- * @returns {*}
+ * @param object the rendered data
+ * @param isLast an array of boolean values, showing whether the current element on each level is the last element in the list
  */
-function createDirectoryTree (somePath, isLast, filter) {
-  debug('filter', filter)
+function renderTree (object, isLast) {
   var prefix = isLast.map(function (isLastVal, index, array) {
     return index < array.length - 1
       ? (isLastVal ? '    ' : '\u2502   ')
       : (isLastVal ? '\u2514\u2500\u2500 ' : '\u251C\u2500\u2500 ')
   }).join('')
+
+  if (!object.children || object.children.length === 0) {
+    return prefix + object.name
+  }
+  return prefix + object.name + '\n' + object.children
+      .map(function (entry, index, array) {
+        return renderTree(
+          entry,
+          // Add the isLast-entry for the current level (if this is the last index in the current children-list
+          isLast.concat([index >= array.length - 1])
+        )
+      }).join('\n')
+}
+
+/**
+ *
+ * @param somePath the root-directory of the tree
+ * @param isLast an array of boolean values, showing whether the current element on each level is the last element in the list
+ * @param filter a function that returns true for each file that should be displayed
+ * @returns an object structure compatible with `renderTree` representing the file tree
+ */
+function createDirectoryTree (somePath, isLast, filter) {
+  debug('filter', filter)
 
   var filelink = path.basename(somePath)
 
@@ -148,9 +213,11 @@ function createDirectoryTree (somePath, isLast, filter) {
       debug('Omitting ' + somePath + ' based on glob')
       return ''
     }
-    return prefix + filelink
+    return {name: filelink}
   }
-  return prefix + filelink + '/\n' + fs.readdirSync(somePath)
+  return {
+    name: filelink + '/',
+    children: fs.readdirSync(somePath)
       .map(function (entry) {
         return path.join(somePath, entry)
       })
@@ -161,6 +228,7 @@ function createDirectoryTree (somePath, isLast, filter) {
           isLast.concat([index >= array.length - 1]),
           filter
         )
-      }).join('\n')
+      })
+  }
 
 }

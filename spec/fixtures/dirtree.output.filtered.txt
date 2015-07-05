@@ -3,7 +3,7 @@ dirtree/
 └── subdirA/
     ├── aFile.txt
     ├── bDir/
-    |   ├── aFile.txt
-    |   └── bFile.txt
+    │   ├── aFile.txt
+    │   └── bFile.txt
     └── cFile.txt
 ```

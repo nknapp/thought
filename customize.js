@@ -37,7 +37,7 @@ module.exports = function createSpec (workingDir) {
           partials: path.join(workingDir, '.thought', 'partials'),
           templates: path.join(workingDir, '.thought', 'templates'),
           helpers: path.resolve(workingDir, '.thought', 'hb-helpers,js'),
-          preprocessor: path.resolve(workingDir, '.thought','hb-preprocessor.js')
+          preprocessor: path.resolve(workingDir, '.thought', 'hb-preprocessor.js')
         }
       })
       // .tap(console.log)
