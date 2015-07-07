@@ -62,14 +62,12 @@ In the default configuration, this will generate a `README.md` from the informat
 
 Consider the following example 
 
-```
 example-project/
 ├── LICENSE.md
 ├── examples/
 │   └── example.js
 ├── index.js
 └── package.json
-```
 
 and have a look at the files
 [index.js](examples/example-project/index.js),
@@ -112,7 +110,7 @@ thought({
 
 ##  API-reference
 
-## thought
+## [thought](https://github.com/nknapp/thought/blob/master/index.js#L21)
 
 Execute Thought in the current directory
 

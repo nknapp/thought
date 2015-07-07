@@ -121,9 +121,8 @@ module.exports = {
    */
   dirtree: function (dirPath, glob) {
     debug('glob', glob)
-    return '```\n' +
-      renderTree(createDirectoryTree(dirPath, [], glob ? minimatch.filter(glob) : _.constant(true)), []) +
-      '\n```'
+    var tree = createDirectoryTree(dirPath, [], glob ? minimatch.filter(glob) : _.constant(true));
+    return renderTree(tree, [], _.property("name"));
   },
 
   /**
@@ -167,16 +166,17 @@ module.exports = {
    *
    * @param object
    */
-  renderTree: function (object) {
-    return renderTree(object,[]);
+  renderTree: function (object, options) {
+    return "<pre><code>" + renderTree(object, [], options.fn) + "</code></pre>";
   }
 }
 
 /**
  * @param object the rendered data
  * @param isLast an array of boolean values, showing whether the current element on each level is the last element in the list
+ * @param fn the block-helper function (options.fn) of Handlebars (http://handlebarsjs.com/block_helpers.html)
  */
-function renderTree (object, isLast) {
+function renderTree(object, isLast, fn) {
   var prefix = isLast.map(function (isLastVal, index, array) {
     return index < array.length - 1
       ? (isLastVal ? '    ' : '\u2502   ')
@@ -184,14 +184,15 @@ function renderTree (object, isLast) {
   }).join('')
 
   if (!object.children || object.children.length === 0) {
-    return prefix + object.name
+    return prefix + fn(object).trim()
   }
-  return prefix + object.name + '\n' + object.children
+  return prefix + fn(object).trim() + '\n' + object.children
       .map(function (entry, index, array) {
         return renderTree(
           entry,
           // Add the isLast-entry for the current level (if this is the last index in the current children-list
-          isLast.concat([index >= array.length - 1])
+          isLast.concat([index >= array.length - 1]),
+          fn
         )
       }).join('\n')
 }
@@ -203,7 +204,7 @@ function renderTree (object, isLast) {
  * @param filter a function that returns true for each file that should be displayed
  * @returns an object structure compatible with `renderTree` representing the file tree
  */
-function createDirectoryTree (somePath, isLast, filter) {
+function createDirectoryTree(somePath, isLast, filter) {
   debug('filter', filter)
 
   var filelink = path.basename(somePath)
