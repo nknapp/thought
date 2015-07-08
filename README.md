@@ -110,16 +110,7 @@ thought({
 
 ##  API-reference
 
-## [thought](https://github.com/nknapp/thought/blob/master/index.js#L21)
-
-Execute Thought in the current directory
-
-* Parameters:
-  * options: **object**     
-  * options.cwd: **string** - the working directory to use as project root    
-
-
-
+[object Object]
 
 ## License
 

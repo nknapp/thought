@@ -22,7 +22,7 @@ module.exports = {
         filename: file
       })
       debug('extracted comments', comments)
-      return comments.join('\n')
+      return comments.map(_.property('markdown')).join('\n')
     }).join('\n')
   },
 
@@ -93,21 +93,23 @@ module.exports = {
   /**
    * Execute a commad and include the output in a fenced code-block.
    * @param {string} command the command, passed to `child-process#execSync()`
-   * @param {string} language the language tag that should be attached to the fence
+   * @param {string} options.hash.lang the language tag that should be attached to the fence
    *    (like `js` or `bash`). If this is set to `raw`, the output is included as-is, without fences.
+   * @param {string} options.hash.cwd the current working directory of the example process
    * @returns {string} the output of `execSync`, enclosed in fences.
    * @api public
    */
-  exec: function (command, language) {
+  exec: function (command, options) {
     var start = ''
     var end = ''
-    if (language !== 'raw') {
-      var fenceLanguage = _.isString(language) ? language : ''
+    if (options.hash.lang !== 'raw') {
+      var fenceLanguage = _.isString(options.hash.lang) ? options.hash.lang : ''
       start = '```' + fenceLanguage + '\n'
       end = '\n```'
     }
     var output = cp.execSync(command, {
-      encoding: 'utf8'
+      encoding: 'utf8',
+      cwd: options.hash.cwd
     })
     return start + output.trim() + end
   },
@@ -121,8 +123,8 @@ module.exports = {
    */
   dirtree: function (dirPath, glob) {
     debug('glob', glob)
-    var tree = createDirectoryTree(dirPath, [], glob ? minimatch.filter(glob) : _.constant(true));
-    return renderTree(tree, [], _.property("name"));
+    var tree = createDirectoryTree(dirPath, [], glob ? minimatch.filter(glob) : _.constant(true))
+    return renderTree(tree, [], _.property('name'))
   },
 
   /**
@@ -167,7 +169,7 @@ module.exports = {
    * @param object
    */
   renderTree: function (object, options) {
-    return "<pre><code>" + renderTree(object, [], options.fn) + "</code></pre>";
+    return '<pre><code>' + renderTree(object, [], options.fn) + '</code></pre>'
   }
 }
 
@@ -176,17 +178,27 @@ module.exports = {
  * @param isLast an array of boolean values, showing whether the current element on each level is the last element in the list
  * @param fn the block-helper function (options.fn) of Handlebars (http://handlebarsjs.com/block_helpers.html)
  */
-function renderTree(object, isLast, fn) {
+function renderTree (object, isLast, fn) {
+  // Prefix for the first line of each node
   var prefix = isLast.map(function (isLastVal, index, array) {
     return index < array.length - 1
+      // All but lowest level
       ? (isLastVal ? '    ' : '\u2502   ')
+      // lowest level)
       : (isLastVal ? '\u2514\u2500\u2500 ' : '\u251C\u2500\u2500 ')
   }).join('')
 
+  // Prefix for each additional line of each node (i.e. if the node contains `\n`)
+  var additionalLinesPrefix = isLast.map(function (isLastVal) {
+    return isLastVal ? '    ' : '\u2502   '
+  }).join('')
+
+  var trim = fn(object).trim();
+    var node = trim.replace(/(\r\n?|\n)/g, "$1"+additionalLinesPrefix)
   if (!object.children || object.children.length === 0) {
-    return prefix + fn(object).trim()
+    return prefix + node
   }
-  return prefix + fn(object).trim() + '\n' + object.children
+  return prefix + node + '\n' + object.children
       .map(function (entry, index, array) {
         return renderTree(
           entry,
@@ -204,7 +216,7 @@ function renderTree(object, isLast, fn) {
  * @param filter a function that returns true for each file that should be displayed
  * @returns an object structure compatible with `renderTree` representing the file tree
  */
-function createDirectoryTree(somePath, isLast, filter) {
+function createDirectoryTree (somePath, isLast, filter) {
   debug('filter', filter)
 
   var filelink = path.basename(somePath)
