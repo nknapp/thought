@@ -6,6 +6,8 @@ var _ = require('lodash')
 var debug = require('debug')('thought:helpers')
 var minimatch = require('minimatch')
 var glob = require('glob')
+var findPackage = require('find-package')
+var Handlebars = require('handlebars')
 
 module.exports = {
   /**
@@ -170,6 +172,32 @@ module.exports = {
    */
   renderTree: function (object, options) {
     return '<pre><code>' + renderTree(object, [], options.fn) + '</code></pre>'
+  },
+
+  /**
+   * Block helper that executes the block in the current context but sets to special variables:
+   *
+   * * The github-url of the given file in the current package version is stored into `@url`
+   * * The `package.json` of the file's module is stored into `@package`
+   * @param filePath file that is used to find that package.json
+   * @param options block-helper options
+   */
+  withPackageOf: function (filePath, options) {
+    var packageJson = findPackage(path.resolve(filePath), true)
+    var url = packageJson && packageJson.repository && packageJson.repository.url
+    var version = packageJson.version
+    // path within the package
+    var relativePath = path.relative(path.dirname(packageJson.paths.absolute), filePath)
+
+    if (options.data) {
+      data = Handlebars.createFrame(options.data || {})
+      // Build url to correct version and file in github
+      if (url && url.match(/github.com/)) {
+        data.url = url.replace(/\.git$/, '') + '/blob/v' + version + '/' + relativePath
+      }
+      data['package'] = packageJson
+    }
+    return options.fn(this, { data: data})
   }
 }
 
@@ -193,8 +221,8 @@ function renderTree (object, isLast, fn) {
     return isLastVal ? '    ' : '\u2502   '
   }).join('')
 
-  var trim = fn(object).trim();
-    var node = trim.replace(/(\r\n?|\n)/g, "$1"+additionalLinesPrefix)
+  var trim = fn(object).trim()
+  var node = trim.replace(/(\r\n?|\n)/g, '$1' + additionalLinesPrefix)
   if (!object.children || object.children.length === 0) {
     return prefix + node
   }
