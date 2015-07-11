@@ -32,6 +32,20 @@ module.exports = function thought (options) {
         return filename
       }))
     })
+    .then(function(filenames) {
+      if (options['addToGit']) {
+        // Add computed files to the git index.
+        var git = require("simple-git")();
+        var deferred = Q.defer();
+        console.log("Adding "+filenames.join(', ')+" to git index");
+        git.add(filenames, deferred.makeNodeResolver())
+        //  Wait for git-add to finish, but return the filenames.
+        return deferred.promise.then(function() {
+          return filenames
+        });
+      }
+      return filenames;
+    })
     .done(function (filenames) {
       console.log('The following files were updated: ' + filenames.join(', '))
     })

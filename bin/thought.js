@@ -16,10 +16,13 @@
 'use strict'
 
 var program = require('commander')
+var thought = require('../')
 
 program
   .version(require('../package').version)
   .description('Generate documentation from your package.json and some templates.')
-  .parse(process.argv)
+  .option('-a, --add-to-git','git-add the modified files')
+  .parse(process.argv);
 
-require('../')(program)
+
+thought(program);
