@@ -93,8 +93,9 @@ Usage: thought [options]
 
   Options:
 
-    -h, --help     output usage information
-    -V, --version  output the version number
+    -h, --help        output usage information
+    -V, --version     output the version number
+    -a, --add-to-git  git-add the modified files
 ```
 
 ## Calling `thought` from node.
@@ -110,7 +111,16 @@ thought({
 
 ##  API-reference
 
-[object Object]
+## [thought](https://github.com/nknapp/thought/blob/master/index.js#L21)
+
+Execute Thought in the current directory
+
+* Parameters:
+  * options: **object**     
+  * options.cwd: **string** - the working directory to use as project root    
+
+
+
 
 ## License
 
