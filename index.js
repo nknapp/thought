@@ -28,8 +28,10 @@ module.exports = function thought (options) {
     .then(function (result) {
       debug('customize-result', result)
       return Q.all(Object.keys(result.handlebars).map(function (filename) {
-        qfs.write(filename, result.handlebars[filename])
-        return filename
+        return qfs.write(filename, result.handlebars[filename])
+          .then(function() {
+            return filename;
+          })
       }))
     })
     .then(function(filenames) {
