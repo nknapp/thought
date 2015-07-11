@@ -32,3 +32,25 @@ Calling `thought --help` will print a command-line reference:
 
 {{{example 'examples/javascript-usage.js' 'txt'}}}
 
+## Using `thought` as version-script for npm
+
+npm supports a `version` script from version 2.13.0 on. This script
+is called when invoking [npm version ...](https://docs.npmjs.com/cli/version)
+after bumping the version number but prior to commiting the change.
+
+Using 
+
+```json
+{
+  "scripts": {
+    "version": "thought -a"
+  }
+}
+```
+
+in your `package.json` will cause your documentation to be automatically updated
+and commited with the version-commit.
+
+This is especially helpful when using the helper `withPackageOf` to include links to files
+in your github repository (since these links will point to the commit with the correct
+version tag).
