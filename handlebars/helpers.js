@@ -126,7 +126,7 @@ module.exports = {
   dirtree: function (dirPath, glob) {
     debug('glob', glob)
     var tree = createDirectoryTree(dirPath, [], glob ? minimatch.filter(glob) : _.constant(true))
-    return renderTree(tree, [], _.property('name'))
+    return '<pre><code>' + renderTree(tree, [], _.property('name'))  + '</code></pre>'
   },
 
   /**

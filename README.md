@@ -62,12 +62,12 @@ In the default configuration, this will generate a `README.md` from the informat
 
 Consider the following example 
 
-example-project/
+<pre><code>example-project/
 ├── LICENSE.md
 ├── examples/
 │   └── example.js
 ├── index.js
-└── package.json
+└── package.json</code></pre>
 
 and have a look at the files
 [index.js](examples/example-project/index.js),
