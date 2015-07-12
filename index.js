@@ -10,7 +10,7 @@
 var customize = require('customize')
 var Q = require('q')
 var qfs = require('q-io/fs')
-var debug = require('debug')('thought:index')
+var debug = require('debug')('thought:run')
 
 /**
  * Execute Thought in the current directory
@@ -20,8 +20,8 @@ var debug = require('debug')('thought:index')
  */
 module.exports = function thought (options) {
   options = options || {}
-
-  customize()
+  debug("options",options);
+  return customize()
     // Load `customize`-spec
     .load(require('./customize.js')(options.cwd || '.'))
     .run()
@@ -39,7 +39,7 @@ module.exports = function thought (options) {
         // Add computed files to the git index.
         var git = require("simple-git")();
         var deferred = Q.defer();
-        console.log("Adding "+filenames.join(', ')+" to git index");
+        debug("Adding "+filenames.join(', ')+" to git index");
         git.add(filenames, deferred.makeNodeResolver())
         //  Wait for git-add to finish, but return the filenames.
         return deferred.promise.then(function() {
@@ -48,8 +48,4 @@ module.exports = function thought (options) {
       }
       return filenames;
     })
-    .done(function (filenames) {
-      console.log('The following files were updated: ' + filenames.join(', '))
-    })
-
 }

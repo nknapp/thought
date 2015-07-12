@@ -26,7 +26,7 @@ module.exports = function createSpec (workingDir) {
           templates: path.join(__dirname, 'handlebars', 'templates'),
           helpers: require.resolve('./handlebars/helpers.js'),
           data: {
-            'package': require(path.resolve('package.json')),
+            'package': require(path.resolve(workingDir, 'package.json')),
             'workingDir': workingDir
           },
           preprocessor: require('./handlebars/preprocessor.js')

@@ -87,15 +87,20 @@ The resulting `README.md` can be viewed [here](examples/example-project/README.m
 Calling `thought --help` will print a command-line reference:
 
 ```
-Usage: thought [options]
+Usage: thought [options] [command]
 
-  Generate documentation from your package.json and some templates.
+
+  Commands:
+
+    run [options]   Generate documentation from your package.json and some templates.
+    init            Register scripts in the curent module's package.json
+    check-engines   Check that all engines (such as npm) have versions that ensure Thought to run correctly
 
   Options:
 
-    -h, --help        output usage information
-    -V, --version     output the version number
-    -a, --add-to-git  git-add the modified files
+    -h, --help     output usage information
+    -V, --version  output the version number
+    -d, --debug    higher stack-trace-limit, long stack-traces
 ```
 
 ## Calling `thought` from node.
@@ -114,22 +119,14 @@ npm supports a `version` script from version 2.13.0 on. This script
 is called when invoking [npm version ...](https://docs.npmjs.com/cli/version)
 after bumping the version number but prior to commiting the change.
 
-Using 
-
-```json
-{
-  "scripts": {
-    "version": "thought -a"
-  }
-}
-```
-
-in your `package.json` will cause your documentation to be automatically updated
-and commited with the version-commit.
+Using `thought init` you can install scripts for `version` and `preversion` in your package.json 
+that will run `thought run -a` on every version bump. This will include the updated documenation
+in the same commit that contains the version bump. Furthermore, if you (or any other contributor 
+of your module) is using npm prior to version 2.13.0. The preversion-script will fail.
 
 This is especially helpful when using the helper `withPackageOf` to include links to files
-in your github repository (since these links will point to the commit with the correct
-version tag).
+in your github repository (since these links include the version tag on github).
+
 
 ##  API-reference
 
