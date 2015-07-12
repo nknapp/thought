@@ -57,7 +57,7 @@ npm install -g thought
 ## Usage
 
 
-The simplest usage is just to run `thought` from your project root directory.
+The simplest usage is just to run `thought run` from your project root directory.
 In the default configuration, this will generate a `README.md` from the information in the `package.json`.
 
 Consider the following example 
