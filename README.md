@@ -130,13 +130,36 @@ in your github repository (since these links include the version tag on github).
 
 ##  API-reference
 
-## [thought](https://github.com/nknapp/thought/blob/master/index.js#L21)
+### Global
+
+
+
+
+
+* * *
+
+##### exports(options, options.cwd) 
 
 Execute Thought in the current directory
 
-* Parameters:
-  * options: **object**     
-  * options.cwd: **string** - the working directory to use as project root    
+**Parameters**
+
+**options**: `object`, Execute Thought in the current directory
+
+**options.cwd**: `string`, the working directory to use as project root
+
+
+
+
+* * *
+
+
+
+
+
+
+
+
 
 
 

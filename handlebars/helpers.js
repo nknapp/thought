@@ -8,8 +8,33 @@ var minimatch = require('minimatch')
 var glob = require('glob')
 var findPackage = require('find-package')
 var Handlebars = require('handlebars')
+var jsdox = require("jsdox");
+var jsdocPath = require.resolve('jsdoc/jsdoc.js')
 
 module.exports = {
+  /**
+   * Use JsDoc and JsDox to create markdown output of jsdoc-comments.
+   * This only works for javascript-files
+   * @param {string} globPattern a glob-pattern to find the files
+   * @param {string} headerPrefix a string such as '##' that is use as prefix for lines starting with '#' to reduced the header-size
+   */
+  jsdoc: function (globPattern,headerPrefix) {
+    var files = glob.sync(globPattern)
+    var jsdocOutput = JSON.parse(cp.execFileSync(jsdocPath, ['-X'].concat(files), {encoding: 'utf-8'}))
+    var analyzed = jsdox.analyze(jsdocOutput,{});
+    return jsdox.generateMD(analyzed).replace(/^#/mg,headerPrefix + '#');
+  },
+
+  /**
+   * Display an object as indented JSON-String.
+   * This is mainly for testing purposes when adapting templates
+   * @param {object} obj the object
+   * @returns {string} JSON.stringify()
+   */
+  json: function(obj) {
+    return "```json\n"+JSON.stringify(obj,null,2)+"\n```\n";
+  },
+
   /**
    * Include the apidocs from a file. The `multilang-apidocs` package
    * is used to extract the comments from the file.
@@ -51,8 +76,8 @@ module.exports = {
   },
 
   /**
-   * Includes an example file into the template, replacing `require()` calls to the current module
-   * by `require('module-name')` (only single-quotes are replaced)
+   * Includes an example file into the template, replacing `require()` calls to the current
+   * module by `require('module-name')` (only single-quotes are replaced)
    * If your file is `examples/example.js`, you would do
    * ```js
    * var fn = require('../')
@@ -126,7 +151,7 @@ module.exports = {
   dirtree: function (dirPath, glob) {
     debug('glob', glob)
     var tree = createDirectoryTree(dirPath, [], glob ? minimatch.filter(glob) : _.constant(true))
-    return '<pre><code>' + renderTree(tree, [], _.property('name'))  + '</code></pre>'
+    return '<pre><code>' + renderTree(tree, [], _.property('name')) + '</code></pre>'
   },
 
   /**

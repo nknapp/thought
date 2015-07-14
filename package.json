@@ -33,6 +33,8 @@
     "get-promise": "^1.3.1",
     "glob": "^5.0.12",
     "handlebars": "^3.0.3",
+    "jsdoc": "^3.3.2",
+    "jsdox": "^0.4.9",
     "lodash": "^3.10.0",
     "multilang-apidocs": "^0.1.0",
     "q": "^1.4.1",
