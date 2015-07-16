@@ -222,7 +222,16 @@ module.exports = {
       }
       data['package'] = packageJson
     }
-    return options.fn(this, { data: data})
+    return options.fn(this, {data: data})
+  },
+
+  /**
+   * Create a link to the npm-package of a package
+   * @param packageName the name of the package
+   */
+  npm: function(packageName) {
+    return "["+packageName+"](https://npmjs.com/package/"+packageName+")";
+
   }
 }
 
