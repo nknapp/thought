@@ -8,7 +8,7 @@ var minimatch = require('minimatch')
 var glob = require('glob')
 var findPackage = require('find-package')
 var Handlebars = require('handlebars')
-var jsdox = require("jsdox");
+var jsdox = require('jsdox')
 var jsdocPath = require.resolve('jsdoc/jsdoc.js')
 
 module.exports = {
@@ -18,11 +18,11 @@ module.exports = {
    * @param {string} globPattern a glob-pattern to find the files
    * @param {string} headerPrefix a string such as '##' that is use as prefix for lines starting with '#' to reduced the header-size
    */
-  jsdoc: function (globPattern,headerPrefix) {
+  jsdoc: function (globPattern, headerPrefix) {
     var files = glob.sync(globPattern)
     var jsdocOutput = JSON.parse(cp.execFileSync(jsdocPath, ['-X'].concat(files), {encoding: 'utf-8'}))
-    var analyzed = jsdox.analyze(jsdocOutput,{});
-    return jsdox.generateMD(analyzed).replace(/^#/mg,headerPrefix + '#');
+    var analyzed = jsdox.analyze(jsdocOutput, {})
+    return jsdox.generateMD(analyzed).replace(/^#/mg, headerPrefix + '#')
   },
 
   /**
@@ -31,8 +31,8 @@ module.exports = {
    * @param {object} obj the object
    * @returns {string} JSON.stringify()
    */
-  json: function(obj) {
-    return "```json\n"+JSON.stringify(obj,null,2)+"\n```\n";
+  json: function (obj) {
+    return '```json\n' + JSON.stringify(obj, null, 2) + '\n```\n'
   },
 
   /**
