@@ -93,16 +93,19 @@ module.exports = {
    * @api public
    */
   example: function (filename) {
+    var _hbContext = this;
+
     // Relative path to the current module (e.g. "../"). This path must be replaced
     // by the module name in the
     var modulePath = path.relative(path.dirname(filename), '.') + '/'
     debug('example modulepath', modulePath)
-
-    var requireModuleRegex = _.escapeRegExp("require('" + modulePath + "')")
+    var requireModuleRegex = "require\\('" + _.escapeRegExp(modulePath) + "(.*?)'\\)"
 
     return '```' + path.extname(filename).substr(1) + '\n' +
       fs.readFileSync(filename, 'utf-8')
-        .replace(new RegExp(requireModuleRegex, 'g'), "require('" + this.package.name + "')")
+        .replace(new RegExp(requireModuleRegex, 'g'), function (match, suffix) {
+          return "require('" + _hbContext.package.name + (suffix ? '/' + suffix : '') + "')"
+        })
         .trim() +
       '\n```'
   },
@@ -215,7 +218,7 @@ module.exports = {
     var relativePath = path.relative(path.dirname(packageJson.paths.absolute), filePath)
 
     if (options.data) {
-      data = Handlebars.createFrame(options.data || {})
+      var data = Handlebars.createFrame(options.data || {})
       // Build url to correct version and file in github
       if (url && url.match(/github.com/)) {
         data.url = url.replace(/\.git$/, '') + '/blob/v' + version + '/' + relativePath
@@ -229,8 +232,8 @@ module.exports = {
    * Create a link to the npm-package of a package
    * @param packageName the name of the package
    */
-  npm: function(packageName) {
-    return "["+packageName+"](https://npmjs.com/package/"+packageName+")";
+  npm: function (packageName) {
+    return '[' + packageName + '](https://npmjs.com/package/' + packageName + ')'
 
   }
 }
