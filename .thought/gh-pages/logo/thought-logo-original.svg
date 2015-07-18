@@ -10,8 +10,8 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="210mm"
-   height="297mm"
+   width="402.82883"
+   height="346.06198"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
@@ -20,7 +20,8 @@
      id="defs4">
     <filter
        inkscape:collect="always"
-       id="filter3810">
+       id="filter3810"
+       color-interpolation-filters="sRGB">
       <feGaussianBlur
          inkscape:collect="always"
          stdDeviation="5.1554862"
@@ -79,60 +80,6 @@
          offset="1"
          style="stop-color:rgb(226, 217, 74)"
          id="stop4157" />
-    </linearGradient>
-    <linearGradient
-       inkscape:collect="always"
-       x1="148.7"
-       y1="318.69"
-       gradientTransform="matrix(2.3454,2.3434,-2.3454,2.3434,888.99,-800.77)"
-       x2="185.48"
-       gradientUnits="userSpaceOnUse"
-       y2="318.69"
-       id="linearGradient7819">
-      <stop
-         offset="0"
-         style="stop-color:rgb(255, 145, 145)"
-         id="stop4256" />
-      <stop
-         offset="1"
-         style="stop-color:rgb(181, 88, 88)"
-         id="stop4258" />
-    </linearGradient>
-    <linearGradient
-       inkscape:collect="always"
-       x1="331.72"
-       y1="437.79001"
-       gradientTransform="matrix(2.5278,2.5256,-2.5278,2.5256,565.91,-1456.1)"
-       x2="365.75"
-       gradientUnits="userSpaceOnUse"
-       y2="437.79001"
-       id="linearGradient7812">
-      <stop
-         offset="0"
-         style="stop-color:rgb(255, 255, 255)"
-         id="stop3687" />
-      <stop
-         offset="1"
-         style="stop-color:rgb(255, 221, 124)"
-         id="stop3711" />
-    </linearGradient>
-    <linearGradient
-       inkscape:collect="always"
-       x1="335.72"
-       y1="414.35999"
-       gradientTransform="matrix(2.5278,2.5256,-2.5278,2.5256,565.91,-1456.1)"
-       x2="353.75"
-       gradientUnits="userSpaceOnUse"
-       y2="414.35999"
-       id="linearGradient7803">
-      <stop
-         offset="0"
-         style="stop-color:rgb(255, 255, 255);stop-opacity:.82653"
-         id="stop3708" />
-      <stop
-         offset="1"
-         style="stop-color:rgb(255, 255, 255);stop-opacity:0"
-         id="stop3710" />
     </linearGradient>
     <linearGradient
        y2="882.59003"
@@ -236,19 +183,12 @@
        y2="-130.78999" />
     <filter
        inkscape:collect="always"
-       id="filter4321">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="5.660625"
-         id="feGaussianBlur4323" />
-    </filter>
-    <filter
-       inkscape:collect="always"
        id="filter4336"
        x="-0.13144161"
        width="1.2628832"
-       y="-0.13686276"
-       height="1.2737255">
+       y="-0.13686275"
+       height="1.2737255"
+       color-interpolation-filters="sRGB">
       <feGaussianBlur
          inkscape:collect="always"
          stdDeviation="10.542713"
@@ -263,8 +203,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="71.361486"
-     inkscape:cy="445.51439"
+     inkscape:cx="-64.366954"
+     inkscape:cy="67.116813"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -274,7 +214,11 @@
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      showguides="true"
-     inkscape:guide-bbox="true" />
+     inkscape:guide-bbox="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -290,7 +234,8 @@
   <g
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-135.72844,-327.90262)">
     <g
        id="g3014"
        inkscape:label="Taso 1"
