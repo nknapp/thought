@@ -61,7 +61,7 @@ module.exports = {
    */
   include: function (filename, language) {
     return '```' +
-      (_.isString(language) ? language : '') +
+      (_.isString(language) ? language : path.extname(filename).substr(1)) +
       '\n' +
       fs.readFileSync(filename, 'utf-8') +
       '\n```\n'
