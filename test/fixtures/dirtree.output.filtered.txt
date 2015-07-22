@@ -1,9 +1,7 @@
-```
-dirtree/
+<pre><code>dirtree/
 └── subdirA/
     ├── aFile.txt
     ├── bDir/
     │   ├── aFile.txt
     │   └── bFile.txt
-    └── cFile.txt
-```
+    └── cFile.txt</code></pre>

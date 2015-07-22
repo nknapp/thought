@@ -15,18 +15,19 @@
 
 var fs = require('fs')
 var helpers = require('../handlebars/helpers.js')
+var expect = require("chai").expect;
 
 describe('thought-helper', function () {
   describe('dirTree', function () {
     it('should return a file-hierarchy as markdown code', function () {
-      expect(helpers.dirtree('spec/fixtures/dirtree'))
-        .toBe(fs.readFileSync('spec/fixtures/dirtree.output.txt', { encoding: 'utf-8'}))
+      expect(helpers.dirtree('test/fixtures/dirtree'))
+        .to.equal(fs.readFileSync('test/fixtures/dirtree.output.txt', { encoding: 'utf-8'}).trim())
 
     })
 
     it('should filter specific entries throw globs', function () {
-      expect(helpers.dirtree('spec/fixtures/dirtree', '!**/subdirB'))
-        .toBe(fs.readFileSync('spec/fixtures/dirtree.output.filtered.txt', { encoding: 'utf-8'}))
+      expect(helpers.dirtree('test/fixtures/dirtree', '!**/subdirB'))
+        .to.equal(fs.readFileSync('test/fixtures/dirtree.output.filtered.txt', { encoding: 'utf-8'}).trim())
 
     })
 
