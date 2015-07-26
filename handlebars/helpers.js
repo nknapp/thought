@@ -93,7 +93,7 @@ module.exports = {
    * @api public
    */
   example: function (filename) {
-    var _hbContext = this;
+    var _hbContext = this
 
     // Relative path to the current module (e.g. "../"). This path must be replaced
     // by the module name in the
@@ -242,8 +242,8 @@ module.exports = {
    * There is still the restriction that IDs may only start with letters, which
    * is not addressed by this helper.
    */
-  "htmlId": function(value) {
-    return value.replace(/[^A-Za-z0-9-_:.]/g,"");
+  'htmlId': function (value) {
+    return value.replace(/[^A-Za-z0-9-_:.]/g, '')
   }
 }
 

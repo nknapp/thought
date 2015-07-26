@@ -20,7 +20,7 @@ var debug = require('debug')('thought:run')
  */
 module.exports = function thought (options) {
   options = options || {}
-  debug("options",options);
+  debug('options', options)
   return customize()
     // Load `customize`-spec
     .load(require('./customize.js')(options.cwd || '.'))
@@ -29,23 +29,23 @@ module.exports = function thought (options) {
       debug('customize-result', result)
       return Q.all(Object.keys(result.handlebars).map(function (filename) {
         return qfs.write(filename, result.handlebars[filename])
-          .then(function() {
-            return filename;
+          .then(function () {
+            return filename
           })
       }))
     })
-    .then(function(filenames) {
+    .then(function (filenames) {
       if (options['addToGit']) {
         // Add computed files to the git index.
-        var git = require("simple-git")();
-        var deferred = Q.defer();
-        debug("Adding "+filenames.join(', ')+" to git index");
+        var git = require('simple-git')()
+        var deferred = Q.defer()
+        debug('Adding ' + filenames.join(', ') + ' to git index')
         git.add(filenames, deferred.makeNodeResolver())
         //  Wait for git-add to finish, but return the filenames.
-        return deferred.promise.then(function() {
+        return deferred.promise.then(function () {
           return filenames
-        });
+        })
       }
-      return filenames;
+      return filenames
     })
 }

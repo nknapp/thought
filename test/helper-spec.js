@@ -9,13 +9,12 @@
 /* global it */
 // /* global xdescribe */
 // /* global xit */
-/* global expect */
 
 'use strict'
 
 var fs = require('fs')
 var helpers = require('../handlebars/helpers.js')
-var expect = require("chai").expect;
+var expect = require('chai').expect
 
 describe('thought-helper', function () {
   describe('dirTree', function () {
