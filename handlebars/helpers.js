@@ -10,6 +10,8 @@ var findPackage = require('find-package')
 var Handlebars = require('handlebars')
 var jsdox = require('jsdox')
 var jsdocPath = require.resolve('jsdoc/jsdoc.js')
+var qfs = require('q-io/fs')
+var util = require('util')
 
 module.exports = {
   /**
@@ -60,11 +62,13 @@ module.exports = {
    * @returns {string}
    */
   include: function (filename, language) {
-    return '```' +
-      (_.isString(language) ? language : path.extname(filename).substr(1)) +
-      '\n' +
-      fs.readFileSync(filename, 'utf-8') +
-      '\n```\n'
+    return qfs.read(filename).then(function (contents) {
+      return '```' +
+        (_.isString(language) ? language : path.extname(filename).substr(1)) +
+        '\n' +
+        contents +
+        '\n```\n'
+    })
   },
 
   /**
@@ -72,7 +76,7 @@ module.exports = {
    * @param filename
    */
   includeRaw: function (filename) {
-    return fs.readFileSync(filename, 'utf-8')
+    return qfs.read(filename)
   },
 
   /**
@@ -94,20 +98,22 @@ module.exports = {
    */
   example: function (filename) {
     var _hbContext = this
+    return qfs.read(filename)
+      .then(function (contents) {
 
-    // Relative path to the current module (e.g. "../"). This path must be replaced
-    // by the module name in the
-    var modulePath = path.relative(path.dirname(filename), '.') + '/'
-    debug('example modulepath', modulePath)
-    var requireModuleRegex = "require\\('" + _.escapeRegExp(modulePath) + "(.*?)'\\)"
+        // Relative path to the current module (e.g. "../"). This path must be replaced
+        // by the module name in the
+        var modulePath = path.relative(path.dirname(filename), '.') + '/'
+        debug('example modulepath', modulePath)
+        var requireModuleRegex = new RegExp("require\\('" + _.escapeRegExp(modulePath) + "(.*?)'\\)", 'm')
 
-    return '```' + path.extname(filename).substr(1) + '\n' +
-      fs.readFileSync(filename, 'utf-8')
-        .replace(new RegExp(requireModuleRegex, 'g'), function (match, suffix) {
-          return "require('" + _hbContext.package.name + (suffix ? '/' + suffix : '') + "')"
-        })
-        .trim() +
-      '\n```'
+        return util.format('```%s\n%s\n```',
+          path.extname(filename).substr(1),
+          contents.trim().replace(requireModuleRegex, function (match, suffix) {
+            return "require('" + _hbContext.package.name + (suffix ? '/' + suffix : '') + "')"
+          })
+        )
+      })
   },
 
   /**
@@ -117,7 +123,7 @@ module.exports = {
    * @api public
    */
   exists: function (filename) {
-    return fs.existsSync(filename)
+    return qfs.exists(filename)
   },
 
   /**
@@ -130,6 +136,7 @@ module.exports = {
    * @api public
    */
   exec: function (command, options) {
+
     var start = ''
     var end = ''
     if (options.hash.lang !== 'raw') {
