@@ -164,11 +164,16 @@ Execute Thought in the current directory
 
 
 
+
 ## License
 
 `thought` is published under the MIT-license. 
 See [LICENSE.md](LICENSE.md) for details.
 
+## Release-Notes
+ 
+For release notes, see the [changelog](CHANGELOG.md)
+ 
 ## Contributing 
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for details about code-style and for developer documentation.
