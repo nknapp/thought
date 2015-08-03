@@ -12,13 +12,15 @@ var Q = require('q')
 var qfs = require('q-io/fs')
 var debug = require('debug')('thought:run')
 
-/**
+module.exports = thought
+
+  /**
  * Execute Thought in the current directory
  * @param {object} options
  * @param {string} options.cwd the working directory to use as project root
  * @api public
  */
-module.exports = function thought (options) {
+function thought (options) {
   options = options || {}
   debug('options', options)
   return customize()

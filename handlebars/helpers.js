@@ -8,10 +8,9 @@ var minimatch = require('minimatch')
 var glob = require('glob')
 var findPackage = require('find-package')
 var Handlebars = require('handlebars')
-var jsdox = require('jsdox')
-var jsdocPath = require.resolve('jsdoc/jsdoc.js')
 var qfs = require('q-io/fs')
 var util = require('util')
+var Q = require('q')
 
 module.exports = {
   /**
@@ -20,11 +19,21 @@ module.exports = {
    * @param {string} globPattern a glob-pattern to find the files
    * @param {string} headerPrefix a string such as '##' that is use as prefix for lines starting with '#' to reduced the header-size
    */
-  jsdoc: function (globPattern, headerPrefix) {
-    var files = glob.sync(globPattern)
-    var jsdocOutput = JSON.parse(cp.execFileSync(jsdocPath, ['-X'].concat(files), {encoding: 'utf-8'}))
-    var analyzed = jsdox.analyze(jsdocOutput, {})
-    return jsdox.generateMD(analyzed).replace(/^#/mg, headerPrefix + '#')
+  jsdoc: function (globPattern) {
+    var jsdoc2md = require('jsdoc-to-markdown')
+    var map = require('map-stream')
+    var defer = Q.defer()
+
+    jsdoc2md({ src: globPattern })
+      .on('error', function (error) {
+        defer.reject(error)
+      })
+      .setEncoding('utf-8')
+      .pipe(map(function (data, callback) {
+        defer.resolve(data)
+        callback()
+      }))
+    return defer.promise
   },
 
   /**
@@ -100,7 +109,6 @@ module.exports = {
     var _hbContext = this
     return qfs.read(filename)
       .then(function (contents) {
-
         // Relative path to the current module (e.g. "../"). This path must be replaced
         // by the module name in the
         var modulePath = path.relative(path.dirname(filename), '.') + '/'
@@ -136,7 +144,6 @@ module.exports = {
    * @api public
    */
   exec: function (command, options) {
-
     var start = ''
     var end = ''
     if (options.hash.lang !== 'raw') {

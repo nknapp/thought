@@ -130,37 +130,17 @@ in your github repository (since these links include the version tag on github).
 
 ##  API-reference
 
-### Global
-
-
-
-
-
-* * *
-
-##### exports(options, options.cwd) 
-
+<a name="thought"></a>
+## thought(options)
 Execute Thought in the current directory
 
-**Parameters**
+**Kind**: global function  
+**Api**: public  
 
-**options**: `object`, Execute Thought in the current directory
-
-**options.cwd**: `string`, the working directory to use as project root
-
-
-
-
-* * *
-
-
-
-
-
-
-
-
-
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>object</code> |  |
+| options.cwd | <code>string</code> | the working directory to use as project root |
 
 
 
