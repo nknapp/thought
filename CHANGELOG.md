@@ -3,7 +3,7 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 
-## Upcoming
+## v0.2.0 - 2015-08-04
 ### Change
 
 * `rendertree` is now a block-helper, the label of each node is determined by the block-contents
