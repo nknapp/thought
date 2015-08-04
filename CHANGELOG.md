@@ -16,7 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Add
 
 * Additional helper `jsdoc` to generate documentation for javscript-files. `multilang-apidocs` is by 
-  far not as powerful as `jsdoc` and `jsdox`
+  far not as powerful as `jsdoc-to-markdown`
 * `npm`-helper to link to the npm-page of a page
 
 ## v0.0.1 - 2015-07-02

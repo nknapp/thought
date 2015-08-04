@@ -4,7 +4,6 @@
  * Copyright (c) 2015 Nils Knappmeier.
  * Released under the MIT license.
  */
-
 'use strict'
 
 var customize = require('customize')
