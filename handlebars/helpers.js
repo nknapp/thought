@@ -302,7 +302,7 @@ function renderTree (object, isLast, fn) {
  * @param somePath the root-directory of the tree
  * @param isLast an array of boolean values, showing whether the current element on each level is the last element in the list
  * @param filter a function that returns true for each file that should be displayed
- * @returns an object structure compatible with `renderTree` representing the file tree
+ * @returns {object} an object structure compatible with `renderTree` representing the file tree
  */
 function createDirectoryTree (somePath, isLast, filter) {
   debug('filter', filter)
@@ -310,10 +310,6 @@ function createDirectoryTree (somePath, isLast, filter) {
   var filelink = path.basename(somePath)
 
   if (fs.statSync(somePath).isFile()) {
-    if (filter && !filter(somePath)) {
-      debug('Omitting ' + somePath + ' based on glob')
-      return ''
-    }
     return {name: filelink}
   }
   return {
