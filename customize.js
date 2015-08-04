@@ -29,7 +29,10 @@ module.exports = function createSpec (workingDir) {
             'package': require(path.resolve(workingDir, 'package.json')),
             'workingDir': workingDir
           },
-          preprocessor: require('./handlebars/preprocessor.js')
+          preprocessor: require('./handlebars/preprocessor.js'),
+          hbsOptions: {
+            noEscape: true
+          }
         }
       })
       .merge({
