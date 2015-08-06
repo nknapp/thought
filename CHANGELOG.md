@@ -2,6 +2,11 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Upcoming
+
+### Fix
+
+* If the `jsdoc`-helper did not create any docs, the whole output file was not written.
 
 ## v0.2.0 - 2015-08-04
 ### Change
