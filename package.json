@@ -1,6 +1,6 @@
 {
   "name": "thought",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A customizable documentation generator for github projects",
   "repository": {
     "type": "git",
@@ -37,7 +37,7 @@
     "glob": "^5.0.12",
     "handlebars": "^3.0.3",
     "jsdoc-to-markdown": "^1.1.1",
-    "lodash": "^3.10.1",   
+    "lodash": "^3.10.1",
     "minimatch": "^2.0.10",
     "multilang-apidocs": "^0.2.1",
     "q": "^1.4.1",
