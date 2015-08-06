@@ -32,11 +32,10 @@ This will generate the following output
 
 ##  API-reference
 
-<a name="multiply"></a>
-### multiply(a, b) ⇒ <code>number</code>
+<a name="module_example-project"></a>
+### example-project ⇒ <code>number</code>
 Multiplies two numbers
 
-**Kind**: global function  
 **Returns**: <code>number</code> - the product of `a` and `b`  
 **Access:** public  
 
