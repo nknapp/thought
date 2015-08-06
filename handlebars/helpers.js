@@ -11,6 +11,7 @@ var Handlebars = require('handlebars')
 var qfs = require('q-io/fs')
 var util = require('util')
 var Q = require('q')
+var collect = require('stream-collect')
 
 module.exports = {
   /**
@@ -19,21 +20,14 @@ module.exports = {
    * @param {string} globPattern a glob-pattern to find the files
    * @param {string} headerPrefix a string such as '##' that is use as prefix for lines starting with '#' to reduced the header-size
    */
-  jsdoc: function (globPattern) {
+  jsdoc: function (globPattern, headerPrefix) {
     var jsdoc2md = require('jsdoc-to-markdown')
-    var map = require('map-stream')
-    var defer = Q.defer()
+    return collect(jsdoc2md({ src: globPattern }))
+      .then(function (output) {
+        var markdown = output.toString('utf-8')
 
-    jsdoc2md({ src: globPattern })
-      .on('error', function (error) {
-        defer.reject(error)
+        return markdown.replace(/^#/mg, headerPrefix + '#')
       })
-      .setEncoding('utf-8')
-      .pipe(map(function (data, callback) {
-        defer.resolve(data)
-        callback()
-      }))
-    return defer.promise
   },
 
   /**

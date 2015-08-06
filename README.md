@@ -67,6 +67,38 @@ Consider the following example
 ├── examples/
 │   └── example.js
 ├── index.js
+├── out/
+│   ├── fonts/
+│   │   ├── OpenSans-Bold-webfont.eot
+│   │   ├── OpenSans-Bold-webfont.svg
+│   │   ├── OpenSans-Bold-webfont.woff
+│   │   ├── OpenSans-BoldItalic-webfont.eot
+│   │   ├── OpenSans-BoldItalic-webfont.svg
+│   │   ├── OpenSans-BoldItalic-webfont.woff
+│   │   ├── OpenSans-Italic-webfont.eot
+│   │   ├── OpenSans-Italic-webfont.svg
+│   │   ├── OpenSans-Italic-webfont.woff
+│   │   ├── OpenSans-Light-webfont.eot
+│   │   ├── OpenSans-Light-webfont.svg
+│   │   ├── OpenSans-Light-webfont.woff
+│   │   ├── OpenSans-LightItalic-webfont.eot
+│   │   ├── OpenSans-LightItalic-webfont.svg
+│   │   ├── OpenSans-LightItalic-webfont.woff
+│   │   ├── OpenSans-Regular-webfont.eot
+│   │   ├── OpenSans-Regular-webfont.svg
+│   │   └── OpenSans-Regular-webfont.woff
+│   ├── index.html
+│   ├── index.js.html
+│   ├── scripts/
+│   │   ├── linenumber.js
+│   │   └── prettify/
+│   │       ├── Apache-License-2.0.txt
+│   │       ├── lang-css.js
+│   │       └── prettify.js
+│   └── styles/
+│       ├── jsdoc-default.css
+│       ├── prettify-jsdoc.css
+│       └── prettify-tomorrow.css
 └── package.json</code></pre>
 
 and have a look at the files
@@ -76,7 +108,7 @@ and have a look at the files
 [LICENSE.md](examples/example-project/LICENSE.md),
 [package.json](examples/example-project/package.json)
 
-Thought will render information from `package.json`, include the `exampeles/examples.js`, 
+Thought will render information from `package.json`, include the `examples/examples.js`, 
 execute the `examples/example.js` file and include the process-output and reference the `LICENSE.md`.
 
 The resulting `README.md` can be viewed [here](examples/example-project/README.md)

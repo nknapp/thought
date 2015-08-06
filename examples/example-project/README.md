@@ -9,6 +9,7 @@
 npm install thought-example
 ```
 
+ 
 ## Usage
 
 The following example demonstrates how to use this module:
@@ -29,18 +30,21 @@ This will generate the following output
 12
 ```
 
-#  API-reference
+##  API-reference
 
-## multiply
-
+<a name="multiply"></a>
+### multiply(a, b) ⇒ <code>number</code>
 Multiplies two numbers
 
-* Parameters:
-  * a: **number** - the first number    
-  * b: **number** - the second number    
+**Kind**: global function  
+**Returns**: <code>number</code> - the product of `a` and `b`  
+**Access:** public  
 
-* Returns:
-  * **number** - the product of &#x60;a&#x60; and &#x60;b&#x60;
+| Param | Type | Description |
+| --- | --- | --- |
+| a | <code>number</code> | the first number |
+| b | <code>number</code> | the second number |
+
 
 
 
@@ -49,9 +53,10 @@ Multiplies two numbers
 `thought-example` is published under the MIT-license. 
 See [LICENSE.md](LICENSE.md) for details.
 
+ 
 ## Contributing Guidelines
 
-<!-- Taken from @tunnckoCore: https://github.com/tunnckoCore/coreflow-templates/blob/master/template/CONTRIBUTING.md -->
+*This text is taken mainly from @tunnckoCore: https://github.com/tunnckoCore/coreflow-templates/blob/master/template/CONTRIBUTING.md*
 
 Contributions are always welcome!
 
@@ -60,6 +65,7 @@ Contributions are always welcome!
 Please search issues and pull requests before adding something new to avoid duplicating
 efforts and conversations.
 
+People submitting relevant contributions to the module will be granted commit access to the repository.
 
 ### Installing
 
