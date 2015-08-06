@@ -25,7 +25,6 @@ module.exports = {
     return collect(jsdoc2md({ src: globPattern }))
       .then(function (output) {
         var markdown = output.toString('utf-8')
-
         return markdown.replace(/^#/mg, headerPrefix + '#')
       })
   },
