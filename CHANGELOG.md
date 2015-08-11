@@ -2,6 +2,17 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Upcoming
+
+### Change
+
+* Generate CONTRIBUTING.md instead of including guidelines into README 
+  (https://github.com/blog/1184-contributing-guidelines)
+
+### Fix
+
+* `htmlId` helper now always returns lowercase
+
 ## v0.2.1 - 2015-08-06
 
 ### Fix
