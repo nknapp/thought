@@ -25,9 +25,9 @@ module.exports = function (data) {
           }
         })
       })
-  // Detect license file and read contents
   }
 
+  // Detect license file and read contents
   debug('workingdir', data.workingDir)
   data.licenseFile = qfs.list(data.workingDir)
     .then(function (files) {
