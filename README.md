@@ -63,42 +63,11 @@ In the default configuration, this will generate a `README.md` from the informat
 Consider the following example 
 
 <pre><code>example-project/
+├── CONTRIBUTING.md
 ├── LICENSE.md
 ├── examples/
 │   └── example.js
 ├── index.js
-├── out/
-│   ├── fonts/
-│   │   ├── OpenSans-Bold-webfont.eot
-│   │   ├── OpenSans-Bold-webfont.svg
-│   │   ├── OpenSans-Bold-webfont.woff
-│   │   ├── OpenSans-BoldItalic-webfont.eot
-│   │   ├── OpenSans-BoldItalic-webfont.svg
-│   │   ├── OpenSans-BoldItalic-webfont.woff
-│   │   ├── OpenSans-Italic-webfont.eot
-│   │   ├── OpenSans-Italic-webfont.svg
-│   │   ├── OpenSans-Italic-webfont.woff
-│   │   ├── OpenSans-Light-webfont.eot
-│   │   ├── OpenSans-Light-webfont.svg
-│   │   ├── OpenSans-Light-webfont.woff
-│   │   ├── OpenSans-LightItalic-webfont.eot
-│   │   ├── OpenSans-LightItalic-webfont.svg
-│   │   ├── OpenSans-LightItalic-webfont.woff
-│   │   ├── OpenSans-Regular-webfont.eot
-│   │   ├── OpenSans-Regular-webfont.svg
-│   │   └── OpenSans-Regular-webfont.woff
-│   ├── index.html
-│   ├── index.js.html
-│   ├── scripts/
-│   │   ├── linenumber.js
-│   │   └── prettify/
-│   │       ├── Apache-License-2.0.txt
-│   │       ├── lang-css.js
-│   │       └── prettify.js
-│   └── styles/
-│       ├── jsdoc-default.css
-│       ├── prettify-jsdoc.css
-│       └── prettify-tomorrow.css
 └── package.json</code></pre>
 
 and have a look at the files
@@ -163,7 +132,7 @@ in your github repository (since these links include the version tag on github).
 ##  API-reference
 
 <a name="thought"></a>
-## thought(options)
+### thought(options)
 Execute Thought in the current directory
 
 **Kind**: global function  
@@ -186,6 +155,6 @@ See [LICENSE.md](LICENSE.md) for details.
  
 For release notes, see the [changelog](CHANGELOG.md)
  
-## Contributing 
+## Contributing guidelines
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for details about code-style and for developer documentation.
+See [CONTRIBUTING.md](CONTRIBUTING.md).
