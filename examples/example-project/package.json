@@ -24,11 +24,8 @@
     "format": "standard --format"
   },
   "dependencies": {
-    "commander": "^2.8.1",
-    "find-package": "^1.0.0"
   },
   "devDependencies": {
-    "jasmine": "^2.3.1"
   },
   "standard": {
     "ignore": [
