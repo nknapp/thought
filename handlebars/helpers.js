@@ -10,7 +10,6 @@ var findPackage = require('find-package')
 var Handlebars = require('handlebars')
 var qfs = require('q-io/fs')
 var util = require('util')
-var Q = require('q')
 var collect = require('stream-collect')
 
 module.exports = {
@@ -66,10 +65,10 @@ module.exports = {
   include: function (filename, language) {
     return qfs.read(filename).then(function (contents) {
       return '```' +
-        (_.isString(language) ? language : path.extname(filename).substr(1)) +
-        '\n' +
-        contents +
-        '\n```\n'
+      (_.isString(language) ? language : path.extname(filename).substr(1)) +
+      '\n' +
+      contents +
+      '\n```\n'
     })
   },
 
@@ -280,14 +279,14 @@ function renderTree (object, isLast, fn) {
     return prefix + node
   }
   return prefix + node + '\n' + object.children
-      .map(function (entry, index, array) {
-        return renderTree(
-          entry,
-          // Add the isLast-entry for the current level (if this is the last index in the current children-list
-          isLast.concat([index >= array.length - 1]),
-          fn
-        )
-      }).join('\n')
+    .map(function (entry, index, array) {
+      return renderTree(
+        entry,
+        // Add the isLast-entry for the current level (if this is the last index in the current children-list
+        isLast.concat([index >= array.length - 1]),
+        fn
+      )
+    }).join('\n')
 }
 
 /**

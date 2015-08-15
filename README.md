@@ -63,9 +63,7 @@ In the default configuration, this will generate a `README.md` from the informat
 Consider the following example 
 
 <pre><code>example-project/
-├── CONTRIBUTING.md
 ├── LICENSE.md
-├── README.md
 ├── examples/
 │   └── example.js
 ├── index.js

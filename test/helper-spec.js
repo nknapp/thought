@@ -20,19 +20,19 @@ describe('thought-helper', function () {
   describe('dirTree', function () {
     it('should return a file-hierarchy as markdown code', function () {
       expect(helpers.dirtree('test/fixtures/dirtree'))
-        .to.equal(fs.readFileSync('test/fixtures/dirtree.output.txt', { encoding: 'utf-8'}).trim())
+        .to.equal(fs.readFileSync('test/fixtures/dirtree.output.txt', { encoding: 'utf-8' }).trim())
 
     })
 
     it('should filter specific entries throw globs', function () {
       expect(helpers.dirtree('test/fixtures/dirtree', '!**/subdirB'))
-        .to.equal(fs.readFileSync('test/fixtures/dirtree.output.filtered.txt', { encoding: 'utf-8'}).trim())
+        .to.equal(fs.readFileSync('test/fixtures/dirtree.output.filtered.txt', { encoding: 'utf-8' }).trim())
 
     })
 
     it('should work with more complex globs', function () {
       expect(helpers.dirtree('test/fixtures/dirtree', '!**/+(aFile.txt|bFile.txt)'))
-        .to.equal(fs.readFileSync('test/fixtures/dirtree.output.complex.filter.txt', { encoding: 'utf-8'}).trim())
+        .to.equal(fs.readFileSync('test/fixtures/dirtree.output.complex.filter.txt', { encoding: 'utf-8' }).trim())
 
     })
 
