@@ -2,6 +2,18 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Upcoming
+
+### Fix
+
+* Documentation cleanup, more documentation about customizing the documentation templates.
+
+## Change
+
+* The files to override helpers and the preprocessor are now
+    `.thought/helpers.js` and `.thought/preprocessor.js` to consolidate
+     with the structure of the `handlebars/`-directory in Thought.
+
 ## v0.3.0 - 2015-08-15
 
 ### Change

@@ -65,6 +65,7 @@ Consider the following example
 <pre><code>example-project/
 ├── CONTRIBUTING.md
 ├── LICENSE.md
+├── README.md
 ├── examples/
 │   └── example.js
 ├── index.js
@@ -78,9 +79,13 @@ and have a look at the files
 [package.json](examples/example-project/package.json)
 
 Thought will render information from `package.json`, include the `examples/examples.js`, 
-execute the `examples/example.js` file and include the process-output and reference the `LICENSE.md`.
+execute the `examples/example.js` file and include the process-output and reference the `LICENSE.md`
+into the [README.md](examples/example-project/README.md). It will also generate a default 
+[CONTRIBUTING.md](examples/example-project/CONTRIBUTING.md).
 
-The resulting `README.md` can be viewed [here](examples/example-project/README.md)
+*Note: The CONTRIBUTING-text contains some parts that may be subjective (such as including the 
+[`standard`](https://github.com/feross/standard) coding style. I am open for different texts or 
+ideas for modular approaches. Just file a github issue for discussion.*
 
 
 ### CLI options
@@ -104,7 +109,7 @@ Usage: thought [options] [command]
     -d, --debug    higher stack-trace-limit, long stack-traces
 ```
 
-## Calling `thought` from node.
+### Calling `thought` from node.
 
 ```js
 var thought = require('thought')
@@ -114,7 +119,7 @@ thought({
 })
 ```
 
-## Using `thought` as version-script for npm
+### Using `thought` as version-script for npm
 
 npm supports a `version` script from version 2.13.0 on. This script
 is called when invoking [npm version ...](https://docs.npmjs.com/cli/version)
@@ -127,6 +132,84 @@ of your module) is using npm prior to version 2.13.0. The preversion-script will
 
 This is especially helpful when using the helper `withPackageOf` to include links to files
 in your github repository (since these links include the version tag on github).
+
+### Overriding templates and partials
+
+All templates and partials can be overridden by customized versions (but it is currently
+not possible to remove a template completely).
+You can find the default configuration in the [partials/](partials/) directory. It currently 
+has the structure.
+
+<pre><code>handlebars/
+├── helpers.js
+├── partials/
+│   ├── api.md.hbs
+│   ├── changelog.md.hbs
+│   ├── contributing.md.hbs
+│   ├── howitworks.md.hbs
+│   ├── installation.md.hbs
+│   ├── license.md.hbs
+│   ├── overview.md.hbs
+│   └── usage.md.hbs
+├── preprocessor.js
+└── templates/
+    ├── CONTRIBUTING.md.hbs
+    └── README.md.hbs</code></pre>
+
+Every file in the `templates/` directory will create a file in your project root (removing 
+the `.hbs` extension). The partials are included by calling for example `##  API-reference
+
+<a name="thought"></a>
+### thought(options)
+Execute Thought in the current directory
+
+**Kind**: global function  
+**Api**: public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>object</code> |  |
+| options.cwd | <code>string</code> | the working directory to use as project root |
+
+
+` (also without
+the `.hbs` extension) from a template or another partial.
+
+You can now create a directory `.thought` in the your project root, that has the same structure.
+If you create a file `.thought/partials/contributing.md.hbs`, it will replace the default
+`partials/contributing.md.hbs` file. Same for templates.
+
+### Customizing the preprocessor
+
+Thought uses `preprocessor.js` function to extend the `package.json` before passing it to the handlebars
+engine. You can create a file named `.thought/preprocessor.js` in your project to supply your own 
+preprocessor. If you do that, you should run the old preprocessor by calling `this.parent(data)` from within
+your custom function. Some partials and template rely on the data created there.
+
+### Customizing helpers
+
+Thought comes with a default set of Handlebars-helpers that are called from within the template.
+If you want to provide your own helpers (for example to perform some project-specific computations) 
+you can create a file named `.thought/helpers.js` in your project. This file should export an object 
+of helper-functions like
+
+```js
+module.exports = {
+  myHelper: function(value) { ... },
+  myHelper2: function(value) { ... },
+}
+```
+
+Those helpers are registered with the handlebars engine in addition to the default helpers. If the name 
+equals a default helper, that helper will be replaced by your helper. Currently there is no way to call
+the old helper from within the new helper.
+
+Thought implicitly uses the [promised-handlebars](https://github.com/nknapp/promised-handlebars)-package
+to allow helpers that return promises. So, in your helpers, you will never receive a promise as parameter or 
+as context data, but if you return promises, they will be resolved seamlessly. 
+
+
+
 
 
 ##  API-reference
@@ -153,7 +236,7 @@ See [LICENSE.md](LICENSE.md) for details.
 
 ## Release-Notes
  
-For release notes, see the [changelog](CHANGELOG.md)
+For release notes, see [CHANGELOG.md](CHANGELOG.md)
  
 ## Contributing guidelines
 
