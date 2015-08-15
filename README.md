@@ -155,22 +155,7 @@ has the structure.
     └── README.md.hbs</code></pre>
 
 Every file in the `templates/` directory will create a file in your project root (removing 
-the `.hbs` extension). The partials are included by calling for example `##  API-reference
-
-<a name="thought"></a>
-### thought(options)
-Execute Thought in the current directory
-
-**Kind**: global function  
-**Api**: public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| options | <code>object</code> |  |
-| options.cwd | <code>string</code> | the working directory to use as project root |
-
-
-` (also without
+the `.hbs` extension). The partials are included by calling for example `{{> api.md}}` (also without
 the `.hbs` extension) from a template or another partial.
 
 You can now create a directory `.thought` in the your project root, that has the same structure.
