@@ -2,7 +2,7 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
-## Upcoming
+## v0.3.0 - 2015-08-15
 
 ### Change
 
@@ -12,6 +12,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fix
 
 * `htmlId` helper now always returns lowercase
+
 
 ## v0.2.1 - 2015-08-06
 
