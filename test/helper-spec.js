@@ -30,5 +30,11 @@ describe('thought-helper', function () {
 
     })
 
+    it('should work with more complex globs', function () {
+      expect(helpers.dirtree('test/fixtures/dirtree', '!**/+(aFile.txt|bFile.txt)'))
+        .to.equal(fs.readFileSync('test/fixtures/dirtree.output.complex.filter.txt', { encoding: 'utf-8'}).trim())
+
+    })
+
   })
 })

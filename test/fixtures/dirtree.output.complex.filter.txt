@@ -1,0 +1,7 @@
+<pre><code>dirtree/
+├── subdirA/
+│   ├── bDir/
+│   └── cFile.txt
+└── subdirB/
+    ├── bFile.md
+    └── subdirC/</code></pre>
