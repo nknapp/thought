@@ -95,10 +95,12 @@ module.exports = {
    * in your docs, which is what a user of the module will do.
    *
    * @param {string} filename the name of the example file
+   * @param {object} options.hash
+   * @param {boolean} options.hash.snippet If set to true, only the lines between
+   *    &lt;snip> and &lt;/snip> will be included
    * @api public
    */
-  example: function (filename) {
-    var _hbContext = this
+  example: function (filename, options) {
     return qfs.read(filename)
       .then(function (contents) {
         // Relative path to the current module (e.g. "../"). This path must be replaced
@@ -106,11 +108,14 @@ module.exports = {
         var modulePath = path.relative(path.dirname(filename), '.') + '/'
         debug('example modulepath', modulePath)
         var requireModuleRegex = new RegExp("require\\('" + _.escapeRegExp(modulePath) + "(.*?)'\\)", 'm')
+        if (options && options.hash && options.hash.snippet) {
+          contents = contents.match(/---<snip>---.*\n([\S\s]*?)\n.*---<\/snip>---/)[1]
+        }
 
         return util.format('```%s\n%s\n```',
           path.extname(filename).substr(1),
           contents.trim().replace(requireModuleRegex, function (match, suffix) {
-            return "require('" + _hbContext.package.name + (suffix ? '/' + suffix : '') + "')"
+            return "require('" + require(process.cwd() + '/package').name + (suffix ? '/' + suffix : '') + "')"
           })
         )
       })
@@ -136,16 +141,24 @@ module.exports = {
    * @api public
    */
   exec: function (command, options) {
-    var start = ''
-    var end = ''
-    if (options.hash.lang !== 'raw') {
-      var fenceLanguage = _.isString(options.hash.lang) ? options.hash.lang : ''
-      start = '```' + fenceLanguage + '\n'
-      end = '\n```'
+    var start
+    var end
+    var lang = options.hash && options.hash.lang
+    switch (lang) {
+      case 'raw':
+        start = end = ''
+        break
+      case 'inline':
+        start = end = '`'
+        break
+      default:
+        var fenceLanguage = _.isString(lang) ? lang : ''
+        start = '```' + fenceLanguage + '\n'
+        end = '\n```'
     }
     var output = cp.execSync(command, {
       encoding: 'utf8',
-      cwd: options.hash.cwd
+      cwd: options.hash && options.hash.cwd
     })
     return start + output.trim() + end
   },

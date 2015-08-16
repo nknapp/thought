@@ -2,6 +2,17 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Upcoming
+
+### Add
+
+* The `example` helper now has an additional hash-argument `snippet`. It this is set to `true`,
+  only contents within the lines containing `---&lt;snip>---` and `---&lt;/snip>---` are 
+  included.
+  
+* The `exec` helper now has the special lang-value `inline` which wraps the process output
+  with single backquotes instead of fences.
+
 ## v0.4.1 and v0.4.2 - 2015-08-15
 
 ### Fix
