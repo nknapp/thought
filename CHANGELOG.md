@@ -2,6 +2,12 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Upcoming
+
+### Fix
+
+* Typo while loading `helpers.js`. Custom helpers did not load.
+
 ## v0.5.0 - 2015-08-17
 
 ### Add

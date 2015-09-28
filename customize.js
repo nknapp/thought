@@ -39,7 +39,7 @@ module.exports = function createSpec (workingDir) {
         handlebars: {
           partials: path.join(workingDir, '.thought', 'partials'),
           templates: path.join(workingDir, '.thought', 'templates'),
-          helpers: path.resolve(workingDir, '.thought', 'helpers,js'),
+          helpers: path.resolve(workingDir, '.thought', 'helpers.js'),
           preprocessor: path.resolve(workingDir, '.thought', 'preprocessor.js')
         }
       })
