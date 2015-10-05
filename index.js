@@ -9,6 +9,7 @@
 var customize = require('customize')
 var Q = require('q')
 var qfs = require('q-io/fs')
+var fs = require('fs')
 var debug = require('debug')('thought:run')
 
 module.exports = thought
@@ -29,10 +30,13 @@ function thought (options) {
     .then(function (result) {
       debug('customize-result', result)
       return Q.all(Object.keys(result.handlebars).map(function (filename) {
-        return qfs.write(filename, result.handlebars[filename])
-          .then(function () {
-            return filename
-          })
+        // qfs.write has issues in node 4.1.0, so we create a simple wrapper using
+        // Q.defer() and fs.writeFile()
+        var defer = Q.defer();
+        fs.writeFile(filename, result.handlebars[filename], defer.makeNodeResolver());
+        return defer.promise.then(function () {
+          return filename
+        })
       }))
     })
     .then(function (filenames) {

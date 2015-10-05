@@ -2,6 +2,12 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Upcoming
+
+### Fix 
+
+* Apply workaround for [issue in the `write()`-method of `q-io/fs`](https://github.com/kriskowal/q-io/issues/149) 
+
 ## v0.5.1 - 2015-09-28
 
 ### Fix
