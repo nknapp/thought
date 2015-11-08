@@ -2,6 +2,12 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Upcoming
+
+### Fix
+
+* Accept all unstable version of `customize`.
+
 ## v0.5.2 - 2015-10-05
 
 ### Fix 
