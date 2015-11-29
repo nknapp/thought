@@ -2,10 +2,6 @@
 
 > A customizable documentation generator for github projects
 
-*Thought is still in development. It might be worth looking at it already, but I'm still trying to 
-document my own projects with it, so the default templates will change as I go along. It's not ready
-for production use at the moment.*
-
 ## Overview / Motivation
 
 The goal of Thought is making the documentation just as easy as thinking about it.
