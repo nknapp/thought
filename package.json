@@ -32,6 +32,7 @@
     "preversion": "npm run thoughtcheck"
   },
   "dependencies": {
+    "archy": "^1.0.0",
     "clarify": "^1.0.5",
     "commander": "^2.8.1",
     "customize": "<1.0.0",

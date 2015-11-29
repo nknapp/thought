@@ -11,6 +11,7 @@ var Handlebars = require('handlebars')
 var qfs = require('q-io/fs')
 var util = require('util')
 var collect = require('stream-collect')
+var Q = require('q')
 
 module.exports = {
   /**
@@ -65,10 +66,10 @@ module.exports = {
   include: function (filename, language) {
     return qfs.read(filename).then(function (contents) {
       return '```' +
-      (_.isString(language) ? language : path.extname(filename).substr(1)) +
-      '\n' +
-      contents +
-      '\n```\n'
+        (_.isString(language) ? language : path.extname(filename).substr(1)) +
+        '\n' +
+        contents +
+        '\n```\n'
     })
   },
 
@@ -164,61 +165,42 @@ module.exports = {
   },
 
   /**
-   * Return a drawing of a directory tree
-   * @param dirPath the base directory
-   * @param glob an optional glob-expression to filter the files included in the tree.
-   * @returns {string}
+   * Return a drawing of a directory tree (using [archy](https://www.npmjs.com/package/archy))
+   * @param {string} globPattern a pattern describing all files and directories to include into the tree-view.
+   * @param {string=} baseDir the base directory from which the `globPattern` is applied.
+   * @returns {string} a display of the directory tree of the selected files and directories.
    * @api public
    */
-  dirtree: function (dirPath, glob) {
-    debug('glob', glob)
-    var tree = createDirectoryTree(dirPath, [], glob ? minimatch.filter(glob) : _.constant(true))
-    return '<pre><code>' + renderTree(tree, [], _.property('name')) + '</code></pre>'
+  dirTree: function (baseDir, globPattern) {
+    // Is basedir is not a string, it is probably the handlebars "options" object
+    if (!_.isString(globPattern)) {
+      globPattern = '**'
+    }
+    var defer = Q.defer()
+    glob(globPattern, {cwd: baseDir }, function (err, files) {
+      debug('dirTree glob result', files)
+      files.sort()
+      // Split paths into components
+      var components = files.map(function (file) {
+        return _.compact(file.split(path.sep))
+      })
+      var components = treeFromPathComponents(components)
+      var tree = require('archy')(components)
+      defer.fulfill('<pre><code>\n' + tree + '</code></pre>')
+    })
+    return defer.promise
   },
 
   /**
-   * Renders a object hierarchy like
-   *
-   * ```js
-   * {
-   *    name: 'example-project/',
-   *    children: [
-   *      {
-   *        name: 'LICENSE.md'
-   *      },
-   *      {
-   *        name: 'examples/',
-   *        children: [
-   *          {
-   *            name: 'example.js'
-   *          },
-   *        ]
-   *      },
-   *      {
-   *        name: 'index.js'
-   *      },
-   *      {
-   *        name: 'package.json'
-   *      }
-   *    ]
-   * }
-   * ```
-   *
-   * into
-   *
-   * ```
-   * example-project/
-   * ├── LICENSE.md
-   * ├── examples/
-   * │   └── example.js
-   * ├── index.js
-   * └── package.json
-   * ```
-   *
+   * Render an object hierarchy
    * @param object
+   * @param options
+   * @param {function} options.fn computes the label for a node based on the node itself
+   * @returns {string}
    */
   renderTree: function (object, options) {
-    return '<pre><code>' + renderTree(object, [], options.fn) + '</code></pre>'
+    var tree = require('archy')(transformTree(object, options.fn))
+    return '<pre><code>\n' + tree + '</code></pre>'
   },
 
   /**
@@ -267,70 +249,102 @@ module.exports = {
 }
 
 /**
- * @param object the rendered data
- * @param isLast an array of boolean values, showing whether the current element on each level is the last element in the list
+ * Transform a tree-structure of the form
+ * ```
+ * {
+ *   prop1: 'value',
+ *   prop2: 'value',
+ *   ...,
+ *   children: [
+ *     {
+ *        prop1: 'value',
+ *        propt2: 'value',
+ *        ...,
+ *        children: ...
+ *     }
+ *   ]
+ * }
+ * ```
+ * Into an [archy](https://www.npmjs.com/package/archy)-compatible format, by passing each node to a block-helper function.
+ * The result of the function should be a string which is then used as label for the node.
+ *
+ * @param {object} object the tree data
  * @param fn the block-helper function (options.fn) of Handlebars (http://handlebarsjs.com/block_helpers.html)
  */
-function renderTree (object, isLast, fn) {
-  // Prefix for the first line of each node
-  var prefix = isLast.map(function (isLastVal, index, array) {
-    return index < array.length - 1
-      // All but lowest level
-      ? (isLastVal ? '    ' : '\u2502   ')
-      // lowest level)
-      : (isLastVal ? '\u2514\u2500\u2500 ' : '\u251C\u2500\u2500 ')
-  }).join('')
-
-  // Prefix for each additional line of each node (i.e. if the node contains `\n`)
-  var additionalLinesPrefix = isLast.map(function (isLastVal) {
-    return isLastVal ? '    ' : '\u2502   '
-  }).join('')
-
-  var trim = fn(object).trim()
-  var node = trim.replace(/(\r\n?|\n)/g, '$1' + additionalLinesPrefix)
-  if (!object.children || object.children.length === 0) {
-    return prefix + node
+function transformTree(object, fn) {
+  var label = fn(object).trim();
+  if (object.children) {
+    return {
+      label: label,
+      nodes: object.children.map(function (child) {
+        return transformTree(child, fn);
+      })
+    }
+  } else {
+    return label;
   }
-  return prefix + node + '\n' + object.children
-    .map(function (entry, index, array) {
-      return renderTree(
-        entry,
-        // Add the isLast-entry for the current level (if this is the last index in the current children-list
-        isLast.concat([index >= array.length - 1]),
-        fn
-      )
-    }).join('\n')
 }
 
 /**
+ * Transform an array of path components into an [archy](https://www.npmjs.com/package/archy)-compatible tree structure.
  *
- * @param somePath the root-directory of the tree
- * @param isLast an array of boolean values, showing whether the current element on each level is the last element in the list
- * @param filter a function that returns true for each file that should be displayed
- * @returns {object} an object structure compatible with `renderTree` representing the file tree
+ * ```
+ * [ [ 'abc', 'cde', 'efg' ], [ 'abc','cde','abc'], ['abc','zyx'] ]
+ * ```
+ *
+ * becomes
+ *
+ * ```
+ * {
+ *   label: 'abc',
+ *   nodes: [
+        {
+          label: 'cde',
+          nodes: [
+            'efg',
+            'abc'
+          ]
+        },
+        'zyx'
+ *   ]
+ * }
+ * ```
+ *
+ * Nodes with a single subnode are collapsed and the resulting node gets the label `node/subnode`.
+ *
+ * @param {string[][]} files an array of filenames, split by `path.sep`
+ * @param {string} label the label for the current tree node
+ * @returns {object} a tree structure as needed by [archy](https://www.npmjs.com/package/archy)
  */
-function createDirectoryTree (somePath, isLast, filter) {
-  debug('filter', filter)
-
-  var filelink = path.basename(somePath)
-
-  if (fs.statSync(somePath).isFile()) {
-    return {name: filelink}
+function treeFromPathComponents(files, label) {
+  debug('treeFromPathComponents', files, label)
+  if (files.length == 0) {
+    return label
   }
-  return {
-    name: filelink + '/',
-    children: fs.readdirSync(somePath)
-      .map(function (entry) {
-        return path.join(somePath, entry)
-      })
-      .filter(filter)
-      .map(function (entry, index, array) {
-        return createDirectoryTree(
-          entry,
-          isLast.concat([index >= array.length - 1]),
-          filter
-        )
-      })
+  var result = {
+    label: label,
+    nodes: _(files)
+      .groupBy('0')
+      .map(function (group, key) {
+        var values = group
+          .map(function (item) {
+            return item.slice(1)
+          })
+          .filter(function (item) {
+            return item.length > 0
+          })
+        return treeFromPathComponents(values, key)
+      }).value()
+  }
+
+  // Condense path if directory only has one entry
+  if (result.nodes.length == 1 && _.isPlainObject(result.nodes[0])) {
+    return {
+      label: (result.label ? result.label + '/' : '') + result.nodes[0].label,
+      nodes: result.nodes[0].nodes
+    }
+  } else {
+    return result
   }
 
 }

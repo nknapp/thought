@@ -1,4 +1,4 @@
-<pre><code>dirtree/
+<pre><code>dir-tree/
 ├── subdirA/
 │   ├── aFile.txt
 │   ├── bDir/
