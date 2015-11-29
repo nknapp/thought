@@ -22,7 +22,7 @@ module.exports = {
    */
   jsdoc: function (globPattern, headerPrefix) {
     var jsdoc2md = require('jsdoc-to-markdown')
-    return collect(jsdoc2md({ src: globPattern }))
+    return collect(jsdoc2md({src: globPattern}))
       .then(function (output) {
         var markdown = output.toString('utf-8')
         return markdown.replace(/^#/mg, headerPrefix + '#')
@@ -177,15 +177,19 @@ module.exports = {
       globPattern = '**'
     }
     var defer = Q.defer()
-    glob(globPattern, {cwd: baseDir }, function (err, files) {
+    glob(globPattern, {cwd: baseDir}, function (err, files) {
       debug('dirTree glob result', files)
       files.sort()
       // Split paths into components
       var components = files.map(function (file) {
         return _.compact(file.split(path.sep))
       })
-      var components = treeFromPathComponents(components)
-      var tree = require('archy')(components)
+      if (components.length == 0) {
+        defer.reject("Cannot find a single file for '"+globPattern+"' in '"+baseDir+"'");
+        return;
+      }
+      var treeObject = treeFromPathComponents(components);
+      var tree = require('archy')(treeObject)
       defer.fulfill('<pre><code>\n' + tree + '</code></pre>')
     })
     return defer.promise

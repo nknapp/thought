@@ -7,7 +7,7 @@ In the default configuration, this will generate a `README.md` from the informat
 
 Consider the following example 
 
-{{{dirTree 'examples/example-project' '!**/+(README.md|CONTRIBUTING.md)'}}}
+{{{dirTree 'examples/example-project' '!(README.md|CONTRIBUTING.md)'}}}
 
 and have a look at the files
 [index.js](examples/example-project/index.js),
@@ -57,7 +57,7 @@ not possible to remove a template completely).
 You can find the default configuration in the [partials/](partials/) directory. It currently 
 has the structure.
 
-{{dirTree 'handlebars/' ''}}
+{{dirTree 'handlebars/' }}
 
 Every file in the `templates/` directory will create a file in your project root (removing 
 the `.hbs` extension). The partials are included by calling for example `\{{> api.md}}` (also without
@@ -99,3 +99,4 @@ as context data, but if you return promises, they will be resolved seamlessly.
 
 
 
+                                                 
