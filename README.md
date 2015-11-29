@@ -62,12 +62,13 @@ In the default configuration, this will generate a `README.md` from the informat
 
 Consider the following example 
 
-<pre><code>example-project/
+<pre><code>
+
 ├── LICENSE.md
-├── examples/
-│   └── example.js
+├── examples
 ├── index.js
-└── package.json</code></pre>
+└── package.json
+</code></pre>
 
 and have a look at the files
 [index.js](examples/example-project/index.js),
@@ -138,21 +139,23 @@ not possible to remove a template completely).
 You can find the default configuration in the [partials/](partials/) directory. It currently 
 has the structure.
 
-<pre><code>handlebars/
+<pre><code>
+
 ├── helpers.js
-├── partials/
-│   ├── api.md.hbs
-│   ├── changelog.md.hbs
-│   ├── contributing.md.hbs
-│   ├── howitworks.md.hbs
-│   ├── installation.md.hbs
-│   ├── license.md.hbs
-│   ├── overview.md.hbs
-│   └── usage.md.hbs
+├─┬ partials
+│ ├── api.md.hbs
+│ ├── changelog.md.hbs
+│ ├── contributing.md.hbs
+│ ├── howitworks.md.hbs
+│ ├── installation.md.hbs
+│ ├── license.md.hbs
+│ ├── overview.md.hbs
+│ └── usage.md.hbs
 ├── preprocessor.js
-└── templates/
-    ├── CONTRIBUTING.md.hbs
-    └── README.md.hbs</code></pre>
+└─┬ templates
+  ├── CONTRIBUTING.md.hbs
+  └── README.md.hbs
+</code></pre>
 
 Every file in the `templates/` directory will create a file in your project root (removing 
 the `.hbs` extension). The partials are included by calling for example `{{> api.md}}` (also without
@@ -194,7 +197,7 @@ as context data, but if you return promises, they will be resolved seamlessly.
 
 
 
-
+                                                 
 ##  API-reference
 
 <a name="thought"></a>
