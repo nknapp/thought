@@ -2,6 +2,14 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## Upcoming
+
+### Change
+
+* Renamed helper "dirtree" to "dirTree"
+* dirTree-helper is no async
+* Using [archy](https://www.npmjs.com/package/archy) for tree-rendering
+
 ## v0.5.3 - 2015-11-08
 
 ### Fix
