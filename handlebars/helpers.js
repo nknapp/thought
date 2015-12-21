@@ -226,7 +226,7 @@ module.exports = {
       var data = Handlebars.createFrame(options.data || {})
       // Build url to correct version and file in github
       if (url && url.match(/github.com/)) {
-        data.url = url.replace(/\.git$/, '') + '/blob/v' + version + '/' + relativePath
+        data.url = url.replace(/^git\+/, '').replace(/\.git$/, '') + '/blob/v' + version + '/' + relativePath
       }
       data['package'] = packageJson
     }
