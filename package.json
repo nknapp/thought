@@ -37,6 +37,7 @@
     "commander": "^2.8.1",
     "customize": "<1.0.0",
     "customize-engine-handlebars": "<1.0.0",
+    "customize-write-files": "^0.1.2",
     "debug": "^2.2.0",
     "find-package": "^1.0.0",
     "get-promise": "^1.3.1",

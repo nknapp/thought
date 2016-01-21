@@ -11,6 +11,7 @@ var Q = require('q')
 var qfs = require('q-io/fs')
 var fs = require('fs')
 var debug = require('debug')('thought:run')
+var write = require('customize-write-files')
 
 module.exports = thought
 
@@ -27,18 +28,7 @@ function thought (options) {
     // Load `customize`-spec
     .load(require('./customize.js')(options.cwd || '.'))
     .run()
-    .then(function (result) {
-      debug('customize-result', result)
-      return Q.all(Object.keys(result.handlebars).map(function (filename) {
-        // qfs.write has issues in node 4.1.0, so we create a simple wrapper using
-        // Q.defer() and fs.writeFile()
-        var defer = Q.defer();
-        fs.writeFile(filename, result.handlebars[filename], defer.makeNodeResolver());
-        return defer.promise.then(function () {
-          return filename
-        })
-      }))
-    })
+    .then(write(options.cwd || '.'))
     .then(function (filenames) {
       if (options['addToGit']) {
         // Add computed files to the git index.
