@@ -66,10 +66,10 @@ module.exports = {
   include: function (filename, language) {
     return qfs.read(filename).then(function (contents) {
       return '```' +
-        (_.isString(language) ? language : path.extname(filename).substr(1)) +
-        '\n' +
-        contents +
-        '\n```\n'
+      (_.isString(language) ? language : path.extname(filename).substr(1)) +
+      '\n' +
+      contents +
+      '\n```\n'
     })
   },
 
@@ -185,10 +185,10 @@ module.exports = {
         return _.compact(file.split(path.sep))
       })
       if (components.length == 0) {
-        defer.reject("Cannot find a single file for '"+globPattern+"' in '"+baseDir+"'");
-        return;
+        defer.reject("Cannot find a single file for '" + globPattern + "' in '" + baseDir + "'")
+        return
       }
-      var treeObject = treeFromPathComponents(components);
+      var treeObject = treeFromPathComponents(components)
       var tree = require('archy')(treeObject)
       defer.fulfill('<pre><code>\n' + tree + '</code></pre>')
     })
@@ -216,21 +216,16 @@ module.exports = {
    * @param options block-helper options
    */
   withPackageOf: function (filePath, options) {
-    var packageJson = findPackage(path.resolve(filePath), true)
-    var url = packageJson && packageJson.repository && packageJson.repository.url
-    var version = packageJson.version
-    // path within the package
-    var relativePath = path.relative(path.dirname(packageJson.paths.absolute), filePath)
-
     if (options.data) {
       var data = Handlebars.createFrame(options.data || {})
-      // Build url to correct version and file in github
-      if (url && url.match(/github.com/)) {
-        data.url = url.replace(/^git\+/, '').replace(/\.git$/, '') + '/blob/v' + version + '/' + relativePath
-      }
-      data['package'] = packageJson
     }
+    data.url = githubUrl(filePath)
+    data.package = findPackage(path.resolve(filePath), false)
     return options.fn(this, {data: data})
+  },
+
+  github: function(filePath) {
+    return githubUrl(filePath)
   },
 
   /**
@@ -275,17 +270,17 @@ module.exports = {
  * @param {object} object the tree data
  * @param fn the block-helper function (options.fn) of Handlebars (http://handlebarsjs.com/block_helpers.html)
  */
-function transformTree(object, fn) {
-  var label = fn(object).trim();
+function transformTree (object, fn) {
+  var label = fn(object).trim()
   if (object.children) {
     return {
       label: label,
       nodes: object.children.map(function (child) {
-        return transformTree(child, fn);
+        return transformTree(child, fn)
       })
     }
   } else {
-    return label;
+    return label
   }
 }
 
@@ -320,7 +315,7 @@ function transformTree(object, fn) {
  * @param {string} label the label for the current tree node
  * @returns {object} a tree structure as needed by [archy](https://www.npmjs.com/package/archy)
  */
-function treeFromPathComponents(files, label) {
+function treeFromPathComponents (files, label) {
   debug('treeFromPathComponents', files, label)
   if (files.length == 0) {
     return label
@@ -351,4 +346,16 @@ function treeFromPathComponents(files, label) {
     return result
   }
 
+}
+
+function githubUrl (filePath) {
+  // Build url to correct version and file in github
+  var packageJson = findPackage(path.resolve(filePath), true)
+  var url = packageJson && packageJson.repository && packageJson.repository.url
+  if (url && url.match(/github.com/)) {
+    var version = packageJson.version
+    // path within the package
+    var relativePath = path.relative(path.dirname(packageJson.paths.absolute), filePath)
+    return url.replace(/^git\+/, '').replace(/\.git$/, '') + '/blob/v' + version + '/' + relativePath
+  }
 }
