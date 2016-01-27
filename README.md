@@ -1,4 +1,8 @@
-# thought
+# thought 
+
+[![NPM version](https://badge.fury.io/js/thought.svg)](http://badge.fury.io/js/thought)
+[![Build Status](https://travis-ci.org/nknapp/thought.svg?branch=master)](https://travis-ci.org/nknapp/thought)
+[![Coverage Status](https://img.shields.io/coveralls/nknapp/thought.svg)](https://coveralls.io/r/nknapp/thought)
 
 > A customizable documentation generator for github projects
 
