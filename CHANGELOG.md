@@ -3,6 +3,20 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 0.7.0 (Wed, 27 Jan 2016 19:22:15 GMT)
+
+* [f6d322b](https://github.com/nknapp/thought/commit/f6d322b) Add release anchor to CHANGELOG.md - Nils Knappmeier
+* [fd46555](https://github.com/nknapp/thought/commit/fd46555) Fix for travis and Coveralls badges - Nils Knappmeier
+* [4857c6e](https://github.com/nknapp/thought/commit/4857c6e) Added "github" helper to create links to github files. - Nils Knappmeier
+* [781f63e](https://github.com/nknapp/thought/commit/781f63e) Use "customize-write-files" to save the resulting files to disk. - Nils Knappmeier
+* [8ad63d2](https://github.com/nknapp/thought/commit/8ad63d2) Remove "API"-header if no main-file is configured - Nils Knappmeier
+* [327adcb](https://github.com/nknapp/thought/commit/327adcb) Only show "npm install..." if package is not marked as private. - Nils Knappmeier
+* [f9b117e](https://github.com/nknapp/thought/commit/f9b117e) Show badges based on conditions - Nils Knappmeier
+* [1bbdc8f](https://github.com/nknapp/thought/commit/1bbdc8f) Remove redundant badge - Nils Knappmeier
+* [af24469](https://github.com/nknapp/thought/commit/af24469) {{withPackageOf}}: Remove leading "git+" from dependency repository urls - Nils Knappmeier
+
+
+
 ## v0.6.1 - 2015-11-29
 
 ### Doc
