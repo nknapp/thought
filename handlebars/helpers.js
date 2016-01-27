@@ -229,6 +229,29 @@ module.exports = {
   },
 
   /**
+   * Returns the path to the github repository (below github.com) based on the $.repository.url.
+   * @param options
+   * @returns {string=} the repository path within github.com (or null)
+     */
+  githubRepo: function(options) {
+    var url = null;
+    try {
+      url = options.data.root.package.repository.url
+      var match = url.match(/.*?(:\/\/|@)github\.com[/:](.*?)(#.*?)?$/)
+      if (match) {
+        return match[2].replace(/\.git$/, '')
+      } else {
+        return null;
+      }
+    } catch (e) {
+      console.log("Cannot find repository url");
+      url = null
+    }
+
+    console.log(url.replace(""));
+  },
+
+  /**
    * Create a link to the npm-package of a package
    * @param packageName the name of the package
    */
