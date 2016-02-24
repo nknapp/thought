@@ -1,12 +1,6 @@
 # {{{package.name}}} 
 
-{{#unless package.private~}}
-[![NPM version](https://badge.fury.io/js/{{package.name}}.svg)](http://badge.fury.io/js/{{package.name}})
-{{/unless}}
-{{#if ( exists '.travis.yml' ) }}
-[![Build Status](https://travis-ci.org/{{githubRepo}}.svg?branch=master)](https://travis-ci.org/{{githubRepo}})
-[![Coverage Status](https://img.shields.io/coveralls/{{githubRepo}}.svg)](https://coveralls.io/r/{{githubRepo}})
-{{/if}}
+{{>badges.md}}
 
 > {{{package.description}}}
 

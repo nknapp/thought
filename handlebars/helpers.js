@@ -267,7 +267,27 @@ module.exports = {
    */
   'htmlId': function (value) {
     return value.replace(/[^A-Za-z0-9-_:.]/g, '').toLowerCase()
+  },
+
+  /**
+   * Check the .travis.yml and the appveyor.yml files for the string 'coveralls'
+   * and return true if any of them exists and contains the string.
+   * We expect coveralls to be configured then
+   */
+  'hasCoveralls': function hasCoveralls () {
+    var travis = qfs.read('.travis.yml')
+    var appveyor = qfs.read('appveyor.yml')
+    return Q.allSettled([travis, appveyor]).then(function (files) {
+      var i;
+      for (i=0; i<files.length; i++) {
+        if (files[i].state==='fulfilled' && files[i].value.indexOf('coveralls')>=0) {
+          return true;
+        }
+      }
+      return false;
+    })
   }
+
 }
 
 /**
@@ -382,3 +402,4 @@ function githubUrl (filePath) {
     return url.replace(/^git\+/, '').replace(/\.git$/, '') + '/blob/v' + version + '/' + relativePath
   }
 }
+
