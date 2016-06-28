@@ -18,7 +18,8 @@ module.exports = thought
 /**
  * Execute Thought in the current directory
  * @param {object} options
- * @param {string} options.cwd the working directory to use as project root
+ * @param {string} [options.cwd] the working directory to use as project root
+ * @param {boolean} [options.addToGit] add created files to git
  * @api public
  */
 function thought (options) {
@@ -30,7 +31,7 @@ function thought (options) {
     .run()
     .then(write(options.cwd || '.'))
     .then(function (filenames) {
-      if (options['addToGit']) {
+      if (options.addToGit) {
         // Add computed files to the git index.
         var git = require('simple-git')()
         var deferred = Q.defer()
