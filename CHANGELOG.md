@@ -3,6 +3,10 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 0.8.1 (Tue, 12 Jul 2016 20:54:47 GMT)
+
+* [b3cbd2b](https://github.com/nknapp/thought/commit/b3cbd2b) Use "thoughtful-release" to update the changelog on version bumps - Nils Knappmeier
+
 # Version 0.8.0 (Tue, 12 Jul 2016 20:46:16 GMT)
 
 * [1c8a344](https://github.com/nknapp/thought/commit/1c8a344) Minor JSDoc comments added - Nils Knappmeier
