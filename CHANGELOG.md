@@ -3,6 +3,15 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 0.8.0 (Tue, 12 Jul 2016 20:46:16 GMT)
+
+* [1c8a344](https://github.com/nknapp/thought/commit/1c8a344) Minor JSDoc comments added - Nils Knappmeier
+* [8465f12](https://github.com/nknapp/thought/commit/8465f12) Add White-space control to badge-partials - Nils Knappmeier
+* [c02604f](https://github.com/nknapp/thought/commit/c02604f) Appveyor badge must be there only if 'appveyor.yml' is present - Nils Knappmeier
+* [d761a92](https://github.com/nknapp/thought/commit/d761a92) Badges are now in separate partials. Badge for Appveyor - Nils Knappmeier
+
+
+
 # Version 0.7.0 (Wed, 27 Jan 2016 19:22:15 GMT)
 
 * [f6d322b](https://github.com/nknapp/thought/commit/f6d322b) Add release anchor to CHANGELOG.md - Nils Knappmeier
