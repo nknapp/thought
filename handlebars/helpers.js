@@ -12,6 +12,8 @@ var qfs = require('q-io/fs')
 var util = require('util')
 var collect = require('stream-collect')
 var Q = require('q')
+var jsdocParse = require('jsdoc-parse')
+var dmd = require('dmd')
 
 module.exports = {
   /**
@@ -21,12 +23,15 @@ module.exports = {
    * @param {string} headerPrefix a string such as '##' that is use as prefix for lines starting with '#' to reduced the header-size
    */
   jsdoc: function (globPattern, headerPrefix) {
-    var jsdoc2md = require('jsdoc-to-markdown')
-    return collect(jsdoc2md({src: globPattern}))
-      .then(function (output) {
-        var markdown = output.toString('utf-8')
-        return markdown.replace(/^#/mg, headerPrefix + '#')
-      })
+    var deferred = Q.defer()
+    var stream = jsdocParse({src: globPattern})
+      .on('error', function(err) { deferred.reject(err) })
+      .pipe(dmd())
+      .on('error', function(err) { deferred.reject(err) })
+
+    return collect(stream, 'utf-8', function (markdown) {
+      deferred.fulfill(markdown.replace(/^#/mg, (headerPrefix || '') + '#'))
+    })
   },
 
   /**
@@ -224,7 +229,7 @@ module.exports = {
     return options.fn(this, {data: data})
   },
 
-  github: function(filePath) {
+  github: function (filePath) {
     return githubUrl(filePath)
   },
 
@@ -233,22 +238,22 @@ module.exports = {
    * @param options
    * @returns {string=} the repository path within github.com (or null)
      */
-  githubRepo: function(options) {
-    var url = null;
+  githubRepo: function (options) {
+    var url = null
     try {
       url = options.data.root.package.repository.url
       var match = url.match(/.*?(:\/\/|@)github\.com[/:](.*?)(#.*?)?$/)
       if (match) {
         return match[2].replace(/\.git$/, '')
       } else {
-        return null;
+        return null
       }
     } catch (e) {
-      console.log("Cannot find repository url");
+      console.log('Cannot find repository url')
       url = null
     }
 
-    console.log(url.replace(""));
+    console.log(url.replace(''))
   },
 
   /**
@@ -257,7 +262,6 @@ module.exports = {
    */
   npm: function (packageName) {
     return '[' + packageName + '](https://npmjs.com/package/' + packageName + ')'
-
   },
 
   /**
@@ -278,13 +282,13 @@ module.exports = {
     var travis = qfs.read('.travis.yml')
     var appveyor = qfs.read('appveyor.yml')
     return Q.allSettled([travis, appveyor]).then(function (files) {
-      var i;
-      for (i=0; i<files.length; i++) {
-        if (files[i].state==='fulfilled' && files[i].value.indexOf('coveralls')>=0) {
-          return true;
+      var i
+      for (i = 0; i < files.length; i++) {
+        if (files[i].state === 'fulfilled' && files[i].value.indexOf('coveralls') >= 0) {
+          return true
         }
       }
-      return false;
+      return false
     })
   }
 
@@ -388,7 +392,6 @@ function treeFromPathComponents (files, label) {
   } else {
     return result
   }
-
 }
 
 function githubUrl (filePath) {
@@ -402,4 +405,3 @@ function githubUrl (filePath) {
     return url.replace(/^git\+/, '').replace(/\.git$/, '') + '/blob/v' + version + '/' + relativePath
   }
 }
-
