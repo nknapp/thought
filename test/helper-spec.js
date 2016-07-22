@@ -24,21 +24,17 @@ describe('thought-helper', function () {
     it('should return a file-hierarchy as markdown code', function () {
       expect(helpers.dirTree('test/fixtures/dir-tree'))
         .to.eventually.equal(fs.readFileSync('test/fixtures/dir-tree.output.txt', { encoding: 'utf-8' }).trim())
-
     })
 
     it('should filter specific entries throw globs', function () {
       expect(helpers.dirTree('test/fixtures/dir-tree', '!**/subdirB'))
         .to.eventually.equal(fs.readFileSync('test/fixtures/dir-tree.output.filtered.txt', { encoding: 'utf-8' }).trim())
-
     })
 
     it('should work with more complex globs', function () {
       expect(helpers.dirTree('test/fixtures/dir-tree', '!**/+(aFile.txt|bFile.txt)'))
         .to.eventually.equal(fs.readFileSync('test/fixtures/dir-tree.output.complex.filter.txt', { encoding: 'utf-8' }).trim())
-
     })
-
   })
 
   describe("'example'", function () {

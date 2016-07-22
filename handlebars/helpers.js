@@ -4,7 +4,6 @@ var path = require('path')
 var cp = require('child_process')
 var _ = require('lodash')
 var debug = require('debug')('thought:helpers')
-var minimatch = require('minimatch')
 var glob = require('glob')
 var findPackage = require('find-package')
 var Handlebars = require('handlebars')
@@ -25,9 +24,9 @@ module.exports = {
   jsdoc: function (globPattern, headerPrefix) {
     var deferred = Q.defer()
     var stream = jsdocParse({src: globPattern})
-      .on('error', function(err) { deferred.reject(err) })
+      .on('error', function (err) { deferred.reject(err) })
       .pipe(dmd())
-      .on('error', function(err) { deferred.reject(err) })
+      .on('error', function (err) { deferred.reject(err) })
 
     return collect(stream, 'utf-8', function (markdown) {
       deferred.fulfill(markdown.replace(/^#/mg, (headerPrefix || '') + '#'))
@@ -183,13 +182,16 @@ module.exports = {
     }
     var defer = Q.defer()
     glob(globPattern, {cwd: baseDir}, function (err, files) {
+      if (err) {
+        return defer.reject(err)
+      }
       debug('dirTree glob result', files)
       files.sort()
       // Split paths into components
       var components = files.map(function (file) {
         return _.compact(file.split(path.sep))
       })
-      if (components.length == 0) {
+      if (components.length === 0) {
         defer.reject("Cannot find a single file for '" + globPattern + "' in '" + baseDir + "'")
         return
       }
@@ -364,7 +366,7 @@ function transformTree (object, fn) {
  */
 function treeFromPathComponents (files, label) {
   debug('treeFromPathComponents', files, label)
-  if (files.length == 0) {
+  if (files.length === 0) {
     return label
   }
   var result = {
@@ -384,7 +386,7 @@ function treeFromPathComponents (files, label) {
   }
 
   // Condense path if directory only has one entry
-  if (result.nodes.length == 1 && _.isPlainObject(result.nodes[0])) {
+  if (result.nodes.length === 1 && _.isPlainObject(result.nodes[0])) {
     return {
       label: (result.label ? result.label + '/' : '') + result.nodes[0].label,
       nodes: result.nodes[0].nodes

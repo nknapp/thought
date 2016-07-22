@@ -8,8 +8,6 @@
 
 var customize = require('customize')
 var Q = require('q')
-var qfs = require('q-io/fs')
-var fs = require('fs')
 var debug = require('debug')('thought:run')
 var write = require('customize-write-files')
 
