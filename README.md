@@ -1,12 +1,24 @@
+<!-- part name='templates/README.md' -->
 # thought 
 
+<!-- part name='partials/badges.md' -->
+<!-- part name='partials/badge/npm.md' -->
 [![NPM version](https://badge.fury.io/js/thought.svg)](http://badge.fury.io/js/thought)
+ <!-- /part -->
+<!-- part name='partials/badge/travis.md' -->
 [![Travis Build Status](https://travis-ci.org/nknapp/thought.svg?branch=master)](https://travis-ci.org/nknapp/thought)
+<!-- /part -->
+<!-- part name='partials/badge/appveyor.md' -->
+<!-- /part -->
+<!-- part name='partials/badge/coveralls.md' -->
 [![Coverage Status](https://img.shields.io/coveralls/nknapp/thought.svg)](https://coveralls.io/r/nknapp/thought)
 
+<!-- /part -->
+<!-- /part -->
 
 > A customizable documentation generator for github projects
 
+<!-- part name='partials/overview.md' -->
 ## Overview / Motivation
 
 The goal of Thought is making the documentation just as easy as thinking about it.
@@ -47,13 +59,17 @@ using `package.json` to generate a README.md is not new.
 
 
 
+<!-- /part -->
 
+<!-- part name='partials/installation.md' -->
 # Installation
 
 ```
 npm install -g thought
 ```
+<!-- /part -->
 
+<!-- part name='partials/usage.md' -->
 
 ## Usage
 
@@ -152,6 +168,12 @@ has the structure.
 │ │ └── travis.md.hbs
 │ ├── badges.md.hbs
 │ ├── changelog.md.hbs
+│ ├─┬ contributing
+│ │ ├── code-style.md.hbs
+│ │ ├── documentation.md.hbs
+│ │ ├── issues.md.hbs
+│ │ ├── pull-requests.md.hbs
+│ │ └── versioning.md.hbs
 │ ├── contributing.md.hbs
 │ ├── howitworks.md.hbs
 │ ├── installation.md.hbs
@@ -204,11 +226,14 @@ as context data, but if you return promises, they will be resolved seamlessly.
 
 
 
-                                                 
+                                                 <!-- /part -->
+
+<!-- part name='partials/api.md' -->
 ##  API-reference
 
 <a name="thought"></a>
-### thought(options)
+
+## thought(options)
 Execute Thought in the current directory
 
 **Kind**: global function  
@@ -221,17 +246,24 @@ Execute Thought in the current directory
 | [options.addToGit] | <code>boolean</code> | add created files to git |
 
 
+<!-- /part -->
 
+<!-- part name='partials/howitworks.md' -->
+<!-- /part -->
 
+<!-- part name='partials/license.md' -->
 ## License
 
 `thought` is published under the MIT-license. 
 See [LICENSE.md](LICENSE.md) for details.
+<!-- /part -->
 
+<!-- part name='partials/changelog.md' -->
 ## Release-Notes
  
 For release notes, see [CHANGELOG.md](CHANGELOG.md)
- 
+ <!-- /part -->
+
 ## Contributing guidelines
 
-See [CONTRIBUTING.md](CONTRIBUTING.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md).<!-- /part -->
