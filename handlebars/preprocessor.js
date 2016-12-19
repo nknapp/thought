@@ -1,4 +1,4 @@
-var qfs = require('q-io/fs')
+var qfs = require('m-io/fs')
 var _ = require('lodash')
 var path = require('path')
 // var Q = require('q')

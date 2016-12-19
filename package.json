@@ -34,7 +34,7 @@
   "dependencies": {
     "archy": "^1.0.0",
     "commander": "^2.8.1",
-    "customize": "<1.0.0",
+    "customize": "nknapp/customize#01af3e9",
     "customize-engine-handlebars": "<1.0.0",
     "customize-write-files": "^0.1.2",
     "debug": "^2.2.0",
@@ -45,7 +45,7 @@
     "handlebars": "^4.0.5",
     "jsdoc-parse": "^1.2.7",
     "lodash": "^4.13.1",
-    "m-io": "^0.1.1",
+    "m-io": "^0.3.0",
     "minimatch": "^3.0.2",
     "multilang-apidocs": "^0.2.1",
     "q": "^1.4.1",
