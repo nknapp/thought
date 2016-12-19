@@ -209,7 +209,7 @@ as context data, but if you return promises, they will be resolved seamlessly.
 
 <a name="thought"></a>
 
-### thought(options)
+## thought(options)
 Execute Thought in the current directory
 
 **Kind**: global function  

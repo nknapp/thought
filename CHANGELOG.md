@@ -3,6 +3,10 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 0.9.1 (Mon, 19 Dec 2016 23:05:19 GMT)
+
+* [d360f70](https://github.com/nknapp/thought/commit/d360f70) Use "m-io/fs" instead of "q-io/fs" - Nils Knappmeier
+
 # Version 0.9.0 (Mon, 19 Dec 2016 22:19:10 GMT)
 
 * [c76f64c](https://github.com/nknapp/thought/commit/c76f64c) Use "trace-and-clarify-if-possible" - Nils Knappmeier
