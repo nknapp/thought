@@ -43,7 +43,5 @@ module.exports = function createSpec (workingDir) {
           preprocessor: path.resolve(workingDir, '.thought', 'preprocessor.js')
         }
       })
-      // .tap(console.log)
-
   }
 }
