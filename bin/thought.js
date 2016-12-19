@@ -26,8 +26,7 @@ program
   .version(require('../package').version)
   .option('-d, --debug', 'higher stack-trace-limit, long stack-traces', function (option) {
     Error.stackTraceLimit = 30
-    require('trace')
-    require('clarify')
+    require('trace-and-clarify-if-possible')
   })
 
 program
