@@ -3,6 +3,10 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 0.9.2 (Mon, 19 Dec 2016 23:52:15 GMT)
+
+* [f2dd765](https://github.com/nknapp/thought/commit/f2dd765) More replacements of q-io by m-io - Nils Knappmeier
+
 # Version 0.9.1 (Mon, 19 Dec 2016 23:05:19 GMT)
 
 * [d360f70](https://github.com/nknapp/thought/commit/d360f70) Use "m-io/fs" instead of "q-io/fs" - Nils Knappmeier
