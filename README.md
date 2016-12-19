@@ -208,6 +208,7 @@ as context data, but if you return promises, they will be resolved seamlessly.
 ##  API-reference
 
 <a name="thought"></a>
+
 ### thought(options)
 Execute Thought in the current directory
 

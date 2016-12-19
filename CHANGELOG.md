@@ -3,6 +3,12 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 0.9.0 (Mon, 19 Dec 2016 22:19:10 GMT)
+
+* [c76f64c](https://github.com/nknapp/thought/commit/c76f64c) Use "trace-and-clarify-if-possible" - Nils Knappmeier
+* [2ecdeba](https://github.com/nknapp/thought/commit/2ecdeba) Upgrade package dependencies - Nils Knappmeier
+* [1467cf9](https://github.com/nknapp/thought/commit/1467cf9) Reduce size by replacing jsdoc-to-markdown with jsdoc-parse and dmd - Nils Knappmeier
+
 # Version 0.8.1 (Tue, 12 Jul 2016 20:54:47 GMT)
 
 * [b3cbd2b](https://github.com/nknapp/thought/commit/b3cbd2b) Use "thoughtful-release" to update the changelog on version bumps - Nils Knappmeier
