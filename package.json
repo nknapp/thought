@@ -34,7 +34,7 @@
   "dependencies": {
     "archy": "^1.0.0",
     "commander": "^2.8.1",
-    "customize": "nknapp/customize#01af3e9",
+    "customize": "nknapp/customize#9d460b",
     "customize-engine-handlebars": "<1.0.0",
     "customize-write-files": "^0.1.2",
     "debug": "^2.2.0",
