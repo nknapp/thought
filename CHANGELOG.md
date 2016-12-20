@@ -3,6 +3,12 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 0.9.4 (Tue, 20 Dec 2016 00:19:44 GMT)
+
+* [6fc2471](https://github.com/nknapp/thought/commit/6fc2471) Use new customize-version from github - Nils Knappmeier
+
+
+
 # Version 0.9.3 (Tue, 20 Dec 2016 00:03:45 GMT)
 
 * [a5ce38b](https://github.com/nknapp/thought/commit/a5ce38b) Update m-io version for handling of missing "templates" directory - Nils Knappmeier
