@@ -45,7 +45,7 @@
     "handlebars": "^4.0.5",
     "jsdoc-parse": "^1.2.7",
     "lodash": "^4.13.1",
-    "m-io": "^0.3.0",
+    "m-io": "^0.3.1",
     "minimatch": "^3.0.2",
     "multilang-apidocs": "^0.2.1",
     "q": "^1.4.1",
