@@ -18,6 +18,7 @@ var path = require('path')
  */
 module.exports = function createSpec (workingDir) {
   return function thoughtSpec (customize) {
+    var packageJson = require(path.resolve(workingDir, 'package.json'))
     return customize
       .registerEngine('handlebars', require('customize-engine-handlebars'))
       .merge({
@@ -33,6 +34,14 @@ module.exports = function createSpec (workingDir) {
           hbsOptions: {
             noEscape: true
           }
+        }
+      })
+      .load(function(customize) {
+        var thoughtModule = packageJson.config && packageJson.config.thought && packageJson.thought.load
+        if (thoughtModule) {
+          return customize.load(require(thoughtModule))
+        } else {
+          return customize
         }
       })
       .merge({
