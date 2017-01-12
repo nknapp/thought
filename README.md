@@ -9,8 +9,7 @@
 
 ## Overview / Motivation
 
-aaa
-![](.thought/thought-logo.svg)
+![](.thought/thought-logo.png)
 
 The goal of Thought is making the documentation just as easy as thinking about it.
 
