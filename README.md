@@ -9,6 +9,8 @@
 
 ## Overview / Motivation
 
+![](.thought/thought-logo.png)
+
 The goal of Thought is making the documentation just as easy as thinking about it.
 
 Are you sometimes annoyed about documentation that does represent the current state of the project? 
