@@ -15,7 +15,10 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="thought-logo.svg">
+   sodipodi:docname="thought-logo.svg"
+   inkscape:export-filename="/home/nknappmeier/projects/node-libraries/thought/.thought/thought-logo.png"
+   inkscape:export-xdpi="97.470001"
+   inkscape:export-ydpi="97.470001">
   <defs
      id="defs4">
     <marker
@@ -48,40 +51,6 @@
          transform="scale(-0.6,-0.6)"
          inkscape:connector-curvature="0" />
     </marker>
-    <filter
-       inkscape:collect="always"
-       id="filter3232">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="4.3283459"
-         id="feGaussianBlur3234" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       style="color-interpolation-filters:sRGB"
-       id="filter4254"
-       x="-0.042041622"
-       width="1.0840832"
-       y="-0.031478401"
-       height="1.0629568">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="5.220168"
-         id="feGaussianBlur4256" />
-    </filter>
-    <filter
-       inkscape:collect="always"
-       style="color-interpolation-filters:sRGB"
-       id="filter4292"
-       x="-0.071837179"
-       width="1.1436744"
-       y="-0.11398624"
-       height="1.2279725">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="9.5395616"
-         id="feGaussianBlur4294" />
-    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -91,10 +60,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="360.81109"
-     inkscape:cy="288.94299"
+     inkscape:cx="549.97609"
+     inkscape:cy="278.14295"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g3442"
      showgrid="false"
      inkscape:window-width="1301"
      inkscape:window-height="744"
@@ -137,15 +106,6 @@
          id="flowPara3434" /></flowRoot>    <g
        id="g3442"
        transform="matrix(0.66234631,0,0,0.66445859,310.24821,-11.89528)">
-      <rect
-         ry="17.813812"
-         rx="17.870623"
-         y="192.56755"
-         x="294.38107"
-         height="398"
-         width="298"
-         id="rect3412"
-         style="opacity:0.83699999;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.01476479;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;filter:url(#filter4254)" />
       <rect
          style="opacity:1;fill:#ececec;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.01476479;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
          id="rect3418"
@@ -257,12 +217,6 @@
          transform="translate(91.429,4.2857)"
          id="g3236">
         <path
-           d="m 385.54,459.3 c 63.33,-11.33 101.34,-9.38 125.15,0 -4.08,14 -19.27,24.52 -33.23,36.77 27.4,-13.11 55.19,-25.08 84.15,-36.07 -8.34,-34.82 -36.77,-54.13 -60.81,-78.48 3.52,8.18 8.64,17.16 12.08,25.32 1.73,4.09 2.49,7.79 1.35,10.74 -41.72,-13.9 -83.44,-13.43 -125.16,-2.83 l -3.53,44.55 z"
-           style="fill:#8e8e8e;fill-rule:evenodd;stroke:#000000;stroke-width:6.80000019;filter:url(#filter3232)"
-           sodipodi:nodetypes="cccccsccc"
-           id="path2388"
-           inkscape:connector-curvature="0" />
-        <path
            d="m 384.11,448.58 c 63.34,-11.32 101.34,-9.38 125.16,0 -4.09,14.01 -19.27,24.53 -33.24,36.77 27.4,-13.1 55.19,-25.08 84.15,-36.06 -8.34,-34.83 -36.77,-54.14 -60.81,-78.49 3.52,8.19 8.65,17.16 12.08,25.32 1.73,4.09 2.49,7.8 1.35,10.74 -41.72,-13.89 -83.44,-13.43 -125.16,-2.83 l -3.53,44.55 z"
            style="fill:#0c3bfe;fill-rule:evenodd;stroke:#000000;stroke-width:6.80000019"
            sodipodi:nodetypes="cccccsccc"
@@ -275,39 +229,6 @@
       <g
          transform="matrix(-1,0,0,1,297.33162,-55.672232)"
          id="g4380">
-        <g
-           transform="matrix(0.59733364,0,0,0.61541503,52.191901,38.449538)"
-           id="g4258"
-           style="opacity:1;fill:#000000;stroke:#000000;stroke-width:1.70156932;filter:url(#filter4292)">
-          <ellipse
-             ry="8.7201414"
-             rx="14.287379"
-             cy="391.64206"
-             cx="77.501869"
-             id="ellipse4260"
-             style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.29865932;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
-          <ellipse
-             style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.29865932;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
-             id="ellipse4262"
-             cx="88.323196"
-             cy="375.32355"
-             rx="18.323193"
-             ry="11.324354" />
-          <ellipse
-             ry="14.855977"
-             rx="24.037479"
-             cy="358.93481"
-             cx="106.89462"
-             id="ellipse4264"
-             style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.29865932;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
-          <ellipse
-             style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.29865932;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
-             id="ellipse4266"
-             cx="218.28177"
-             cy="289.11237"
-             rx="150.24602"
-             ry="92.85714" />
-        </g>
         <g
            id="g3482"
            transform="matrix(0.59733364,0,0,0.61541503,49.802566,30.354633)">
