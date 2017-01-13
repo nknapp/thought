@@ -22,21 +22,19 @@
   "license": "MIT",
   "scripts": {
     "pretest": "standard --version || npm -g install standard",
-    "test": "mocha && standard",
+    "test": "mocha && standard && bin/thought.js run -a",
     "preformat": "standard --version || npm -g install standard",
     "format": "standard --format",
-    "thought": "thought run -a",
-    "prethoughtcheck": "thought --version || npm -g install thought",
-    "thoughtcheck": "thought check-engines",
+    "thought": "bin/thought.js run -a",
     "version": "thoughtful changelog -o -a && npm run thought",
-    "preversion": "npm run thoughtcheck"
+    "prepush": "bin/thought.js up-to-date && thoughtful precommit"
   },
   "dependencies": {
     "archy": "^1.0.0",
     "commander": "^2.8.1",
-    "customize": "nknapp/customize#9d460b",
-    "customize-engine-handlebars": "<1.0.0",
-    "customize-write-files": "^0.1.2",
+    "customize": "^1.0.0",
+    "customize-engine-handlebars": "^1.0.0",
+    "customize-write-files": "^1.1.0",
     "debug": "^2.2.0",
     "dmd": "^1.4.1",
     "find-package": "^1.0.0",
@@ -58,12 +56,13 @@
   "devDependencies": {
     "chai": "^3.2.0",
     "chai-as-promised": "^5.1.0",
+    "husky": "^0.12.0",
     "mocha": "^2.2.5",
     "thoughtful-release": "^0.3.0"
   },
   "standard": {
     "ignore": [
-      "spec/fixtures/**"
+      "test/fixtures/**"
     ]
   },
   "keywords": []

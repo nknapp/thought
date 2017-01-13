@@ -72,6 +72,16 @@ program
       })
   })
 
+program
+  .command('up-to-date')
+  .description('Perform up-to-date check of the current documentation. Exit with non-zero exit-code when thought must be run again.')
+  .action(function () {
+    changeDir()
+    require('../lib/up-to-date.js')().done(function () {
+      console.log('OK')
+    })
+  })
+
 program.parse(process.argv)
 
 if (program.args.length === 0) {

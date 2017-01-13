@@ -103,6 +103,7 @@ Usage: thought [options] [command]
     run [options]   Generate documentation from your package.json and some templates.
     init            Register scripts in the curent module's package.json
     check-engines   Check that all engines (such as npm) have versions that ensure Thought to run correctly
+    up-to-date      Perform up-to-date check of the current documentation. Exit with non-zero exit-code when thought must be run again.
 
   Options:
 
@@ -134,6 +135,26 @@ of your module) is using npm prior to version 2.13.0. The preversion-script will
 
 This is especially helpful when using the helper `withPackageOf` to include links to files
 in your github repository (since these links include the version tag on github).
+
+### Using Thought as pre-push hook.
+
+Along with the library [husky](https://npmjs.com/package/husky), Thought can be used as pre-push hook to prevent missing
+README updates. When you change things that would otherwise update the documentation (like an example),
+it can easily happen that you push those changes without running Thought first. `husky` and the 
+`prepush` script
+
+```json
+// Edit package.json
+{
+  "scripts": {
+   "prepush": "thought up-to-date"
+  }
+}
+```
+
+prevent this from happening. The command runs though without writing any files, but it checks if any of the 
+files that would have been written, would have been changed by the write. If this is the case, it exits with a non-zero
+exit-code and prints an error message.
 
 ### Overriding templates and partials
 
