@@ -103,6 +103,7 @@ Usage: thought [options] [command]
     run [options]   Generate documentation from your package.json and some templates.
     init            Register scripts in the curent module's package.json
     check-engines   Check that all engines (such as npm) have versions that ensure Thought to run correctly
+    up-to-date      Perform up-to-date check of the current documentation
 
   Options:
 
