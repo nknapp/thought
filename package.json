@@ -22,15 +22,12 @@
   "license": "MIT",
   "scripts": {
     "pretest": "standard --version || npm -g install standard",
-    "test": "mocha && standard && thought run -a",
+    "test": "mocha && standard && bin/thought.js run -a",
     "preformat": "standard --version || npm -g install standard",
     "format": "standard --format",
-    "thought": "thought run -a",
-    "prethoughtcheck": "thought --version || npm -g install thought",
-    "thoughtcheck": "thought check-engines",
+    "thought": "bin/thought.js run -a",
     "version": "thoughtful changelog -o -a && npm run thought",
-    "preversion": "npm run thoughtcheck",
-    "prepush": "thought up-to-date && thoughtful precommit"
+    "prepush": "bin/thought.js up-to-date && thoughtful precommit"
   },
   "dependencies": {
     "archy": "^1.0.0",
