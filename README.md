@@ -9,7 +9,7 @@
 
 ## Overview / Motivation
 
-![Thought logo](docs/thought-logo.png)
+<img src="https://raw.githubusercontent.com/nknapp/thought/master/docs/thought-logo.png" alt="alt text" width="100%">
 
 The goal of Thought is making the documentation just as easy as thinking about it.
 
