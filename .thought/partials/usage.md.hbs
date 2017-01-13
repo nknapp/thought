@@ -50,6 +50,26 @@ of your module) is using npm prior to version 2.13.0. The preversion-script will
 This is especially helpful when using the helper `withPackageOf` to include links to files
 in your github repository (since these links include the version tag on github).
 
+### Using `thought as pre-push hook.
+
+Along with the library {{npm 'husky'}}, thought can be used as pre-push hook to prevent missing
+README updates. When you change things that would otherwise update the documentation (like an example),
+it can easily happen that you push those changes without running thought first. `husky` and the 
+`prepush` script
+
+```json
+// Edit package.json
+{
+  "scripts": {
+   "prepush": "thought up-to-date"
+  }
+}
+```
+
+prevent this from happening. The command runs though without writing any files, but it checks if any of the 
+files that would have been written, would have been changed by the write. If this is the case, it exits with a non-zero
+exit-code and prints an error message.
+
 ### Overriding templates and partials
 
 All templates and partials can be overridden by customized versions (but it is currently
