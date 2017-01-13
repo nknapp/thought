@@ -3,10 +3,13 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 0.10.0 (Fri, 13 Jan 2017 13:38:25 GMT)
+
+* [05cfa0e](https://github.com/nknapp/thought/commit/05cfa0e) Add parameter 'up-to-date-hook' for checking generated files (#4) - Nils Knappmeier
+
 # Version 0.9.4 (Tue, 20 Dec 2016 00:19:44 GMT)
 
 * [6fc2471](https://github.com/nknapp/thought/commit/6fc2471) Use new customize-version from github - Nils Knappmeier
-
 
 
 # Version 0.9.3 (Tue, 20 Dec 2016 00:03:45 GMT)
