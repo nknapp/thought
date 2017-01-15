@@ -254,8 +254,6 @@ module.exports = {
       console.log('Cannot find repository url')
       url = null
     }
-
-    console.log(url.replace(''))
   },
 
   /**
