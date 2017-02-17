@@ -1,10 +1,11 @@
 # simple-project 
 
 [![NPM version](https://badge.fury.io/js/simple-project.svg)](http://badge.fury.io/js/simple-project)
-[![Travis Build Status](https://travis-ci.org/unit-test/simple-project.svg?branch=master)](https://travis-ci.org/unit-test/simple-project)
-[![Coverage Status](https://img.shields.io/coveralls/unit-test/simple-project.svg)](https://coveralls.io/r/unit-test/simple-project)
+[![Travis Build Status](https://travis-ci.org/bootprint/bootprint.svg?branch=master)](https://travis-ci.org/bootprint/bootprint)
+[![Coverage Status](https://img.shields.io/coveralls/bootprint/bootprint.svg)](https://coveralls.io/r/bootprint/bootprint)
+[![Greenkeeper badge](https://badges.greenkeeper.io/bootprint/bootprint.svg)](https://greenkeeper.io/)
 
-> A simple description
+> 
 
 
 # Installation

@@ -67,6 +67,7 @@ function walk (baseDir, relativeDir, callback) {
 }
 
 describe('the integation test: ', function () {
+  this.timeout(10000)
   scenarios.forEach((scenario) => {
     describe(`In the scenario name "${scenario.name}",`, function () {
       before(function () {

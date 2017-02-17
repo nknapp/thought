@@ -1,14 +1,14 @@
 {
   "name": "simple-project",
   "version": "1.0.0",
-  "description": "A simple description",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/unit-test/simple-project.git"
+    "url": "https://github.com/bootprint/bootprint.git"
   },
   "author": "",
   "license": "ISC",

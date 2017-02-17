@@ -3,7 +3,7 @@
 [![NPM version](https://badge.fury.io/js/thought.svg)](http://badge.fury.io/js/thought)
 [![Travis Build Status](https://travis-ci.org/nknapp/thought.svg?branch=master)](https://travis-ci.org/nknapp/thought)
 [![Coverage Status](https://img.shields.io/coveralls/nknapp/thought.svg)](https://coveralls.io/r/nknapp/thought)
-
+[![Greenkeeper badge](https://badges.greenkeeper.io/nknapp/thought.svg)](https://greenkeeper.io/)
 
 > A customizable documentation generator for github projects
 
@@ -171,6 +171,7 @@ has the structure.
 │ ├─┬ badge
 │ │ ├── appveyor.md.hbs
 │ │ ├── coveralls.md.hbs
+│ │ ├── greenkeeper.md.hbs
 │ │ ├── npm.md.hbs
 │ │ └── travis.md.hbs
 │ ├── badges.md.hbs
