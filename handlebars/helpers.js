@@ -240,21 +240,7 @@ module.exports = {
    * @param options
    * @returns {string=} the repository path within github.com (or null)
      */
-  githubRepo: function (options) {
-    var url = null
-    try {
-      url = options.data.root.package.repository.url
-      var match = url.match(/.*?(:\/\/|@)github\.com[/:](.*?)(#.*?)?$/)
-      if (match) {
-        return match[2].replace(/\.git$/, '')
-      } else {
-        return null
-      }
-    } catch (e) {
-      console.log('Cannot find repository url')
-      url = null
-    }
-  },
+  githubRepo: githubRepo,
 
   /**
    * Create a link to the npm-package of a package
@@ -290,6 +276,14 @@ module.exports = {
       }
       return false
     })
+  },
+
+  'hasGreenkeeper': function hasGreenkeeper (options) {
+    var slug = githubRepo(options)
+    return require('request-promise')(`https://badges.greenkeeper.io/${slug}.svg`)
+      .then(function (response) {
+        return require('cheerio')(response).find('text').last().text() !== 'not found'
+      })
   }
 
 }
@@ -403,5 +397,21 @@ function githubUrl (filePath) {
     // path within the package
     var relativePath = path.relative(path.dirname(packageJson.paths.absolute), filePath)
     return url.replace(/^git\+/, '').replace(/\.git$/, '') + '/blob/v' + version + '/' + relativePath
+  }
+}
+
+function githubRepo (options) {
+  var url = null
+  try {
+    url = options.data.root.package.repository.url
+    var match = url.match(/.*?(:\/\/|@)github\.com[/:](.*?)(#.*?)?$/)
+    if (match) {
+      return match[2].replace(/\.git$/, '')
+    } else {
+      return null
+    }
+  } catch (e) {
+    console.log('Cannot find repository url')
+    url = null
   }
 }
