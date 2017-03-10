@@ -1,4 +1,3 @@
-var apidocs = require('multilang-apidocs')
 var fs = require('fs')
 var path = require('path')
 var cp = require('child_process')
@@ -9,29 +8,9 @@ var findPackage = require('find-package')
 var Handlebars = require('handlebars')
 var qfs = require('m-io/fs')
 var util = require('util')
-var collect = require('stream-collect')
 var Q = require('q')
-var jsdocParse = require('jsdoc-parse')
-var dmd = require('dmd')
 
 module.exports = {
-  /**
-   * Use JsDoc and JsDox to create markdown output of jsdoc-comments.
-   * This only works for javascript-files
-   * @param {string} globPattern a glob-pattern to find the files
-   * @param {string} headerPrefix a string such as '##' that is use as prefix for lines starting with '#' to reduced the header-size
-   */
-  jsdoc: function (globPattern, headerPrefix) {
-    var deferred = Q.defer()
-    var stream = jsdocParse({src: globPattern})
-      .on('error', function (err) { deferred.reject(err) })
-      .pipe(dmd())
-      .on('error', function (err) { deferred.reject(err) })
-
-    return collect(stream, 'utf-8', function (markdown) {
-      deferred.fulfill(markdown.replace(/^#/mg, (headerPrefix || '') + '#'))
-    })
-  },
 
   /**
    * Display an object as indented JSON-String.
@@ -41,24 +20,6 @@ module.exports = {
    */
   json: function (obj) {
     return '```json\n' + JSON.stringify(obj, null, 2) + '\n```\n'
-  },
-
-  /**
-   * Include the apidocs from a file. The `multilang-apidocs` package
-   * is used to extract the comments from the file.
-   * @param {string} a glob-pattern to find the files to analyze
-   * @returns {string}
-   */
-  apidocs: function (globPattern) {
-    var files = glob.sync(globPattern)
-    debug('apidoc files', files)
-    return files.map(function (file) {
-      var comments = apidocs(fs.readFileSync(file, 'utf-8'), {
-        filename: file
-      })
-      debug('extracted comments', comments)
-      return comments.map(_.property('markdown')).join('\n')
-    }).join('\n')
   },
 
   /**
@@ -112,7 +73,7 @@ module.exports = {
         // by the module name in the
         var modulePath = path.relative(path.dirname(filename), '.') + '/'
         debug('example modulepath', modulePath)
-        var requireModuleRegex = new RegExp("require\\('" + _.escapeRegExp(modulePath) + "(.*?)'\\)", 'm')
+        var requireModuleRegex = new RegExp(`require\\('${_.escapeRegExp(modulePath)}(.*?)'\\)`, 'm')
         if (options && options.hash && options.hash.snippet) {
           contents = contents.match(/---<snip>---.*\n([\S\s]*?)\n.*---<\/snip>---/)[1]
         }
@@ -120,7 +81,7 @@ module.exports = {
         return util.format('```%s\n%s\n```',
           path.extname(filename).substr(1),
           contents.trim().replace(requireModuleRegex, function (match, suffix) {
-            return "require('" + require(process.cwd() + '/package').name + (suffix ? '/' + suffix : '') + "')"
+            return `require('${require(process.cwd() + '/package').name}${suffix ? '/' + suffix : ''}')`
           })
         )
       })
