@@ -5,11 +5,7 @@
  * Released under the MIT license.
  */
 
-/* global describe */
-/* global it */
-/* global before */
-// /* global xdescribe */
-// /* global xit */
+/* eslint-env mocha */
 
 'use strict'
 
@@ -29,6 +25,7 @@ var basedir = path.resolve('test', 'fixtures', 'scenarios')
 var scenarios = fs.readdirSync(basedir).map((name) => {
   return {
     name: name,
+    expectFailure: name.lastIndexOf('failure-', 0) === 0,
     input: path.join(basedir, name, 'input'),
     expected: path.join(basedir, name, 'expected'),
     actual: path.join(basedir, name, 'actual'),
@@ -52,6 +49,13 @@ function listTreeRelative (baseDir, filter) {
     })
 }
 
+/**
+ * Travers all files and subdirs of a base directory and
+ * call the callback for each of them
+ * @param baseDir the base directory
+ * @param relativeDir the current directory within the base directory (only for recursive calls)
+ * @param callback the callback / visitor
+ */
 function walk (baseDir, relativeDir, callback) {
   var dirEntries = fs.readdirSync(path.join(baseDir, relativeDir))
   dirEntries.forEach(function (fileOrDir) {
@@ -69,34 +73,50 @@ function walk (baseDir, relativeDir, callback) {
 describe('the integation test: ', function () {
   this.timeout(10000)
   scenarios.forEach((scenario) => {
-    describe(`In the scenario name "${scenario.name}",`, function () {
+    describe(`In the scenario "${scenario.name}",`, function () {
+      var oldCwd = process.cwd()
+
       before(function () {
         return qfs.removeTree(scenario.actual)
           .then(() => copy(scenario.input, scenario.actual))
-          .then(() => thought({ cwd: scenario.actual }))
+          .then(() => process.chdir(scenario.actual))
       })
 
-      it('should have the same files as in the output', function () {
-        var filter = (name, stats) => stats.isFile()
-        var expected = listTreeRelative(scenario.expected, filter)
-        var actual = listTreeRelative(scenario.actual, filter)
-        return deep({ expected, actual })
-          .then(function (result) {
-            console.log(result)
-            expect(result.actual).to.deep.equal(result.expected)
-          })
+      after(function () {
+        process.chdir(oldCwd)
       })
 
-      walk(scenario.expected, '', function (file) {
-        it(`the file "${file.relativePath}" should match`, function () {
-          var expectedContents = scenario.readExpected(file.relativePath)
-          var actualContents = scenario.readActual(file.relativePath)
-          return deep({expectedContents, actualContents})
-            .then((result) => expect(result.actualContents).to.equal(result.expectedContents)
-            )
+      if (scenario.expectFailure) {
+        it('running Thought should produce an error', function () {
+          // This scenario must be rejected
+          return expect(thought()).to.be.rejected
         })
-      })
+      } else {
+        // This scenario must pass
+        before(function () {
+          return thought()
+        })
+
+        it('the generated files in "actual" should be should match in "expected"', function () {
+          var filter = (name, stats) => stats.isFile()
+          var expected = listTreeRelative(scenario.expected, filter)
+          var actual = listTreeRelative(scenario.actual, filter)
+          return deep({ expected, actual })
+            .then(function (result) {
+              expect(result.actual).to.deep.equal(result.expected)
+            })
+        })
+
+        walk(scenario.expected, '', function (file) {
+          it(`the file "${file.relativePath}" should match`, function () {
+            var expectedContents = scenario.readExpected(file.relativePath)
+            var actualContents = scenario.readActual(file.relativePath)
+            return deep({ expectedContents, actualContents })
+              .then((result) => expect(result.actualContents).to.equal(result.expectedContents)
+              )
+          })
+        })
+      }
     })
   })
 })
-

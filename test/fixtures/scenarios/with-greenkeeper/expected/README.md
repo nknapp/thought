@@ -1,8 +1,7 @@
 # simple-project 
 
 [![NPM version](https://badge.fury.io/js/simple-project.svg)](http://badge.fury.io/js/simple-project)
-[![Travis Build Status](https://travis-ci.org/bootprint/bootprint.svg?branch=master)](https://travis-ci.org/bootprint/bootprint)
-[![Coverage Status](https://img.shields.io/coveralls/bootprint/bootprint.svg)](https://coveralls.io/r/bootprint/bootprint)
+
 [![Greenkeeper badge](https://badges.greenkeeper.io/bootprint/bootprint.svg)](https://greenkeeper.io/)
 
 > 
@@ -15,23 +14,6 @@ npm install simple-project
 ```
 
 
-##  API-reference
-
-<a name="thought"></a>
-
-## thought(options)
-Execute Thought in the current directory
-
-**Kind**: global function  
-**Api**: public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| options | <code>object</code> |  |
-| [options.cwd] | <code>string</code> | the working directory to use as project root |
-| [options.addToGit] | <code>boolean</code> | add created files to git |
-
-
 
 
 ## License
@@ -39,9 +21,6 @@ Execute Thought in the current directory
 `simple-project` is published under the ISC-license. 
 See []() for details.
 
-## Release-Notes
- 
-For release notes, see [CHANGELOG.md](CHANGELOG.md)
  
 ## Contributing guidelines
 

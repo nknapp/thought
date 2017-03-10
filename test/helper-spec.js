@@ -19,6 +19,7 @@ var chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 var expect = chai.expect
 
+
 describe('thought-helper', function () {
   describe("'dirTree'", function () {
     it('should return a file-hierarchy as markdown code', function () {
