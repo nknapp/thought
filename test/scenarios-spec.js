@@ -13,30 +13,14 @@ var fs = require('fs')
 var qfs = require('m-io/fs')
 var deep = require('deep-aplus')(Promise)
 var copy = require('recursive-copy')
-
 var path = require('path')
 var chai = require('chai')
-var chaiAsPromised = require('chai-as-promised')
-chai.use(chaiAsPromised)
+chai.use(require('chai-as-promised'))
+chai.use(require('dirty-chai'))
 var expect = chai.expect
 var thought = require('../')
+var Scenario = require('./lib/scenarios')
 
-var basedir = path.resolve('test', 'fixtures', 'scenarios')
-var scenarios = fs.readdirSync(basedir).map((name) => {
-  return {
-    name: name,
-    expectFailure: name.lastIndexOf('failure-', 0) === 0,
-    input: path.join(basedir, name, 'input'),
-    expected: path.join(basedir, name, 'expected'),
-    actual: path.join(basedir, name, 'actual'),
-    readExpected: function readExpected (relativePath) {
-      return qfs.read(path.join(this.expected, relativePath))
-    },
-    readActual: function readActual (relativePath) {
-      return qfs.read(path.join(this.actual, relativePath))
-    }
-  }
-})
 
 function listTreeRelative (baseDir, filter) {
   return qfs.listTree(baseDir, filter)
@@ -72,29 +56,19 @@ function walk (baseDir, relativeDir, callback) {
 
 describe('the integation test: ', function () {
   this.timeout(10000)
-  scenarios.forEach((scenario) => {
+  Scenario.all().forEach((scenario) => {
     describe(`In the scenario "${scenario.name}",`, function () {
-      var oldCwd = process.cwd()
-
-      before(function () {
-        return qfs.removeTree(scenario.actual)
-          .then(() => copy(scenario.input, scenario.actual))
-          .then(() => process.chdir(scenario.actual))
-      })
-
-      after(function () {
-        process.chdir(oldCwd)
-      })
 
       if (scenario.expectFailure) {
         it('running Thought should produce an error', function () {
+
           // This scenario must be rejected
-          return expect(thought()).to.be.rejected
+          return expect(scenario.run(() => thought())).to.be.rejected
         })
       } else {
         // This scenario must pass
         before(function () {
-          return thought()
+          return scenario.prepareAndRun(() => thought())
         })
 
         it('the generated files in "actual" should be should match in "expected"', function () {
