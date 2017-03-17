@@ -17,8 +17,10 @@ npm install simple-project
 
 ## License
 
-`simple-project` is published under the ISC-license. 
-See []() for details.
+`simple-project` is published under the ISC-license.
+
+No file "LICENSE*" found
+
 
  
 ## Contributing guidelines
