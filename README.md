@@ -3,7 +3,6 @@
 [![NPM version](https://badge.fury.io/js/thought.svg)](http://badge.fury.io/js/thought)
 [![Travis Build Status](https://travis-ci.org/nknapp/thought.svg?branch=master)](https://travis-ci.org/nknapp/thought)
 [![Coverage Status](https://img.shields.io/coveralls/nknapp/thought.svg)](https://coveralls.io/r/nknapp/thought)
-[![Greenkeeper badge](https://badges.greenkeeper.io/nknapp/thought.svg)](https://greenkeeper.io/)
 
 > A customizable documentation generator for github projects
 
@@ -66,9 +65,8 @@ In the default configuration, this will generate a `README.md` from the informat
 Consider the following example 
 
 <pre><code>
-
 ├── LICENSE.md
-├── examples
+├── examples/
 ├── index.js
 └── package.json
 </code></pre>
@@ -164,11 +162,10 @@ You can find the default configuration in the [partials/](partials/) directory. 
 has the structure.
 
 <pre><code>
-
 ├── helpers.js
-├─┬ partials
+├─┬ partials/
 │ ├── api.md.hbs
-│ ├─┬ badge
+│ ├─┬ badge/
 │ │ ├── appveyor.md.hbs
 │ │ ├── coveralls.md.hbs
 │ │ ├── greenkeeper.md.hbs
@@ -183,7 +180,7 @@ has the structure.
 │ ├── overview.md.hbs
 │ └── usage.md.hbs
 ├── preprocessor.js
-└─┬ templates
+└─┬ templates/
   ├── CONTRIBUTING.md.hbs
   └── README.md.hbs
 </code></pre>
@@ -229,29 +226,14 @@ as context data, but if you return promises, they will be resolved seamlessly.
 
 
                                                  
-##  API-reference
-
-<a name="thought"></a>
-
-## thought(options)
-Execute Thought in the current directory
-
-**Kind**: global function  
-**Api**: public  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| options | <code>object</code> |  |
-| [options.cwd] | <code>string</code> | the working directory to use as project root |
-| [options.addToGit] | <code>boolean</code> | add created files to git |
-
-
 
 
 ## License
 
-`thought` is published under the MIT-license. 
+`thought` is published under the MIT-license.
+
 See [LICENSE.md](LICENSE.md) for details.
+
 
 ## Release-Notes
  

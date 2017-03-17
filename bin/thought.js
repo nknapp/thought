@@ -37,16 +37,20 @@ program
     changeDir()
     var packageJson = findPackage()
     if (!(packageJson.scripts && packageJson.scripts.thought)) {
+      /* eslint-disable no-console */
       console.log('\nNot registered in package.json yet!\n' +
         'I can add a `scripts`-property to your package.json to ensure that ' +
         'documentation is generated automatically on version bumps.\n' +
         'If you want that, run `thought init`\n')
+      /* eslint-enable no-console */
     }
     thought({
       addToGit: options.addToGit,
       debug: program.debug
     }).done(function (filenames) {
+      /* eslint-disable no-console */
       console.log('The following files were updated: ' + filenames.join(', '))
+      /* eslint-enable no-console */
     })
   })
 
@@ -58,7 +62,7 @@ program
     require('../lib/check-engines.js')()
       .then(require('../lib/init.js'))
       .done(function () {
-        console.log('OK')
+        console.log('OK') // eslint-disable-line no-console
       })
   })
 
@@ -68,7 +72,7 @@ program
   .action(function () {
     require('../lib/check-engines.js')()
       .done(function () {
-        console.log('OK')
+        console.log('OK') // eslint-disable-line no-console
       })
   })
 
@@ -78,7 +82,7 @@ program
   .action(function () {
     changeDir()
     require('../lib/up-to-date.js')().done(function () {
-      console.log('OK')
+      console.log('OK') // eslint-disable-line no-console
     })
   })
 
@@ -101,5 +105,6 @@ function changeDir () {
 
   var moduleRoot = path.dirname(packageJson.paths.absolute)
   process.chdir(moduleRoot)
+  // eslint-disable-next-line no-console
   console.log("I'm running inside module '" + packageJson.name + "' in '" + moduleRoot)
 }

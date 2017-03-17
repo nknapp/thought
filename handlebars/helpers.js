@@ -1,9 +1,9 @@
-var fs = require('fs')
 var path = require('path')
 var cp = require('child_process')
 var _ = require('lodash')
 var debug = require('debug')('thought:helpers')
-var glob = require('glob')
+var Promise = require('bluebird')
+var glob = Promise.promisify(require('glob'))
 var findPackage = require('find-package')
 var Handlebars = require('handlebars')
 var qfs = require('m-io/fs')
@@ -31,10 +31,10 @@ module.exports = {
   include: function (filename, language) {
     return qfs.read(filename).then(function (contents) {
       return '```' +
-      (_.isString(language) ? language : path.extname(filename).substr(1)) +
-      '\n' +
-      contents +
-      '\n```\n'
+        (_.isString(language) ? language : path.extname(filename).substr(1)) +
+        '\n' +
+        contents +
+        '\n```\n'
     })
   },
 
@@ -71,9 +71,9 @@ module.exports = {
       .then(function (contents) {
         // Relative path to the current module (e.g. "../"). This path must be replaced
         // by the module name in the
-        var modulePath = path.relative(path.dirname(filename), '.') + '/'
+        var modulePath = path.relative(path.dirname(filename), '.')
         debug('example modulepath', modulePath)
-        var requireModuleRegex = new RegExp(`require\\('${_.escapeRegExp(modulePath)}(.*?)'\\)`, 'm')
+        var requireModuleRegex = new RegExp(regex`require\('${modulePath}/?(.*?)'\)`, 'g')
         if (options && options.hash && options.hash.snippet) {
           contents = contents.match(/---<snip>---.*\n([\S\s]*?)\n.*---<\/snip>---/)[1]
         }
@@ -98,8 +98,10 @@ module.exports = {
   },
 
   /**
-   * Execute a commad and include the output in a fenced code-block.
+   * Execute a command and include the output in a fenced code-block.
+   *
    * @param {string} command the command, passed to `child-process#execSync()`
+   * @param {object} options optional arguments and Handlebars internal args.
    * @param {string} options.hash.lang the language tag that should be attached to the fence
    *    (like `js` or `bash`). If this is set to `raw`, the output is included as-is, without fences.
    * @param {string} options.hash.cwd the current working directory of the example process
@@ -136,35 +138,53 @@ module.exports = {
    * @returns {string} a display of the directory tree of the selected files and directories.
    * @api public
    */
-  dirTree: function (baseDir, globPattern) {
+  dirTree: function (baseDir, globPattern, options) {
     // Is basedir is not a string, it is probably the handlebars "options" object
     if (!_.isString(globPattern)) {
       globPattern = '**'
     }
-    var defer = Q.defer()
-    glob(globPattern, {cwd: baseDir}, function (err, files) {
-      if (err) {
-        return defer.reject(err)
-      }
-      debug('dirTree glob result', files)
-      files.sort()
-      // Split paths into components
-      var components = files.map(function (file) {
-        return _.compact(file.split(path.sep))
+
+    const label = options && options.data && options.data.label
+    return glob(globPattern, {cwd: baseDir, mark: true})
+      .then((files) => {
+        debug('dirTree glob result', files)
+        if (files.length === 0) {
+          throw new Error('Cannot find a single file for \'' + globPattern + '\' in \'' + baseDir + '\'')
+        }
+        files.sort()
+        // Split paths into components
+        const pathComponents = files.map((file) => {
+          // a/b/c  or a/b/dir/
+          return file.split(path.sep)
+          // a, b, c  or  a, b, dir, ''
+            .map((component, index, all) => component + (index < all.length - 1 ? '/' : ''))
+            // a/, b/, c  or  a/, b/, dir/, ''
+            .filter(component => component) // Filter empty parts
+        })
+        const treeObject = treeFromPathComponents(pathComponents, label)
+        const tree = require('archy')(treeObject)
+        return '<pre><code>\n' + tree.trim() + '\n</code></pre>'
       })
-      if (components.length === 0) {
-        defer.reject("Cannot find a single file for '" + globPattern + "' in '" + baseDir + "'")
-        return
-      }
-      var treeObject = treeFromPathComponents(components)
-      var tree = require('archy')(treeObject)
-      defer.fulfill('<pre><code>\n' + tree + '</code></pre>')
-    })
-    return defer.promise
   },
 
   /**
-   * Render an object hierarchy
+   * Render an object hierarchy of the form
+   *
+   * ```
+   * {
+   *   prop1: 'value',
+   *   prop2: 'value',
+   *   ...,
+   *   children: [
+   *     {
+   *        prop1: 'value',
+   *        propt2: 'value',
+   *        ...,
+   *        children: ...
+   *     }
+   *   ]
+   * }
+   * ```
    * @param object
    * @param options
    * @param {function} options.fn computes the label for a node based on the node itself
@@ -184,9 +204,7 @@ module.exports = {
    * @param options block-helper options
    */
   withPackageOf: function (filePath, options) {
-    if (options.data) {
-      var data = Handlebars.createFrame(options.data || {})
-    }
+    const data = Handlebars.createFrame(options.data)
     data.url = githubUrl(filePath)
     data.package = findPackage(path.resolve(filePath), false)
     return options.fn(this, {data: data})
@@ -200,7 +218,7 @@ module.exports = {
    * Returns the path to the github repository (below github.com) based on the $.repository.url.
    * @param options
    * @returns {string=} the repository path within github.com (or null)
-     */
+   */
   githubRepo: githubRepo,
 
   /**
@@ -341,7 +359,7 @@ function treeFromPathComponents (files, label) {
   // Condense path if directory only has one entry
   if (result.nodes.length === 1 && _.isPlainObject(result.nodes[0])) {
     return {
-      label: (result.label ? result.label + '/' : '') + result.nodes[0].label,
+      label: (result.label || '') + result.nodes[0].label,
       nodes: result.nodes[0].nodes
     }
   } else {
@@ -362,9 +380,8 @@ function githubUrl (filePath) {
 }
 
 function githubRepo (options) {
-  var url = null
   try {
-    url = options.data.root.package.repository.url
+    var url = options.data.root.package.repository.url
     var match = url.match(/.*?(:\/\/|@)github\.com[/:](.*?)(#.*?)?$/)
     if (match) {
       return match[2].replace(/\.git$/, '')
@@ -372,7 +389,11 @@ function githubRepo (options) {
       return null
     }
   } catch (e) {
-    console.log('Cannot find repository url')
-    url = null
+    // No repositor-url exists
+    return null
   }
+}
+
+function regex (strings, ...args) {
+  return String.raw(strings, ...args.map(_.escapeRegExp))
 }

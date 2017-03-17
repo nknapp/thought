@@ -22,7 +22,6 @@ class Scenario {
    * Prepare setup of the scenario
    */
   prepare () {
-    console.log("preparing actual", this.actual, "for input", this.input)
     return qfs.removeTree(this.actual)
       .then(() => copy(this.input, this.actual))
       .then(() => this)
@@ -39,7 +38,7 @@ class Scenario {
     try {
       process.chdir(this.actual)
     } catch (e) {
-      if (e.code = 'ENOENT') {
+      if (e.code === 'ENOENT') {
         throw new Error(this.actual + ' does not exist. Have you called ".prepare()"')
       }
     }
@@ -95,7 +94,6 @@ class Scenario {
   readExpected (relativePath) {
     return fs.readFileSync(path.join(this.expected, relativePath), 'utf-8')
   }
-
 }
 
 Scenario.all = function () {
