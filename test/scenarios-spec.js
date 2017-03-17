@@ -12,7 +12,6 @@
 var fs = require('fs')
 var qfs = require('m-io/fs')
 var deep = require('deep-aplus')(Promise)
-var copy = require('recursive-copy')
 var path = require('path')
 var chai = require('chai')
 chai.use(require('chai-as-promised'))
@@ -20,7 +19,6 @@ chai.use(require('dirty-chai'))
 var expect = chai.expect
 var thought = require('../')
 var Scenario = require('./lib/scenarios')
-
 
 function listTreeRelative (baseDir, filter) {
   return qfs.listTree(baseDir, filter)
@@ -58,10 +56,8 @@ describe('the integation test: ', function () {
   this.timeout(10000)
   Scenario.all().forEach((scenario) => {
     describe(`In the scenario "${scenario.name}",`, function () {
-
       if (scenario.expectFailure) {
         it('running Thought should produce an error', function () {
-
           // This scenario must be rejected
           return expect(scenario.run(() => thought())).to.be.rejected
         })

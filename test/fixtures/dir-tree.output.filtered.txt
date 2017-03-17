@@ -1,7 +1,8 @@
-<pre><code>dir-tree/
-└── subdirA/
-    ├── aFile.txt
-    ├── bDir/
-    │   ├── aFile.txt
-    │   └── bFile.txt
-    └── cFile.txt</code></pre>
+<pre><code>
+subdirA/
+├── aFile.txt
+├─┬ bDir/
+│ ├── aFile.txt
+│ └── bFile.txt
+└── cFile.txt
+</code></pre>

@@ -1,0 +1,8 @@
+<pre><code>
+├─┬ subdirA/
+│ ├── aFile.txt
+│ └─┬ bDir/
+│   └── aFile.txt
+└─┬ subdirB/subdirC/
+  └── aFile.txt
+</code></pre>
