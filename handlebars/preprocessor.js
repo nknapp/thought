@@ -13,19 +13,6 @@ var debug = require('debug')('thought:preprocessor')
  */
 module.exports = function (data) {
   data = _.cloneDeep(data)
-  var exampleDir = data.package.directories && data.package.directories.example
-  if (exampleDir) {
-    // Resolve
-    data.directories = qfs.list(exampleDir)
-      .then(function (list) {
-        return list.map(function (filename) {
-          return {
-            path: path.join(exampleDir, filename),
-            filename: filename
-          }
-        })
-      })
-  }
 
   // Detect license file and read contents
   debug('workingdir', data.workingDir)
