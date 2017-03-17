@@ -1,0 +1,40 @@
+# simple-project 
+
+[![NPM version](https://badge.fury.io/js/simple-project.svg)](http://badge.fury.io/js/simple-project)
+
+
+> A simple description
+
+
+# Installation
+
+```
+npm install simple-project
+```
+
+ 
+## Usage
+
+The following example demonstrates how to use this module:
+
+```js
+console.log("This is the example output 123")
+```
+
+This will generate the following output
+
+```
+This is the example output 123
+```
+
+
+
+## License
+
+`simple-project` is published under the ISC-license. 
+See []() for details.
+
+ 
+## Contributing guidelines
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).

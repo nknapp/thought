@@ -23,7 +23,7 @@
   "scripts": {
     "lint": "eslint --fix .",
     "test": "mocha && npm run lint",
-    "coverage": "istanbul cover ./node_modules/.bin/_mocha --report lcovonly",
+    "coverage": "istanbul cover ./node_modules/.bin/_mocha",
     "postcoverage": "istanbul check-coverage coverage/coverage.json --statements 100",
     "prethought": "thought --version || npm -g install thought",
     "thought": "thought run -a",
@@ -49,6 +49,7 @@
     "trace-and-clarify-if-possible": "^1.0.0"
   },
   "devDependencies": {
+    "bluebird": "^3.5.0",
     "chai": "^3.2.0",
     "chai-as-promised": "^5.1.0",
     "customize-engine-handlebars": "^2.0.0-alpha.0",
