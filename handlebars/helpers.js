@@ -230,12 +230,29 @@ module.exports = {
   },
 
   /**
-   * Replace all characters that may not be used in HTML id-attributes by '-'.
-   * There is still the restriction that IDs may only start with letters, which
-   * is not addressed by this helper.
+   * This helper creates valid html-ids from header name. It attempts to
+   * follow the same rules that github uses to convert header names (h1, h2) into the
+   * hash-part of the URL referencing this header.
+   *
+   * ```js
+   * htmlId('abc') === 'abc'
+   * htmlId('abc cde') === 'abc-cde' // Replace spaces by '-'
+   * htmlId('a$b&c%d') === 'abcd'  // Remove all characters execpt alpahnumericals and minus
+   * htmlId('mäxchen' === 'mäxchen' // Do not remove german umlauts
+   * htmlId('ハッピークリスマス') === 'ハッピークリスマス' // Do not remove japanase word characters
+   * htmlId('ABCDE') === 'abcde'   // Convert to lowercase
+   * ```
    */
   'htmlId': function (value) {
-    return value.replace(/[^A-Za-z0-9-_:.]/g, '').toLowerCase()
+    // see http://stackoverflow.com/questions/19001140/amend-regular-expression-to-allow-german-umlauts-french-accents-and-other-valid
+    // and https://github.com/mathiasbynens/unicode-data/blob/17a920119b8015c6f7fe922ee7ab9fe29bef4394/4.0.1/blocks/Katakana-regex.js
+    // There are probably a lot of characters missing. Please make a PR, if you want to include more ranges in the valid characters.
+    // Make sure to add a test-case
+    var validChars = /[^A-Za-z0-9-_\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF\u30A0-\u30FF]/g
+    return value
+      .replace(/ /g, '-')
+      .replace(validChars, '')
+      .toLowerCase()
   },
 
   /**
