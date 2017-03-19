@@ -3,6 +3,19 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 0.11.0 (Sun, 19 Mar 2017 16:41:52 GMT)
+
+* [0f2b229](https://github.com/nknapp/thought/commit/0f2b229) Update depedency-versions - Nils Knappmeier
+* [00452b4](https://github.com/nknapp/thought/commit/00452b4) BREAKING: Change "htmlId"-helper to match the GitHub way of creating url-hashes - Nils Knappmeier
+* [5ad6c17](https://github.com/nknapp/thought/commit/5ad6c17) Add tests for all helpers - Nils Knappmeier
+* [8f2cc3b](https://github.com/nknapp/thought/commit/8f2cc3b) BREAKING: Do not resolve "directories"-property in preprocessor - Nils Knappmeier
+* [d7e0f94](https://github.com/nknapp/thought/commit/d7e0f94) Add tests for "addToGit" and projects with examples - Nils Knappmeier
+* [2c12bf1](https://github.com/nknapp/thought/commit/2c12bf1) BREAKING: Remove jsdoc-helper, apidoc-helper + a lot of chore - Nils Knappmeier
+* [2909051](https://github.com/nknapp/thought/commit/2909051) BREAKING: Remove support for old node versions + Support for greenkeeper - Nils Knappmeier
+* [afb708f](https://github.com/nknapp/thought/commit/afb708f) Simple framework for integration-tests - Nils Knappmeier
+
+
+
 # Version 0.10.0 (Fri, 13 Jan 2017 13:38:25 GMT)
 
 * [05cfa0e](https://github.com/nknapp/thought/commit/05cfa0e) Add parameter 'up-to-date-hook' for checking generated files (#4) - Nils Knappmeier
