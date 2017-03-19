@@ -280,6 +280,12 @@ module.exports = {
       .then(function (response) {
         return require('cheerio')(response).find('text').last().text() !== 'not found'
       })
+      .catch(function (err) {
+        if (err.statusCode === 404) {
+          return false
+        }
+        throw err
+      })
   }
 
 }
