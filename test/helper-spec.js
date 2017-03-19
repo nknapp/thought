@@ -18,6 +18,7 @@ var chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 var expect = chai.expect
 var path = require('path')
+var httpMocks = require('./lib/http-mocks')
 
 function executeInDir (directory) {
   var oldCwd = null
@@ -357,6 +358,66 @@ describe('thought-helpers:', function () {
         }
       })
         .not.to.eventually.be.ok()
+    })
+  })
+
+  describe('The "hasGreenkeeper"-helper', function () {
+    afterEach(httpMocks.cleanup)
+
+    it('should return false, if the githubRepo is not set', function () {
+      httpMocks.greenkeeperError('/null.svg', 404)
+
+      return expectHbs('{{hasGreenkeeper}}', {
+        package: {
+          name: 'no-git-repo'
+        }
+      })
+        .not.to.eventually.be.false()
+    })
+
+    it('should return false, project does not have a github url', function () {
+      httpMocks.greenkeeperError('/null.svg', 404)
+
+      return expectHbs('{{hasGreenkeeper}}', {
+        package: {
+          name: 'no-git-repo',
+          'repository': {
+            'type': 'git',
+            'url': 'https://custom-git.com/somepath.git'
+          }
+        }
+      })
+        .not.to.eventually.be.false()
+    })
+
+    it('should return false, if the project does not have greenkeeper enabled', function () {
+      httpMocks.greenkeeperDisabled('/group/repo.svg')
+
+      return expectHbs('{{hasGreenkeeper}}', {
+        package: {
+          name: 'no-git-repo',
+          'repository': {
+            'type': 'git',
+            'url': 'https://github.com/group/repo.git'
+          }
+        }
+      })
+        .not.to.eventually.be.false()
+    })
+
+    it('should throw an error, if the greenkeeper-badge returns an error other than 404', function () {
+      httpMocks.greenkeeperError('/group/repo.svg', 500)
+
+      return expectHbs('{{hasGreenkeeper}}', {
+        package: {
+          name: 'no-git-repo',
+          'repository': {
+            'type': 'git',
+            'url': 'https://github.com/group/repo.git'
+          }
+        }
+      })
+        .to.be.rejectedWith('')
     })
   })
 })
