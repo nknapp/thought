@@ -1,0 +1,1 @@
+Overridden partial license.md

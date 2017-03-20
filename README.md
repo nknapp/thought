@@ -222,6 +222,59 @@ Thought implicitly uses the [promised-handlebars](https://github.com/nknapp/prom
 to allow helpers that return promises. So, in your helpers, you will never receive a promise as parameter or 
 as context data, but if you return promises, they will be resolved seamlessly. 
 
+## Plugin modules
+
+The customizations described above can be extracted into reusable modules. A thought-plugin is just a 
+[customize](https://npmjs.com/package/customize)-module that is loaded using the [customize.load()](https://github.com/bootprint/customize#module_customize..Customize+load) 
+function.
+
+### Authoring modules
+
+Have a look at [customize-engine-handlebars](https://npmjs.com/package/customize-engine-handlebars) for an example on how to write a module. For 
+a real example have a look at [thought-plugin-jsdoc](https://npmjs.com/package/thought-plugin-jsdoc).
+
+### Using modules
+
+* Include you favorite plugins in the `devDependencies` of your `package.json`
+* Place a file `config.js` into the `.thought`-folder in your project: 
+
+```js
+module.exports = {
+  plugins: [
+    // JsDoc-Support
+    require('thought-plugin-jsdoc'),
+    // Some other feature plugin
+    require('thought-plugin-something-else'),
+    // Plugin containing my (nknapp's) personal preferences
+    require('thought-plugin-nknapp-preferences')
+  ]
+}
+
+```
+
+
+This file loads multiple plugins that are applied to the `customize`-instance one after another.
+
+You can also load plugins from other-plugins. The following example uses plugins that do not yet exist, but the 
+application is thinkable:
+
+```js
+module.exports = function (customize) {
+
+  return customize
+    // jsdoc-support
+    .load(require('thought-plugin-jsdoc'))
+    // include open-open-source disclaimer in CONTRIBUTING.md
+    .load(require('thought-plugin-open-open-source'))
+    // include standardjs-disclaimer in CONTRIBUTING.md
+    .load(require('thought-plugin-standardjs'))
+}
+
+```
+
+
+This allows you to create building-blocks that can then be assembled to a single plugin which can be included in your
+projects...
 
 
 
