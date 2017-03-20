@@ -23,7 +23,7 @@ class Scenario {
    */
   prepare () {
     return qfs.removeTree(this.actual)
-      .then(() => copy(this.input, this.actual))
+      .then(() => copy(this.input, this.actual, { dot: true }))
       .then(() => this)
   }
 

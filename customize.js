@@ -7,7 +7,13 @@
 
 'use strict'
 
-var path = require('path')
+const path = require('path')
+const fs = require('fs')
+
+// Default config if the file `.thought/config.js` does not exist
+const defaultConfig = {
+  plugins: []
+}
 
 /**
  *
@@ -18,6 +24,8 @@ var path = require('path')
  */
 module.exports = function createSpec (workingDir) {
   return function thoughtSpec (customize) {
+    const configFile = path.resolve('.thought', 'config.js')
+    var config = fs.existsSync(configFile) ? require(configFile) : defaultConfig
     return customize
       .registerEngine('handlebars', require('customize-engine-handlebars'))
       .merge({
@@ -34,6 +42,13 @@ module.exports = function createSpec (workingDir) {
             noEscape: true
           }
         }
+      })
+      // Apply any customization from the config-files (such as loading modules)
+      .load(function (customize) {
+        const result = config.plugins.reduce((prev, plugin) => {
+          return prev.load(plugin)
+        }, customize)
+        return result
       })
       .merge({
         handlebars: {

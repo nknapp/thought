@@ -116,6 +116,33 @@ Thought implicitly uses the [promised-handlebars](https://github.com/nknapp/prom
 to allow helpers that return promises. So, in your helpers, you will never receive a promise as parameter or 
 as context data, but if you return promises, they will be resolved seamlessly. 
 
+## Plugin modules
+
+The customizations described above can be extracted into reusable modules. A thought-plugin is just a 
+{{npm 'customize'}}-module that is loaded using the [customize.load()](https://github.com/bootprint/customize#module_customize..Customize+load) 
+function.
+
+### Authoring modules
+
+Have a look at {{npm 'customize-engine-handlebars'}} for an example on how to write a module. For 
+a real example have a look at {{npm 'thought-plugin-jsdoc'}}.
+
+### Using modules
+
+* Include you favorite plugins in the `devDependencies` of your `package.json`
+* Place a file `config.js` into the `.thought`-folder in your project: 
+
+{{include '.thought/snippets/config.js'}}
+
+This file loads multiple plugins that are applied to the `customize`-instance one after another.
+
+You can also load plugins from other-plugins. The following example uses plugins that do not yet exist, but the 
+application is thinkable:
+
+{{include '.thought/snippets/plugin-loading-plugins.js'}}
+
+This allows you to create building-blocks that can then be assembled to a single plugin which can be included in your
+projects...
 
 
 
