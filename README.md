@@ -193,6 +193,13 @@ You can now create a directory `.thought` in the your project root, that has the
 If you create a file `.thought/partials/contributing.md.hbs`, it will replace the default
 `partials/contributing.md.hbs` file. Same for templates.
 
+#### Handlebars-Helpers
+
+Thought comes with a default set of Handlebars-helpers, that can be called
+from within templates and partials.
+Have a look at the [API docs of the builtin-helpers](docs/helpers.md). All helpers that are 
+[built-into Handlebars](http://handlebarsjs.com/builtin_helpers.html) are also available, of course.
+
 ### Customizing the preprocessor
 
 Thought uses `preprocessor.js` function to extend the `package.json` before passing it to the handlebars
@@ -202,7 +209,6 @@ your custom function. Some partials and template rely on the data created there.
 
 ### Customizing helpers
 
-Thought comes with a default set of Handlebars-helpers that are called from within the template.
 If you want to provide your own helpers (for example to perform some project-specific computations) 
 you can create a file named `.thought/helpers.js` in your project. This file should export an object 
 of helper-functions like
@@ -230,8 +236,11 @@ function.
 
 ### Authoring modules
 
-Have a look at [customize-engine-handlebars](https://npmjs.com/package/customize-engine-handlebars) for an example on how to write a module. For 
-a real example have a look at [thought-plugin-jsdoc](https://npmjs.com/package/thought-plugin-jsdoc).
+Thought uses [customize-engine-handlebars](https://npmjs.com/package/customize-engine-handlebars) under the hood, so the documentation
+of this module is a good starting-point, if you want to know how to create override-configurations.
+Have a look at  for an example on how to write a module. 
+
+For a real example of a thought-plugin have a look at [thought-plugin-jsdoc](https://npmjs.com/package/thought-plugin-jsdoc).
 
 ### Using modules
 
@@ -279,6 +288,23 @@ projects...
 
 
                                                  
+# API reference
+
+<a name="thought"></a>
+
+## thought(options)
+Execute Thought in the current directory
+
+**Kind**: global function  
+**Api**: public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| options | <code>object</code> |  |
+| [options.cwd] | <code>string</code> | the working directory to use as project root |
+| [options.addToGit] | <code>boolean</code> | add created files to git |
+
+
 
 
 ## License
