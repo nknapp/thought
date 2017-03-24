@@ -43,6 +43,7 @@
     "cheerio": "^0.22.0",
     "commander": "^2.8.1",
     "customize": "^2.0.0-alpha1",
+    "customize-engine-handlebars": "^2.0.0-alpha.0",
     "customize-write-files": "^1.1.0",
     "debug": "^2.2.0",
     "find-package": "^1.0.0",
@@ -62,7 +63,6 @@
   "devDependencies": {
     "chai": "^3.2.0",
     "chai-as-promised": "^6.0.0",
-    "customize-engine-handlebars": "^2.0.0-alpha.0",
     "dirty-chai": "^1.2.2",
     "eslint": "^3.17.1",
     "eslint-config-standard": "^7.0.1",
