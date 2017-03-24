@@ -3,6 +3,10 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.0.1 (Fri, 24 Mar 2017 12:23:35 GMT)
+
+* [2963a51](https://github.com/nknapp/thought/commit/2963a51) Fix link to handlebars-directory in README - Nils Knappmeier
+
 # Version 1.0.0 (Fri, 24 Mar 2017 10:47:13 GMT)
 
 * [1c68d98](https://github.com/nknapp/thought/commit/1c68d98) More documentation (especially API-docs of the helpers) - Nils Knappmeier
