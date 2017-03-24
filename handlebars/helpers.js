@@ -1,6 +1,12 @@
 const path = require('path')
 const cp = require('child_process')
-const _ = require('lodash')
+const _ = {
+  escapeRegExp: require('lodash.escaperegexp'),
+  cloneDeep: require('lodash.clonedeep'),
+  isPlainObject: require('lodash.isplainobject'),
+  groupBy: require('lodash.groupby'),
+  map: require('lodash.map')
+}
 const debug = require('debug')('thought:helpers')
 const Promise = require('bluebird')
 const glob = Promise.promisify(require('glob'))
@@ -51,7 +57,7 @@ function json (obj) {
 function include (filename, language) {
   return qfs.read(filename).then(function (contents) {
     return '```' +
-      (_.isString(language) ? language : path.extname(filename).substr(1)) +
+      (typeof language === 'string' ? language : path.extname(filename).substr(1)) +
       '\n' +
       contents +
       '\n```\n'
@@ -143,7 +149,7 @@ function exec (command, options) {
       start = end = '`'
       break
     default:
-      const fenceLanguage = _.isString(lang) ? lang : ''
+      const fenceLanguage = lang || ''
       start = '```' + fenceLanguage + '\n'
       end = '\n```'
   }
@@ -165,7 +171,7 @@ function exec (command, options) {
  */
 function dirTree (baseDir, globPattern, options) {
   // Is basedir is not a string, it is probably the handlebars "options" object
-  if (!_.isString(globPattern)) {
+  if (typeof globPattern !== 'string') {
     globPattern = '**'
   }
 
@@ -413,20 +419,21 @@ function treeFromPathComponents (files, label) {
   if (files.length === 0) {
     return label
   }
+
+  var byFirstPathComponent = _.groupBy(files, '0')
+
   const result = {
     label: label,
-    nodes: _(files)
-      .groupBy('0')
-      .map(function (group, key) {
-        const values = group
-          .map(function (item) {
-            return item.slice(1)
-          })
-          .filter(function (item) {
-            return item.length > 0
-          })
-        return treeFromPathComponents(values, key)
-      }).value()
+    nodes: _.map(byFirstPathComponent, function (group, key) {
+      const values = group
+        .map(function (item) {
+          return item.slice(1)
+        })
+        .filter(function (item) {
+          return item.length > 0
+        })
+      return treeFromPathComponents(values, key)
+    })
   }
 
   // Condense path if directory only has one entry
