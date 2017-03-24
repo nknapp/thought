@@ -3,6 +3,13 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.0.0 (Fri, 24 Mar 2017 10:47:13 GMT)
+
+* [1c68d98](https://github.com/nknapp/thought/commit/1c68d98) More documentation (especially API-docs of the helpers) - Nils Knappmeier
+* [84446b4](https://github.com/nknapp/thought/commit/84446b4) Support for loading plugins - Nils Knappmeier
+* [dac01c6](https://github.com/nknapp/thought/commit/dac01c6) "hasGreenkeeper" now returns "false" for projects without repo-url - Nils Knappmeier
+
+
 # Version 0.11.0 (Sun, 19 Mar 2017 16:41:52 GMT)
 
 * [0f2b229](https://github.com/nknapp/thought/commit/0f2b229) Update depedency-versions - Nils Knappmeier
