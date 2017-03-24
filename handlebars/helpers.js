@@ -15,6 +15,8 @@ const Handlebars = require('handlebars')
 const qfs = require('m-io/fs')
 const util = require('util')
 const Q = require('q')
+const popsicle = require('popsicle')
+const $ = require('cheerio')
 
 module.exports = {
   json,
@@ -329,15 +331,16 @@ function hasCoveralls () {
  */
 function hasGreenkeeper (options) {
   const slug = githubRepo(options)
-  return require('request-promise')(`https://badges.greenkeeper.io/${slug}.svg`)
+  return popsicle.get(`https://badges.greenkeeper.io/${slug}.svg`)
     .then(function (response) {
-      return require('cheerio')(response).find('text').last().text() !== 'not found'
-    })
-    .catch(function (err) {
-      if (err.statusCode === 404) {
+      if (response.status === 404) {
         return false
+      } else if (response.status >= 400) {
+        const error = new Error(response.body)
+        error.statusCode = response.status
+        throw error
       }
-      throw err
+      return $(response.body).find('text').last().text() !== 'not found'
     })
 }
 
