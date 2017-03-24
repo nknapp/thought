@@ -19,6 +19,13 @@
     "thought": "bin/thought.js"
   },
   "preferGlobal": true,
+  "files": [
+    "index.js",
+    "customize.js",
+    "lib",
+    "handlebars",
+    "bin"
+  ],
   "license": "MIT",
   "scripts": {
     "lint": "eslint --fix .",
@@ -48,7 +55,6 @@
     "lodash.map": "^4.6.0",
     "m-io": "^0.5.0",
     "popsicle": "^9.1.0",
-    "request-promise": "^4.1.1",
     "semver": "^5.0.0",
     "simple-git": "^1.43.0",
     "trace-and-clarify-if-possible": "^1.0.0"
