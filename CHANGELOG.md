@@ -3,6 +3,11 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.0.2 (Fri, 24 Mar 2017 16:29:01 GMT)
+
+* [f6a19c6](https://github.com/nknapp/thought/commit/f6a19c6) Replace lodash-dependency by smaller functions - Nils Knappmeier
+
+
 # Version 1.0.1 (Fri, 24 Mar 2017 12:23:35 GMT)
 
 * [2963a51](https://github.com/nknapp/thought/commit/2963a51) Fix link to handlebars-directory in README - Nils Knappmeier
