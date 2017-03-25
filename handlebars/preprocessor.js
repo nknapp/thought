@@ -1,5 +1,4 @@
 var qfs = require('m-io/fs')
-var _ = require('lodash')
 var path = require('path')
 // var Q = require('q')
 var deep = require('q-deep')
@@ -12,7 +11,8 @@ var debug = require('debug')('thought:preprocessor')
  * @returns {*}
  */
 module.exports = function (data) {
-  data = _.cloneDeep(data)
+  // shallow clone
+  data = Object.assign({}, data)
 
   // Detect license file and read contents
   debug('workingdir', data.workingDir)
