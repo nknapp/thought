@@ -3,6 +3,10 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.0.4 (Sat, 25 Mar 2017 00:25:36 GMT)
+
+* [5d7fe7c](https://github.com/nknapp/thought/commit/5d7fe7c) Replace call to lodash in preprocessor - Nils Knappmeier
+
 # Version 1.0.3 (Sat, 25 Mar 2017 00:19:43 GMT)
 
 * [bada175](https://github.com/nknapp/thought/commit/bada175) Bump version of customize-engine-handlebars (reduce size) - Nils Knappmeier
