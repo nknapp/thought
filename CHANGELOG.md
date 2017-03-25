@@ -3,6 +3,15 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.0.3 (Sat, 25 Mar 2017 00:19:43 GMT)
+
+* [bada175](https://github.com/nknapp/thought/commit/bada175) Bump version of customize-engine-handlebars (reduce size) - Nils Knappmeier
+* [075e30d](https://github.com/nknapp/thought/commit/075e30d) "customize-engine-handlebars" must be a normal dependency - Nils Knappmeier
+* [52e9ca7](https://github.com/nknapp/thought/commit/52e9ca7) Add "files"-property to package.json (reduce size) - Nils Knappmeier
+* [9b2c076](https://github.com/nknapp/thought/commit/9b2c076) Use "popsicle" instead of request-promise (smaller) - Nils Knappmeier
+
+
+
 # Version 1.0.2 (Fri, 24 Mar 2017 16:29:01 GMT)
 
 * [f6a19c6](https://github.com/nknapp/thought/commit/f6a19c6) Replace lodash-dependency by smaller functions - Nils Knappmeier

@@ -1,6 +1,6 @@
 {
   "name": "thought",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "A customizable documentation generator for github projects",
   "repository": {
     "type": "git",
