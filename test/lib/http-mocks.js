@@ -29,7 +29,7 @@ module.exports = {
   greenkeeperError: function (urlPath, statusCode) {
     nock(`https://badges.greenkeeper.io/`)
       .get(urlPath)
-      .reply(statusCode, `{"statusCode":${statusCode},"error":"Not Found"}`)
+      .reply(statusCode, `{"statusCode":${statusCode},"error":"Error"}`)
   },
 
   /**

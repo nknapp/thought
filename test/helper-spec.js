@@ -37,7 +37,6 @@ function executeInDir (directory) {
  * Return an expectation for the result of a handlebars run
  * @param {string} template the handlebars-template
  * @param {object} input the input object
- * @param {string=} workingDirectory the working directory to execute the test in
  * @returns {*}
  */
 function expectHbs (template, input) {
@@ -325,7 +324,8 @@ describe('thought-helpers:', function () {
   })
 
   describe('The "githubRepo"-helper', function () {
-    it('should return the name of organization/repository in a module with a configured repository on github (e.g. Thought itself)', function () {
+    it('should return the name of organization/repository in a module with a configured ' +
+      'repository on github (e.g. Thought itself)', function () {
       return expectHbs('{{githubRepo}}', {
         'package': {
           'name': 'no-github-repo',
@@ -372,22 +372,22 @@ describe('thought-helpers:', function () {
           name: 'no-git-repo'
         }
       })
-        .not.to.eventually.be.false()
+        .to.eventually.equal('false')
     })
 
-    it('should return false, project does not have a github url', function () {
+    it('should return false, if the project does not have a github url', function () {
       httpMocks.greenkeeperError('/null.svg', 404)
 
       return expectHbs('{{hasGreenkeeper}}', {
         package: {
-          name: 'no-git-repo',
+          name: 'no-github-repo',
           'repository': {
             'type': 'git',
             'url': 'https://custom-git.com/somepath.git'
           }
         }
       })
-        .not.to.eventually.be.false()
+        .to.eventually.equal('false')
     })
 
     it('should return false, if the project does not have greenkeeper enabled', function () {
@@ -395,14 +395,29 @@ describe('thought-helpers:', function () {
 
       return expectHbs('{{hasGreenkeeper}}', {
         package: {
-          name: 'no-git-repo',
+          name: 'greenkeeper-disabled',
           'repository': {
             'type': 'git',
             'url': 'https://github.com/group/repo.git'
           }
         }
       })
-        .not.to.eventually.be.false()
+        .to.eventually.equal('false')
+    })
+
+    it('should return true, if the project does have greenkeeper enabled (parsing the badge)', function () {
+      httpMocks.greenkeeperEnabled('/group/repo.svg')
+
+      return expectHbs('{{hasGreenkeeper}}', {
+        package: {
+          name: 'greenkeeper-enabled',
+          'repository': {
+            'type': 'git',
+            'url': 'https://github.com/group/repo.git'
+          }
+        }
+      })
+        .to.eventually.equal('true')
     })
 
     it('should throw an error, if the greenkeeper-badge returns an error other than 404', function () {
@@ -417,7 +432,47 @@ describe('thought-helpers:', function () {
           }
         }
       })
-        .to.be.rejectedWith('')
+        .to.be.rejectedWith('{"statusCode":500,"error":"Error"}')
+    })
+
+    it('should return true, if the badge is enabled in the config', function () {
+      httpMocks.greenkeeperDisabled('/group/repo.svg')
+
+      return expectHbs('{{hasGreenkeeper}}', {
+        package: {
+          name: 'no-git-repo',
+          'repository': {
+            'type': 'git',
+            'url': 'https://github.com/group/repo.git'
+          }
+        },
+        config: {
+          badges: {
+            greenkeeper: true
+          }
+        }
+      })
+        .to.eventually.equal('true')
+    })
+
+    it('should return true, if the badge is enabled in the config', function () {
+      httpMocks.greenkeeperEnabled('/group/repo.svg')
+
+      return expectHbs('{{hasGreenkeeper}}', {
+        package: {
+          name: 'enabledRepo',
+          'repository': {
+            'type': 'git',
+            'url': 'https://github.com/group/repo.git'
+          }
+        },
+        config: {
+          badges: {
+            greenkeeper: false
+          }
+        }
+      })
+        .to.eventually.equal('false')
     })
   })
 })
