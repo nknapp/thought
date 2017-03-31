@@ -1,0 +1,1 @@
+This is just an example project, but if you want you can suggest improvements and even make PRs.

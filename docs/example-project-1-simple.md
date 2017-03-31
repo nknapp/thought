@@ -61,9 +61,11 @@ example-project-1-simple
 └── <a href="../examples/example-project-1-simple/package.json">package.json</a>
 </code></pre>
 
-## Tutorials:
+## Tutorial & Examples:
 
 * [Simple Usage](example-project-1-simple.md)
 * [Examples, License, JSDoc, Badges](example-project-2-example-license-jsdoc-badges.md)
 * [Templates, Partials, Helpers, Preprocessor](example-project-3-templates-partials-helpers-preprocessor.md)
 * [Writing plugins](example-project-4-writing-plugins.md)
+
+[Back to the README](../README.md)

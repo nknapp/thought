@@ -1,4 +1,4 @@
-## Contributing
+# Contributing
 
 Contributions and feedback are always welcome. The expected procedure is the following:
 
@@ -44,6 +44,7 @@ of each of your projects.
 
 Instead, the `pretest`- and `preformat`-scripts ensure that `standard` and `thought` are installed globally.
 If you are not allowed to install packages globally, please raise an issue, so that we can try to find a solution.
+
 
 ### About this text
 

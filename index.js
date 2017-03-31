@@ -16,7 +16,8 @@ module.exports = thought
 /**
  * Execute Thought in the current directory
  * @param {object} options
- * @param {string} [options.cwd] the working directory to use as project root
+ * @param {string} [options.cwd] the working directory to use as project root (**deprecated** because it does not always
+ *  work as expected)
  * @param {boolean} [options.addToGit] add created files to git
  * @api public
  */

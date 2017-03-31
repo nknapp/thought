@@ -425,8 +425,10 @@ function regex (strings, ...args) {
 }
 
 /**
- * Returns an array of the passed arguments (excluding the `options`)
- * @param args
+ * Returns an array of the passed arguments (excluding the `options`-parameter).
+ * This helper can be used like `{{dirTree 'dir' ignore=(arr 'file1' 'file2')}}`
+ * to provide array-arguments to other helpers.
+ * @param {...*} args a list of arguments
  * @access public
  * @memberOf helpers
  */

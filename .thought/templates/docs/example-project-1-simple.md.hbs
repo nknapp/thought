@@ -1,0 +1,25 @@
+# Simple project 
+
+Let's say, you have just created a new npm-module, but you have not created a README yet. 
+This is how your project looks like:
+
+{{dirTree 'examples/example-project-1-simple' '!(README.md|CONTRIBUTING.md)' label='example-project-1-simple' links=true }}
+
+### package.json  
+
+{{include 'examples/example-project-1-simple/package.json'}}
+
+### index.js
+
+{{include 'examples/example-project-1-simple/index.js'}}
+
+## Result
+
+Thought will create a [README.md](examples/example-project-1-simple/README.md)-file and a
+[CONTRIBUTING.md](examples/example-project-1-simple/CONTRIBUTING.md)-file.
+
+After running `thought run -a`, the project will look like this. Click on the tree to see the file contents:
+
+{{dirTree 'examples/example-project-1-simple' label='example-project-1-simple' links=true }}
+
+{{> tutorial-trail.md}}

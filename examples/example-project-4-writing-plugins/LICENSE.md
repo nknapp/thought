@@ -1,5 +1,8 @@
 # The MIT License
 
+This license is part of the `example-plugin` and it is included into every project
+that uses this plugin
+
 Copyright (c) 2017 Nils Knappmeier
 
 > Permission is hereby granted, free of charge, to any person obtaining a copy

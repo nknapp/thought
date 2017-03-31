@@ -1,0 +1,25 @@
+{
+  "name": "example-project-4-writing-plugins",
+  "version": "0.0.0",
+  "description": "An example to show what thought generates on with the vanilla template.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nknapp/thought-example.git"
+  },
+  "author": {
+    "name": "Nils Knappmeier",
+    "email": "npm@knappi.org",
+    "url": "https://github.com/nknapp"
+  },
+  "bugs": {
+    "url": "https://github.com/nknapp/thought-example/issues"
+  },
+  "main": "index.js",
+  "preferGlobal": false,
+  "license": "MIT",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "thought-plugin-jsdoc": "^1.0.0"
+  }
+}

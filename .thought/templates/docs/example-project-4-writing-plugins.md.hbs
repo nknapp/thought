@@ -1,0 +1,58 @@
+# Writing plugins
+
+The customizations described in the last section can be extracted into reusable modules. A thought-plugin is just a
+{{npm 'customize'}}-module that is loaded using the [customize.load()](https://github.com/bootprint/customize#module_customize..Customize+load)
+function.
+
+## Use-cases
+
+There are two possible use-cases why you can 
+
+* **You want to create some functionality that could be interesting for a lot of projects.**
+  The generation of API-documentation is such an example. It depends heavily on the used language
+  so it should not be in Thought-core, but it is still a part of functionality that many people might need.
+* **You want to create a personal configuration that you can reuse across all your own projects.**
+  Instead of adding `.thought/partials/contributing.md` and other customized texts to *all* your projects, you
+  can create a plugin with those changes that you load in each project.
+  You can also load other plugins in your plugin, so if you need a `thought-plugin-jsdoc` in all your project,
+  just include it in your personal-preference plugin.
+
+## Authoring plugins
+
+Thought uses {{npm 'customize-engine-handlebars'}} under the hood. The documentation
+of this module is a good starting-point, if you want to know how to create override-configurations.
+
+The following example is a showcase for a plugin that applies several modifications:  
+
+{{dirTree 'examples/example-plugin/' dot=true links=true label='example-plugin/'}}
+
+Have look at the comments in the files. ([index.js](examples/example-plugin/index.js)) is tying everything 
+together. Look below for the example project using this plugin.
+
+A realworld-example of a thought-plugin is {{npm 'thought-plugin-jsdoc'}}.
+
+## Using plugins
+
+In order to use a plugin, you have to 
+
+* add it to the `devDependencies` of your `package.json`
+* place a file `config.js` into the `.thought`-folder in your project
+  and a `require()`-call to the plugins-array:
+
+{{include '.thought/snippets/config.js'}}
+
+This file loads multiple plugins that are applied to the `customize`-instance one after another.
+
+A whole example of how to use a plugin is this one:
+
+{{dirTree 'examples/example-project-4-writing-plugins/' dot=true links=true label='example-project-4-writing-plugins/'}}
+
+The plugin is loaded in the file `config.js`
+
+{{include 'examples/example-project-4-writing-plugins/.thought/config.js'}}
+
+In this case, the plugin is loaded from a relative path, because the plugin is the example mentioned above. Both are part
+of the Thought project.
+
+
+{{> tutorial-trail.md}}
