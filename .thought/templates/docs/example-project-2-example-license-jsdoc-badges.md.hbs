@@ -1,0 +1,40 @@
+# Examples, License, JSDoc, Badges
+
+If you want people to use your module, you probably want to add some more documentation
+
+* **At least one usage example**: You can do this by adding a file `examples/example.js`
+* **API documentation**: You can do this by using the {{npm 'thought-plugin-jsdoc'}} in `.thought/config.js`
+* **Badges that show how great your module is (tests passing, code-coverage etc.)**
+  A [Travis-CI](https://travis-ci.org)-badge will show up, if you have a `.travis.yml`-file.  
+  A [Coveralls](https://coveralls.io) is shown 'coveralls' is mentioned in `.travis.yml`.
+  A [Greenkeeper](https://greenkeeper.io)-badge can be configured in `.thought/config.js`. Thought will call 
+  the Greenkeeper-API if no configuration is set, but this might change in the future. 
+* **A file containing the complete License of your project**, for example `LICENSE.md`
+
+If you add all those files, your module might look like this:
+
+{{{dirTree 'examples/example-project-2-example-license-jsdoc-badges/' dot=true links=true ignore=(arr 'README.md' 'CONTRIBUTING.md')  label='example-project-2-example-license-jsdoc-badges/' }}}
+
+## About Example files
+
+The example file for the project looks like this:
+
+{{include 'examples/example-project-2-example-license-jsdoc-badges/examples/example.js'}}
+
+Note that the example uses `require('../')` instead of `require('example-project-2-example-license-jsdoc-badges')` 
+to reference the current project.
+
+That is the case, because otherwise you could not run the example. If you cannot run it, how do you know it is still working?
+Still, you don't want `require('example-project-2-example-license-jsdoc-badges')` in your README, which is why Thought
+detected references to the current module and replaces them by the module name.
+
+Thought will also execute the example and include the output in the README, so that your users don't have to download
+and run the example themselves.
+
+## Result
+
+The complete project, after running `thought run -a` looks like this, you can click on the links to view the actual files:
+
+{{{dirTree 'examples/example-project-2-example-license-jsdoc-badges/' dot=true links=true label='example-project-2-example-license-jsdoc-badges/' }}}
+
+{{> tutorial-trail.md}}

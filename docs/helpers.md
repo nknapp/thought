@@ -45,7 +45,6 @@ Return a drawing of a directory tree (using [archy](https://www.npmjs.com/packag
 | options.hash.links | <code>boolean</code> | should a link be created for each file matching the glob? |
 | options.hash.dot | <code>boolean</code> | should dot-files be displayed implicitely. This sets the 'dot' option  in the 'glob'-module |
 | options.hash.ignore | <code>string</code> \| <code>Array.&lt;string&gt;</code> | Glob pattern of files to ignore. This sets the 'ignore' option  in the 'glob'-module. |
-| options.hash.links | <code>string</code> | should a link be created for each file matching the glob? |
 | options.hash.label | <code>string</code> | a label for the root node of the tree |
 
 <a name="helpers.json"></a>
@@ -285,14 +284,16 @@ Returns the current repository group and name (e.g. `nknapp/thought` for this pr
 <a name="helpers.arr"></a>
 
 ### helpers.arr(...args)
-Returns an array of the passed arguments (excluding the `options`)
+Returns an array of the passed arguments (excluding the `options`-parameter).
+This helper can be used like `{{dirTree 'dir' ignore=(arr 'file1' 'file2')}}`
+to provide array-arguments to other helpers.
 
 **Kind**: static method of <code>[helpers](#helpers)</code>  
 **Access**: public  
 
-| Param |
-| --- |
-| ...args | 
+| Param | Type | Description |
+| --- | --- | --- |
+| ...args | <code>\*</code> | a list of arguments |
 
 
  

@@ -1,42 +1,21 @@
-## Overview / Motivation
+Every npm-package should have a README-file that contains a short **description** of what it is and what it does, an 
+explanation of how to **install** it, one or more usage **examples** and an API-reference 
+for all functions, parameters and options.
 
-<img src="https://raw.githubusercontent.com/nknapp/thought/master/docs/thought-logo.png" alt="alt text" width="100%">
+Thought helps you create such a README without a lot of hassle.
 
-The goal of Thought is making the documentation just as easy as thinking about it.
+**Easy startup**: Thought uses {{npm 'handlebars'}} with a default set of templates, partials and helpers to create a
+README.md- and a CONTRIBUTING.md-file. The input of the template is mainly the `package.json`-file of your project.
+Just run `thought run -a` in your project folder.
 
-Are you sometimes annoyed about documentation that does not represent the current state of the project? 
-Like example-snippets that don't work or have a different output when you actually run them?
+**Examples that actually work**: The file `examples/example.js` is included into the README by default. You can use `require('../')` to 
+reference your package and thus build examples that are executable and testable. When you run `thought run -a`, the
+`../` will be replaced by the name of your package. The example *will* be run and the output will be included as well.
 
-Most of the time, the problem is, that the documentation lives too far away from the code. 
-The API-reference is up-to-date most of the time, because it is actually maintained next 
-to the code. But what about the rest?
+**Fully customizable**: You can change every template, partials and helper if you need to. And since you are writing 
+Handlebars-templates, you can use [helpers](docs/helpers.md) like `\{{npm 'lodash`\}}
+to create a link to a package's npm-page and `\{{dirTree '.thought' 'snippets/**'}}` to generate directory-trees.
 
-With Thought, you can assemble documentation from a variety of places. You can include API-docs into
-your README, you can include example and actually *run* them to include the output. You can include
-the command line reference by calling the main program with a `--help` parameter.
-
-When your examples throw errors, you will notice that. When you make changes to your code, 
-the example output in your documentation will change as well!
-
-Generating a simple `README.md` just requires executing `thought` in your project directories.
-Thought will run your `package.json` through a Handlebars template with a list of registered partials in order to 
-do that.
-
-Since that is mostly not exactly what you want, it is possible to override each of the partials with your own 
-and to create more templates each of which will result in one markdown-file in your repo.
-
-Thought offers a small list of simple helpers to
-
-* parse jsdoc-comments (not only in javascript-files but in many languages) and include them at any location in 
-  your documenation files. 
-* include any file
-* include javascript example files (replacing `require` of the main module by the module name)
-* run example files or any program and include the output
- 
-I have taken a lot of inspiration form [verb](https://github.com/verbose/verb) by Jon Schlinkert, but I wanted 
-something simpler. There are other simple README-generators out there that you can't adapt, so the idea of 
-using `package.json` to generate a README.md is not new.
-
-
-
-
+**Plugins**: You can write plugins that bundle your customizations. You can write a `thought-plugin-my-name-base`
+that contains all the customizations that you need in your module. Or you can bundle certain functionalities, like
+the {{npm 'thought-plugin-jsdoc'}} and share them on npm.
