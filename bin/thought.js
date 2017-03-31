@@ -17,11 +17,13 @@
 
 var program = require('commander')
 var thought = require('../')
+var debug = require('debug')('thought:bin')
 var findPackage = require('find-package')
 var path = require('path')
 
 Error.stackTraceLimit = 0
 
+debug('started')
 program
   .version(require('../package').version)
   .option('-d, --debug', 'higher stack-trace-limit, long stack-traces', function (option) {
@@ -44,19 +46,22 @@ program
         'If you want that, run `thought init`\n')
       /* eslint-enable no-console */
     }
+    debug('running thought')
     thought({
       addToGit: options.addToGit,
       debug: program.debug
-    }).done(function (filenames) {
-      /* eslint-disable no-console */
-      console.log('The following files were updated: ' + filenames.join(', '))
-      /* eslint-enable no-console */
     })
+      .done(function (filenames) {
+        debug('done')
+        /* eslint-disable no-console */
+        console.log('The following files were updated: ' + filenames.join(', '))
+        /* eslint-enable no-console */
+      })
   })
 
 program
   .command('init')
-  .description("Register scripts in the curent module's package.json")
+  .description('Register scripts in the curent module\'s package.json')
   .action(function () {
     changeDir()
     require('../lib/check-engines.js')()
@@ -106,5 +111,5 @@ function changeDir () {
   var moduleRoot = path.dirname(packageJson.paths.absolute)
   process.chdir(moduleRoot)
   // eslint-disable-next-line no-console
-  console.log("I'm running inside module '" + packageJson.name + "' in '" + moduleRoot)
+  console.log('I\'m running inside module \'' + packageJson.name + '\' in \'' + moduleRoot)
 }

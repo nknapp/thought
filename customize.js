@@ -9,10 +9,22 @@
 
 const path = require('path')
 const fs = require('fs')
+const debug = require('debug')
 
-// Default config if the file `.thought/config.js` does not exist
+/**
+ * Default configuration for .thought. Override this configuration by creating a file `.thought/config.js`
+ * @api public
+ */
 const defaultConfig = {
-  plugins: []
+  plugins: [],
+  badges: {
+    /**
+     * Should there be a greenkeeper badge?
+     * `undefined` means autodetect (by parsing the badge for the repo-url)
+     * @property
+     */
+    greenkeeper: undefined
+  }
 }
 
 /**
@@ -24,8 +36,10 @@ const defaultConfig = {
  */
 module.exports = function createSpec (workingDir) {
   return function thoughtSpec (customize) {
+    debug('creating customize config')
     const configFile = path.resolve('.thought', 'config.js')
-    var config = fs.existsSync(configFile) ? require(configFile) : defaultConfig
+    const config = fs.existsSync(configFile) ? require(configFile) : defaultConfig
+    debug('config loaded', config)
     return customize
       .registerEngine('handlebars', require('customize-engine-handlebars'))
       .merge({
@@ -35,7 +49,8 @@ module.exports = function createSpec (workingDir) {
           helpers: require.resolve('./handlebars/helpers.js'),
           data: {
             'package': require(path.resolve(workingDir, 'package.json')),
-            'workingDir': workingDir
+            config: config,
+            workingDir: workingDir
           },
           preprocessor: require('./handlebars/preprocessor.js'),
           hbsOptions: {
@@ -45,10 +60,10 @@ module.exports = function createSpec (workingDir) {
       })
       // Apply any customization from the config-files (such as loading modules)
       .load(function (customize) {
-        const result = config.plugins.reduce((prev, plugin) => {
+        debug('Loading modules', config)
+        return config.plugins.reduce((prev, plugin) => {
           return prev.load(plugin)
         }, customize)
-        return result
       })
       .merge({
         handlebars: {

@@ -330,6 +330,12 @@ function hasCoveralls () {
  * @api public
  */
 function hasGreenkeeper (options) {
+  const config = options.data.root.config
+  const showBadge = config && config.badges && config.badges.greenkeeper
+  if (showBadge != null) { // not undefined and not null ?
+    return showBadge
+  }
+  // otherwise autodetect via badge
   const slug = githubRepo(options)
   return popsicle.get(`https://badges.greenkeeper.io/${slug}.svg`)
     .then(function (response) {
