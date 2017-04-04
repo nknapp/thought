@@ -74,7 +74,7 @@ describe('thought-helpers:', function () {
         .to.eventually.equal(fixture('dir-tree.output.txt'))
     })
 
-    it('should filter specific entries throw globs', function () {
+    it('should filter specific entries through globs', function () {
       return expectHbs('{{dirTree directory glob}}', {directory: 'test/fixtures/dir-tree', glob: '!(subdirB)/**'})
         .to.eventually.equal(fixture('dir-tree.output.filtered.txt'))
     })
