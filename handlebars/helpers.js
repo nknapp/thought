@@ -165,8 +165,8 @@ function exec (command, options) {
 /**
  * Return a drawing of a directory tree (using [archy](https://www.npmjs.com/package/archy))
  *
- * @param {string} globPattern a pattern describing all files and directories to include into the tree-view.
- * @param {string=} baseDir the base directory from which the `globPattern` is applied.
+ * @param {string} baseDir the base directory from which the `globPattern` is applied.
+ * @param {string=} globPattern a pattern describing all files and directories to include into the tree-view.
  * @param {object} options passsed in by Handlebars
  * @returns {string} a display of the directory tree of the selected files and directories.
  * @api public
@@ -185,19 +185,33 @@ function dirTree (baseDir, globPattern, options) {
         throw new Error('Cannot find a single file for \'' + globPattern + '\' in \'' + baseDir + '\'')
       }
       files.sort()
-      // Split paths into components
-      const pathComponents = files.map((file) => {
-        // a/b/c  or a/b/dir/
-        return file.split(path.sep)
-        // a, b, c  or  a, b, dir, ''
-          .map((component, index, all) => component + (index < all.length - 1 ? '/' : ''))
-          // a/, b/, c  or  a/, b/, dir/, ''
-          .filter(component => component) // Filter empty parts
+
+      const treeObject = condense({
+        label: label,
+        nodes: treeFromPaths(files, baseDir, ({parent, file, explicit}) => file)
       })
-      const treeObject = treeFromPathComponents(pathComponents, label)
+
       const tree = require('archy')(treeObject)
       return '<pre><code>\n' + tree.trim() + '\n</code></pre>'
     })
+}
+
+/**
+ * Merge an archy-node with its single child, but not with a leaf node.
+ * Keep nodes with zero, two or more childs.
+ */
+function condense (node) {
+  if (node.nodes.length === 1 && node.nodes[0].nodes.length > 0) {
+    return condense({
+      label: (node.label || '') + node.nodes[0].label,
+      nodes: node.nodes[0].nodes
+    })
+  } else {
+    return {
+      label: node.label,
+      nodes: node.nodes.map(condense)
+    }
+  }
 }
 
 /**
@@ -395,19 +409,19 @@ function transformTree (object, fn) {
  * Transform an array of path components into an [archy](https://www.npmjs.com/package/archy)-compatible tree structure.
  *
  * ```
- * [ [ 'abc', 'cde', 'efg' ], [ 'abc','cde','abc'], ['abc','zyx'] ]
+ * [ [ 'abc/cde/efg/' ], [ 'abc/cde/abc'], ['abc/zyx'] ]
  * ```
  *
  * becomes
  *
  * ```
  * {
- *   label: 'abc',
+ *   label: 'abc/',
  *   nodes: [
         {
-          label: 'cde',
+          label: 'cde/',
           nodes: [
-            'efg',
+            'efg/',
             'abc'
           ]
         },
@@ -418,42 +432,34 @@ function transformTree (object, fn) {
  *
  * Nodes with a single subnode are collapsed and the resulting node gets the label `node/subnode`.
  *
- * @param {string[][]} files an array of filenames, split by `path.sep`
- * @param {string} label the label for the current tree node
+ * @param {string[]} files an array of sorted file paths relative to `parent`
+ * @param {string} parent the directory of the files
+ * @param {function({parent:string, file:string, explicit: boolean}):string} renderLabelFn function that renders the label
+ *  of a node. It receives the parent and a filenpath as parameters.
  * @returns {object} a tree structure as needed by [archy](https://www.npmjs.com/package/archy)
  * @api private
  */
-function treeFromPathComponents (files, label) {
-  debug('treeFromPathComponents', files, label)
-  if (files.length === 0) {
-    return label
-  }
-
-  var byFirstPathComponent = _.groupBy(files, '0')
-
-  const result = {
-    label: label,
-    nodes: _.map(byFirstPathComponent, function (group, key) {
-      const values = group
-        .map(function (item) {
-          return item.slice(1)
-        })
-        .filter(function (item) {
-          return item.length > 0
-        })
-      return treeFromPathComponents(values, key)
-    })
-  }
-
-  // Condense path if directory only has one entry
-  if (result.nodes.length === 1 && _.isPlainObject(result.nodes[0])) {
+function treeFromPaths (files, parent, renderLabelFn) {
+  var groups = _.groupBy(files, file => file.match(/^[^/]*\/?/))
+  return Object.keys(groups).map(function (groupKey) {
+    const group = groups[groupKey]
+    // Is this group explicitely part of the result, or
+    // just implicit through its children
+    const explicit = group.indexOf('') >= 0
     return {
-      label: (result.label || '') + result.nodes[0].label,
-      nodes: result.nodes[0].nodes
+      label: renderLabelFn({parent, file: groupKey, explicit}),
+      nodes: treeFromPaths(
+        // Remove parent directory from file paths
+        group
+          .map(node => node.substr(groupKey.length))
+          // Skip the empty path
+          .filter(node => node),
+        // New parent...
+        parent + groupKey,
+        renderLabelFn
+      )
     }
-  } else {
-    return result
-  }
+  })
 }
 
 /**
