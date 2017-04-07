@@ -4,6 +4,8 @@ node_js:
   - "6"
   - "7"
 script:
+  - git config --global user.email "thought@knappi.org"
+  - git config --global user.name "Thought in Travis"
   - npm install
   - npm run coverage
   - eslint --max-warnings 0 .
