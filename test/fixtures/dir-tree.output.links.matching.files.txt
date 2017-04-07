@@ -1,0 +1,8 @@
+<pre><code>
+├─┬ subdirA/
+│ ├── <a href="test/fixtures/dir-tree/subdirA/aFile.txt">aFile.txt</a>
+│ └─┬ bDir/
+│   └── <a href="test/fixtures/dir-tree/subdirA/bDir/aFile.txt">aFile.txt</a>
+└─┬ subdirB/subdirC/
+  └── <a href="test/fixtures/dir-tree/subdirB/subdirC/aFile.txt">aFile.txt</a>
+</code></pre>

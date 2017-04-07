@@ -10,15 +10,16 @@
 'use strict'
 
 var fs = require('fs')
-var handlebars = require('promised-handlebars')(require('handlebars'))
 const helpers = require('../handlebars/helpers.js')
-handlebars.registerHelper(helpers)
 var chai = require('chai')
+var deep = require('deep-aplus')(Promise)
 var chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
 var expect = chai.expect
 var path = require('path')
 var httpMocks = require('./lib/http-mocks')
+
+var engine = require('customize-engine-handlebars')
 
 function executeInDir (directory) {
   var oldCwd = null
@@ -39,13 +40,32 @@ function executeInDir (directory) {
  * @param {object} input the input object
  * @returns {*}
  */
-function expectHbs (template, input) {
+function expectHbs (template, input, filename) {
+  filename = filename || 'README.md'
   return expect(
     Promise.resolve()
       .then(() => {
-        return handlebars.compile(template, {noEscape: true})(input)
+        // Call undocumented interface usually used by "customize"
+        const config = {
+          preprocessor: a => a,
+          partials: {},
+          partialWrapper: a => a,
+          helpers: helpers,
+          hbsOptions: {noEscape: true},
+          templates: {},
+          data: input
+        }
+        config.templates[filename + '.hbs'] = {
+          path: '/home/' + filename + '.hbs',
+          contents: template
+        }
+
+        return engine.run(config)
       })
-      .then((result) => result.trim())
+      .then(deep)
+      .then((result) => {
+        return result[filename].trim()
+      })
   )
 }
 
@@ -74,8 +94,16 @@ describe('thought-helpers:', function () {
         .to.eventually.equal(fixture('dir-tree.output.txt'))
     })
 
+    it('should add a label as name of the root-node, if specified', function () {
+      return expectHbs('{{dirTree directory label=\'rootNode\'}}', {directory: 'test/fixtures/dir-tree'})
+        .to.eventually.equal(fixture('dir-tree.label.txt'))
+    })
+
     it('should filter specific entries through globs', function () {
-      return expectHbs('{{dirTree directory glob}}', {directory: 'test/fixtures/dir-tree', glob: '!(subdirB)/**'})
+      return expectHbs('{{dirTree directory glob}}', {
+        directory: 'test/fixtures/dir-tree',
+        glob: '!(subdirB)/**'
+      }, 'some-dir/')
         .to.eventually.equal(fixture('dir-tree.output.filtered.txt'))
     })
 
@@ -90,6 +118,23 @@ describe('thought-helpers:', function () {
         glob: '**/!(aFile.txt|bFile.txt)'
       })
         .to.eventually.equal(fixture('dir-tree.output.complex.filter.txt'))
+    })
+
+    it('should only create links for files matching the glob-pattern', function () {
+      return expectHbs('{{dirTree directory glob links=\'true\'}}', {
+        directory: 'test/fixtures/dir-tree',
+        glob: '**/aFile.txt'
+      })
+        .to.eventually.equal(fixture('dir-tree.output.links.matching.files.txt'))
+    })
+
+    it('create links relative to the current target file if the "links"-option is set"', function () {
+      return expectHbs(
+        '{{dirTree directory glob links=\'true\'}}',
+        { directory: 'test/fixtures/dir-tree/subdirA/bDir' },
+        'src/test.md'
+      )
+        .to.eventually.equal(fixture('dir-tree.output.links.relative.txt'))
     })
 
     it('should throw an error if the glob does not resolve to any files', function () {

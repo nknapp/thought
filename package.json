@@ -32,8 +32,8 @@
     "test": "mocha && npm run lint",
     "coverage": "istanbul cover ./node_modules/.bin/_mocha",
     "postcoverage": "istanbul check-coverage coverage/coverage.json --statements 100",
-    "prethought": "thought --version || npm -g install thought",
     "thought": "thought run -a",
+    "postthought": "node examples/run-thought.js",
     "preversion": "thought --version || npm -g install thought",
     "version": "thoughtful changelog -o -a && npm run thought"
   },
@@ -43,7 +43,7 @@
     "cheerio": "^0.22.0",
     "commander": "^2.8.1",
     "customize": "^2.0.0-alpha1",
-    "customize-engine-handlebars": "^2.0.0-alpha.1",
+    "customize-engine-handlebars": "^2.0.0-alpha.3",
     "customize-write-files": "^1.1.0",
     "debug": "^2.2.0",
     "find-package": "^1.0.0",
