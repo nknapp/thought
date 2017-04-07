@@ -25,6 +25,7 @@ Default Handlebars-helpers for Thought
     * [.hasGreenkeeper(options)](#helpers.hasGreenkeeper)
     * [.github(filePath)](#helpers.github) ⇒ <code>string</code>
     * [.githubRepo()](#helpers.githubRepo) ⇒ <code>string</code>
+    * [.arr(...args)](#helpers.arr)
 
 <a name="helpers.dirTree"></a>
 
@@ -42,6 +43,9 @@ Return a drawing of a directory tree (using [archy](https://www.npmjs.com/packag
 | options | <code>object</code> | passsed in by Handlebars |
 | options.hash | <code>object</code> | parameters passed in as `key=value` |
 | options.hash.links | <code>boolean</code> | should a link be created for each file matching the glob? |
+| options.hash.dot | <code>boolean</code> | should dot-files be displayed implicitely. This sets the 'dot' option  in the 'glob'-module |
+| options.hash.ignore | <code>string</code> \| <code>Array.&lt;string&gt;</code> | Glob pattern of files to ignore. This sets the 'ignore' option  in the 'glob'-module. |
+| options.hash.links | <code>string</code> | should a link be created for each file matching the glob? |
 | options.hash.label | <code>string</code> | a label for the root node of the tree |
 
 <a name="helpers.json"></a>
@@ -278,5 +282,17 @@ Returns the current repository group and name (e.g. `nknapp/thought` for this pr
 
 **Kind**: static method of <code>[helpers](#helpers)</code>  
 **Access**: public  
+<a name="helpers.arr"></a>
+
+### helpers.arr(...args)
+Returns an array of the passed arguments (excluding the `options`)
+
+**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Access**: public  
+
+| Param |
+| --- |
+| ...args | 
+
 
  

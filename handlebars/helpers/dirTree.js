@@ -8,7 +8,7 @@ const path = require('path')
 
 module.exports = dirTree
 
-  /**
+/**
  * Return a drawing of a directory tree (using [archy](https://www.npmjs.com/package/archy))
  *
  * @param {string} baseDir the base directory from which the `globPattern` is applied
@@ -17,6 +17,10 @@ module.exports = dirTree
  * @param {object} options passsed in by Handlebars
  * @param {object} options.hash parameters passed in as `key=value`
  * @param {boolean} options.hash.links should a link be created for each file matching the glob?
+ * @param {boolean} options.hash.dot should dot-files be displayed implicitely. This sets the 'dot' option
+ in the 'glob'-module
+ * @param {string|string[]} options.hash.ignore Glob pattern of files to ignore. This sets the 'ignore' option
+ in the 'glob'-module.
  * @param {string} options.hash.label a label for the root node of the tree
  * @returns {string} a display of the directory tree of the selected files and directories.
  * @access public
@@ -28,12 +32,19 @@ function dirTree (baseDir, globPattern, options) {
     options = globPattern
     globPattern = undefined
   }
+
   if (globPattern == null) {
     globPattern = '**'
   }
 
-  const label = options && options.hash && options.hash.label
-  return glob(globPattern, {cwd: baseDir, mark: true})
+  const hashOptions = (options && options.hash) || {}
+
+  return glob(globPattern, {
+    cwd: baseDir,
+    mark: true,
+    dot: Boolean(hashOptions.dot),
+    ignore: hashOptions.ignore
+  })
     .then((files) => {
       debug('dirTree glob result', files)
       if (files.length === 0) {
@@ -42,9 +53,9 @@ function dirTree (baseDir, globPattern, options) {
       files.sort()
 
       const rootNode = {
-        label: label,
+        label: hashOptions.label || '',
         nodes: treeFromPaths(files, baseDir, ({parent, file, explicit}) => {
-          if (explicit && Boolean(options.hash.links)) {
+          if (explicit && hashOptions.links) {
             // Compute relative path from current target-file to the listed file
             var targetPath = path.relative(path.dirname(options.customize.targetFile), `${parent}/${file}`)
             return `<a href="${targetPath}">${file}</a>`

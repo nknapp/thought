@@ -1,0 +1,6 @@
+<pre><code>
+subdirA/bDir/
+├── .dotfile
+├── aFile.txt
+└── bFile.txt
+</code></pre>

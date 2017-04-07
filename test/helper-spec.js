@@ -10,7 +10,7 @@
 'use strict'
 
 var fs = require('fs')
-const helpers = require('../handlebars/helpers.js')
+const helpers = require('../handlebars/helpers/index.js')
 var chai = require('chai')
 var deep = require('deep-aplus')(Promise)
 var chaiAsPromised = require('chai-as-promised')
@@ -87,7 +87,7 @@ function fixture (filename) {
   }
 }
 
-describe('thought-helpers:', function () {
+describe.only('thought-helpers:', function () {
   describe('The "dirTree" helper', function () {
     it('should return a file-hierarchy as markdown code', function () {
       return expectHbs('{{dirTree directory}}', {directory: 'test/fixtures/dir-tree'})
@@ -118,6 +118,23 @@ describe('thought-helpers:', function () {
         glob: '**/!(aFile.txt|bFile.txt)'
       })
         .to.eventually.equal(fixture('dir-tree.output.complex.filter.txt'))
+    })
+
+    it('should ignore files specified in the ignore-option', function () {
+      return expectHbs('{{dirTree directory glob ignore=ignore}}', {
+        directory: 'test/fixtures/dir-tree',
+        glob: '**',
+        ignore: [ '**/aFile.txt', '**/bFile.txt' ]
+      })
+        .to.eventually.equal(fixture('dir-tree.output.ignore.files.txt'))
+    })
+
+    it('should show dot-files if the dot-option is set', function () {
+      return expectHbs('{{dirTree directory glob dot=true}}', {
+        directory: 'test/fixtures/dir-tree',
+        glob: 'subdirA/bDir/**'
+      })
+        .to.eventually.equal(fixture('dir-tree.output.dot.files.txt'))
     })
 
     it('should only create links for files matching the glob-pattern', function () {
@@ -518,6 +535,12 @@ describe('thought-helpers:', function () {
         }
       })
         .to.eventually.equal('false')
+    })
+  })
+
+  describe('The "arr" helper', function () {
+    it('should return an array of its arguments', function () {
+      return expectHbs("{{#each (arr 'a' 'b' 'c')}}v:{{.}} {{/each}}", {}).to.eventually.equal('v:a v:b v:c')
     })
   })
 })
