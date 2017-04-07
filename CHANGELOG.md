@@ -3,6 +3,15 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.1.0 (Fri, 07 Apr 2017 11:39:49 GMT)
+
+* [35e700d](https://github.com/nknapp/thought/commit/35e700d) Generell documentation overhaul - Nils Knappmeier
+* [cd9f970](https://github.com/nknapp/thought/commit/cd9f970) Add "arr"-helper and options "dot" and "ignore" to `{{dirtree}}`-helper - Nils Knappmeier
+* [4579887](https://github.com/nknapp/thought/commit/4579887) option "links='true'" to generate links in the `{{dirTree}}`-helper - Nils Knappmeier
+* [a6b3fe4](https://github.com/nknapp/thought/commit/a6b3fe4) Update "init"-command for use with node 6+ - Nils Knappmeier
+* [12d151a](https://github.com/nknapp/thought/commit/12d151a) Add "badges.greenkeeper"-option to .thought/config.js - Nils Knappmeier
+
+
 # Version 1.0.4 (Sat, 25 Mar 2017 00:25:36 GMT)
 
 * [5d7fe7c](https://github.com/nknapp/thought/commit/5d7fe7c) Replace call to lodash in preprocessor - Nils Knappmeier
