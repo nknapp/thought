@@ -6,7 +6,7 @@ node_js:
 script:
   - npm install
   - npm run coverage
-  - npm run lint
+  - eslint --max-warnings 0 .
 after_script:
   - npm install coveralls
   - cat ./coverage/lcov.info | coveralls
