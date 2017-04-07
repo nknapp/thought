@@ -13,7 +13,7 @@ npm install simple-project
 ```
 
  
-## Usage
+# Usage
 
 The following example demonstrates how to use this module:
 
@@ -29,7 +29,7 @@ This is the example output 123
 
 
 
-## License
+# License
 
 `simple-project` is published under the ISC-license.
 
@@ -37,6 +37,6 @@ See [LICENSE.md](LICENSE.md) for details.
 
 
  
-## Contributing guidelines
+# Contributing guidelines
 
 See [CONTRIBUTING.md](CONTRIBUTING.md).

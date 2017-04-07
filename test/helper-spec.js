@@ -87,7 +87,7 @@ function fixture (filename) {
   }
 }
 
-describe.only('thought-helpers:', function () {
+describe('thought-helpers:', function () {
   describe('The "dirTree" helper', function () {
     it('should return a file-hierarchy as markdown code', function () {
       return expectHbs('{{dirTree directory}}', {directory: 'test/fixtures/dir-tree'})
