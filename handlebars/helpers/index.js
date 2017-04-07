@@ -34,7 +34,8 @@ module.exports = {
   npm,
   htmlId,
   hasCoveralls,
-  hasGreenkeeper
+  hasGreenkeeper,
+  arr
 }
 
 /**
@@ -421,4 +422,14 @@ function githubRepo (options) {
  */
 function regex (strings, ...args) {
   return String.raw(strings, ...args.map(_.escapeRegExp))
+}
+
+/**
+ * Returns an array of the passed arguments (excluding the `options`)
+ * @param args
+ * @access public
+ * @memberOf helpers
+ */
+function arr (...args) {
+  return args.slice(0, args.length - 1)
 }
