@@ -37,7 +37,7 @@ function dirTree (baseDir, globPattern, options) {
     globPattern = '**'
   }
 
-  const hashOptions = (options && options.hash) || {}
+  const hashOptions = (options && options.hash) || /* istanbul ignore next: never happens */ {}
 
   return glob(globPattern, {
     cwd: baseDir,
