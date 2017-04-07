@@ -36,18 +36,18 @@ function listTreeRelative (baseDir, filter) {
  * call the callback for each of them
  * @param baseDir the base directory
  * @param relativeDir the current directory within the base directory (only for recursive calls)
- * @param callback the callback / visitor
+ * @param visitor the callback / visitor
  */
-function walk (baseDir, relativeDir, callback) {
+function walk (baseDir, relativeDir, visitor) {
   var dirEntries = fs.readdirSync(path.join(baseDir, relativeDir))
   dirEntries.forEach(function (fileOrDir) {
     const relativePath = path.join(relativeDir, fileOrDir)
     const fullPath = path.join(baseDir, relativePath)
     var stats = fs.statSync(fullPath)
     if (stats.isDirectory()) {
-      walk(baseDir, relativePath, callback)
+      walk(baseDir, relativePath, visitor)
     } else if (stats.isFile()) {
-      callback({ relativePath })
+      visitor({ relativePath })
     }
   })
 }
