@@ -36,7 +36,7 @@ describe('The "init" option', function () {
         .then(() => init())
         .then(() => git.logAsync())
         // Check only which files have been added to the index
-        .then(log => expect(log.latest.message, 'package.json must have been committed').to.equal('[Thought] Added scripts to run thought on version-bumps (HEAD -> master)'))
+        .then(log => expect(log.latest.message, 'package.json must have been committed').to.match(/Added scripts to run thought on version-bumps/))
         .then(() => qfs.read('package.json'))
         .then(pkgJson => expect(JSON.parse(pkgJson), 'Checking package.json').to.deep.equals({
           'author': '',
@@ -81,7 +81,7 @@ describe('The "init" option', function () {
         .then(() => init())
         .then(() => git.logAsync())
         // Check only which files have been added to the index
-        .then(log => expect(log.latest.message, 'package.json must have been committed').to.equal('[Thought] Added scripts to run thought on version-bumps (HEAD -> master)'))
+        .then(log => expect(log.latest.message, 'package.json must have been committed').to.match(/Added scripts to run thought on version-bumps/))
         .then(() => qfs.read('package.json'))
         .then(pkgJson => expect(JSON.parse(pkgJson), 'Checking package.json').to.deep.equals({
           'author': '',
