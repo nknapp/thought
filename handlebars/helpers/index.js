@@ -4,12 +4,9 @@ const _ = {
   escapeRegExp: require('lodash.escaperegexp'),
   cloneDeep: require('lodash.clonedeep'),
   isPlainObject: require('lodash.isplainobject'),
-  groupBy: require('lodash.groupby'),
   map: require('lodash.map')
 }
 const debug = require('debug')('thought:helpers')
-const Promise = require('bluebird')
-const glob = Promise.promisify(require('glob'))
 const findPackage = require('find-package')
 const Handlebars = require('handlebars')
 const qfs = require('m-io/fs')
@@ -18,6 +15,10 @@ const Q = require('q')
 const popsicle = require('popsicle')
 const $ = require('cheerio')
 
+/**
+ * Default Handlebars-helpers for Thought
+ * @name helpers
+ */
 module.exports = {
   json,
   include,
@@ -25,7 +26,7 @@ module.exports = {
   example,
   exists,
   exec,
-  dirTree,
+  dirTree: require('./dirTree'),
   renderTree,
   withPackageOf,
   github,
@@ -42,7 +43,8 @@ module.exports = {
  * This is mainly for testing purposes when adapting templates
  * @param {object} obj the object
  * @returns {string} JSON.stringify()
- * @api public
+ * @access public
+ * @memberOf helpers
  */
 function json (obj) {
   return '```json\n' + JSON.stringify(obj, null, 2) + '\n```\n'
@@ -54,7 +56,8 @@ function json (obj) {
  * @param filename
  * @param language the programming language used for the code-block
  * @returns {string}
- * @api public
+ * @access public
+ * @memberOf helpers
  */
 function include (filename, language) {
   return qfs.read(filename).then(function (contents) {
@@ -70,6 +73,8 @@ function include (filename, language) {
  * Directly include a file without markdown fences.
  *
  * @param filename
+ * @access public
+ * @memberOf helpers
  */
 function includeRaw (filename) {
   return qfs.read(filename)
@@ -94,7 +99,8 @@ function includeRaw (filename) {
  * @param {object} options.hash
  * @param {boolean} options.hash.snippet If set to true, only the lines between
  *    &lt;snip> and &lt;/snip> will be included
- * @api public
+ * @access public
+ * @memberOf helpers
  */
 function example (filename, options) {
   return qfs.read(filename)
@@ -122,7 +128,8 @@ function example (filename, options) {
  *
  * @param {string} filename the path to the file
  * @return {boolean} true, if the file or diectory exists
- * @api public
+ * @access public
+ * @memberOf helpers
  */
 function exists (filename) {
   return qfs.exists(filename)
@@ -137,7 +144,8 @@ function exists (filename) {
  *    (like `js` or `bash`). If this is set to `raw`, the output is included as-is, without fences.
  * @param {string} options.hash.cwd the current working directory of the example process
  * @returns {string} the output of `execSync`, enclosed in fences.
- * @api public
+ * @access public
+ * @memberOf helpers
  */
 function exec (command, options) {
   let start
@@ -160,58 +168,6 @@ function exec (command, options) {
     cwd: options.hash && options.hash.cwd
   })
   return start + output.trim() + end
-}
-
-/**
- * Return a drawing of a directory tree (using [archy](https://www.npmjs.com/package/archy))
- *
- * @param {string} baseDir the base directory from which the `globPattern` is applied.
- * @param {string=} globPattern a pattern describing all files and directories to include into the tree-view.
- * @param {object} options passsed in by Handlebars
- * @returns {string} a display of the directory tree of the selected files and directories.
- * @api public
- */
-function dirTree (baseDir, globPattern, options) {
-  // Is basedir is not a string, it is probably the handlebars "options" object
-  if (typeof globPattern !== 'string') {
-    globPattern = '**'
-  }
-
-  const label = options && options.data && options.data.label
-  return glob(globPattern, {cwd: baseDir, mark: true})
-    .then((files) => {
-      debug('dirTree glob result', files)
-      if (files.length === 0) {
-        throw new Error('Cannot find a single file for \'' + globPattern + '\' in \'' + baseDir + '\'')
-      }
-      files.sort()
-
-      const treeObject = condense({
-        label: label,
-        nodes: treeFromPaths(files, baseDir, ({parent, file, explicit}) => file)
-      })
-
-      const tree = require('archy')(treeObject)
-      return '<pre><code>\n' + tree.trim() + '\n</code></pre>'
-    })
-}
-
-/**
- * Merge an archy-node with its single child, but not with a leaf node.
- * Keep nodes with zero, two or more childs.
- */
-function condense (node) {
-  if (node.nodes.length === 1 && node.nodes[0].nodes.length > 0) {
-    return condense({
-      label: (node.label || '') + node.nodes[0].label,
-      nodes: node.nodes[0].nodes
-    })
-  } else {
-    return {
-      label: node.label,
-      nodes: node.nodes.map(condense)
-    }
-  }
 }
 
 /**
@@ -241,7 +197,8 @@ function condense (node) {
  * @param options
  * @param {function} options.fn computes the label for a node based on the node itself
  * @returns {string}
- * @api public
+ * @access public
+ * @memberOf helpers
  */
 function renderTree (object, options) {
   const tree = require('archy')(transformTree(object, options.fn))
@@ -258,7 +215,8 @@ function renderTree (object, options) {
  *
  * @param {string} filePath file that is used to find that package.json
  * @param {object} options options passed in by Handlebars
- * @api public
+ * @access public
+ * @memberOf helpers
  */
 function withPackageOf (filePath, options) {
   const data = Handlebars.createFrame(options.data)
@@ -271,7 +229,8 @@ function withPackageOf (filePath, options) {
  * Create a link to the npm-page of a package
  *
  * @param {string} packageName the name of the package
- * @api public
+ * @access public
+ * @memberOf helpers
  */
 function npm (packageName) {
   return '[' + packageName + '](https://npmjs.com/package/' + packageName + ')'
@@ -296,7 +255,8 @@ function npm (packageName) {
  * @param {string} value the input value of the URL (e.g. the header name)
  * @return {string} a string value
  *
- * @api public
+ * @access public
+ * @memberOf helpers
  */
 function htmlId (value) {
   // see http://stackoverflow.com/questions/19001140/amend-regular-expression-to-allow-german-umlauts-french-accents-and-other-valid
@@ -319,7 +279,8 @@ function htmlId (value) {
  *
  * @return {boolean} true, if coveralls is configured
  *
- * @api public
+ * @access public
+ * @memberOf helpers
  */
 function hasCoveralls () {
   const travis = qfs.read('.travis.yml')
@@ -341,7 +302,8 @@ function hasCoveralls () {
  * This is done by analyzing the greenkeeper.io-[badge](https://badges.greenkeeper.io/nknapp/thought.svg)
  *
  * @param {object} options options passed in by Handlebars
- * @api public
+ * @access public
+ * @memberOf helpers
  */
 function hasGreenkeeper (options) {
   const config = options.data.root.config
@@ -389,7 +351,7 @@ function hasGreenkeeper (options) {
  * @param {object} object the tree data
  * @param fn the block-helper function (options.fn) of Handlebars (http://handlebarsjs.com/block_helpers.html)
  *
- * @api private
+ * @access private
  */
 function transformTree (object, fn) {
   const label = fn(object).trim()
@@ -406,63 +368,6 @@ function transformTree (object, fn) {
 }
 
 /**
- * Transform an array of path components into an [archy](https://www.npmjs.com/package/archy)-compatible tree structure.
- *
- * ```
- * [ [ 'abc/cde/efg/' ], [ 'abc/cde/abc'], ['abc/zyx'] ]
- * ```
- *
- * becomes
- *
- * ```
- * {
- *   label: 'abc/',
- *   nodes: [
-        {
-          label: 'cde/',
-          nodes: [
-            'efg/',
-            'abc'
-          ]
-        },
-        'zyx'
- *   ]
- * }
- * ```
- *
- * Nodes with a single subnode are collapsed and the resulting node gets the label `node/subnode`.
- *
- * @param {string[]} files an array of sorted file paths relative to `parent`
- * @param {string} parent the directory of the files
- * @param {function({parent:string, file:string, explicit: boolean}):string} renderLabelFn function that renders the label
- *  of a node. It receives the parent and a filenpath as parameters.
- * @returns {object} a tree structure as needed by [archy](https://www.npmjs.com/package/archy)
- * @api private
- */
-function treeFromPaths (files, parent, renderLabelFn) {
-  var groups = _.groupBy(files, file => file.match(/^[^/]*\/?/))
-  return Object.keys(groups).map(function (groupKey) {
-    const group = groups[groupKey]
-    // Is this group explicitely part of the result, or
-    // just implicit through its children
-    const explicit = group.indexOf('') >= 0
-    return {
-      label: renderLabelFn({parent, file: groupKey, explicit}),
-      nodes: treeFromPaths(
-        // Remove parent directory from file paths
-        group
-          .map(node => node.substr(groupKey.length))
-          // Skip the empty path
-          .filter(node => node),
-        // New parent...
-        parent + groupKey,
-        renderLabelFn
-      )
-    }
-  })
-}
-
-/**
  * Resolve the display-URL of a file on github.
  *
  * This works for files in the current package and in dependencies, as long as the repository-url is
@@ -470,7 +375,8 @@ function treeFromPaths (files, parent, renderLabelFn) {
  *
  * @param {string} filePath the path to the file
  * @returns {string} the URL
- * @api public
+ * @access public
+ * @memberOf helpers
  */
 function github (filePath) {
   // Build url to correct version and file in github
@@ -488,7 +394,8 @@ function github (filePath) {
  * Returns the current repository group and name (e.g. `nknapp/thought` for this project)
  *
  * @returns {string}
- * @api public
+ * @access public
+ * @memberOf helpers
  */
 function githubRepo (options) {
   try {
@@ -505,6 +412,13 @@ function githubRepo (options) {
   }
 }
 
+/**
+ * Helper function for composing template-literals to properly escaped regexes
+ * @param strings
+ * @param args
+ * @returns {string}
+ * @access private
+ */
 function regex (strings, ...args) {
   return String.raw(strings, ...args.map(_.escapeRegExp))
 }

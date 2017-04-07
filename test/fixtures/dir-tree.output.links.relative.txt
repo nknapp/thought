@@ -1,0 +1,4 @@
+<pre><code>
+├── <a href="../test/fixtures/dir-tree/subdirA/bDir/aFile.txt">aFile.txt</a>
+└── <a href="../test/fixtures/dir-tree/subdirA/bDir/bFile.txt">bFile.txt</a>
+</code></pre>

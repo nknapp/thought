@@ -46,7 +46,7 @@ module.exports = function createSpec (workingDir) {
         handlebars: {
           partials: path.join(__dirname, 'handlebars', 'partials'),
           templates: path.join(__dirname, 'handlebars', 'templates'),
-          helpers: require.resolve('./handlebars/helpers.js'),
+          helpers: require.resolve('./handlebars/helpers/index.js'),
           data: {
             'package': require(path.resolve(workingDir, 'package.json')),
             config: config,
