@@ -3,6 +3,12 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.1.1 (Sat, 08 Apr 2017 22:17:20 GMT)
+
+* [6c9b552](https://github.com/nknapp/thought/commit/6c9b552) chore(package): update customize to version 2.0.1 - greenkeeper[bot]
+* [6a21993](https://github.com/nknapp/thought/commit/6a21993) Remove use of q-specific function "Promise~done()" - Nils Knappmeier
+* [8731a6f](https://github.com/nknapp/thought/commit/8731a6f) chore(package): update dependencies - greenkeeper[bot]
+
 # Version 1.1.0 (Fri, 07 Apr 2017 11:39:49 GMT)
 
 * [35e700d](https://github.com/nknapp/thought/commit/35e700d) Generell documentation overhaul - Nils Knappmeier
