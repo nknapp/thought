@@ -51,12 +51,14 @@ program
       addToGit: options.addToGit,
       debug: program.debug
     })
-      .done(function (filenames) {
-        debug('done')
-        /* eslint-disable no-console */
-        console.log('The following files were updated: ' + filenames.join(', '))
-        /* eslint-enable no-console */
-      })
+      .then(
+        (filenames) => {
+          /* eslint-disable no-console */
+          console.log('The following files were updated: ' + filenames.join(', '))
+          /* eslint-enable no-console */
+        },
+        (err) => console.error(err) // eslint-disable-line no-console
+      )
   })
 
 program
@@ -66,9 +68,10 @@ program
     changeDir()
     require('../lib/check-engines.js')()
       .then(require('../lib/init.js'))
-      .done(function () {
-        console.log('OK') // eslint-disable-line no-console
-      })
+      .then(
+        () => console.log('OK'), // eslint-disable-line no-console
+        (err) => console.error(err) // eslint-disable-line no-console
+      )
   })
 
 program
@@ -76,9 +79,10 @@ program
   .description('Check that all engines (such as npm) have versions that ensure Thought to run correctly')
   .action(function () {
     require('../lib/check-engines.js')()
-      .done(function () {
-        console.log('OK') // eslint-disable-line no-console
-      })
+      .then(
+        () => console.log('OK'), // eslint-disable-line no-console
+        (err) => console.error(err) // eslint-disable-line no-console
+      )
   })
 
 program
@@ -86,9 +90,11 @@ program
   .description('Perform up-to-date check of the current documentation. Exit with non-zero exit-code when thought must be run again.')
   .action(function () {
     changeDir()
-    require('../lib/up-to-date.js')().done(function () {
-      console.log('OK') // eslint-disable-line no-console
-    })
+    require('../lib/up-to-date.js')()
+      .then(
+        () => console.log('OK'), // eslint-disable-line no-console
+        (err) => console.error(err) // eslint-disable-line no-console
+      )
   })
 
 program.parse(process.argv)
