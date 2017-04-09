@@ -1,7 +1,6 @@
 var qfs = require('m-io/fs')
 var path = require('path')
-// var Q = require('q')
-var deep = require('q-deep')
+var deep = require('deep-aplus')(Promise)
 var debug = require('debug')('thought:preprocessor')
 
 /**
@@ -32,5 +31,9 @@ module.exports = function (data) {
       return null
     })
 
-  return deep(data).tap(debug)
+  return deep(data)
+    .then((result) => {
+      debug('preprocessed', result)
+      return result
+    })
 }
