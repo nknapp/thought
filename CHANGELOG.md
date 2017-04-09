@@ -3,6 +3,10 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.1.2 (Sun, 09 Apr 2017 08:57:35 GMT)
+
+* [68adcb4](https://github.com/nknapp/thought/commit/68adcb4) Fix removal of q-deep - Nils Knappmeier
+
 # Version 1.1.1 (Sat, 08 Apr 2017 22:17:20 GMT)
 
 * [6c9b552](https://github.com/nknapp/thought/commit/6c9b552) chore(package): update customize to version 2.0.1 - greenkeeper[bot]
