@@ -32,7 +32,7 @@ Default Handlebars-helpers for Thought
 ### helpers.dirTree(baseDir, [globPattern], options) ⇒ <code>string</code>
 Return a drawing of a directory tree (using [archy](https://www.npmjs.com/package/archy))
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Returns**: <code>string</code> - a display of the directory tree of the selected files and directories.  
 **Access**: public  
 
@@ -54,7 +54,7 @@ Display an object as indented JSON-String.
 
 This is mainly for testing purposes when adapting templates
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Returns**: <code>string</code> - JSON.stringify()  
 **Access**: public  
 
@@ -67,7 +67,7 @@ This is mainly for testing purposes when adapting templates
 ### helpers.include(filename, language) ⇒ <code>string</code>
 Include a file into a markdown code-block
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Access**: public  
 
 | Param | Description |
@@ -80,7 +80,7 @@ Include a file into a markdown code-block
 ### helpers.includeRaw(filename)
 Directly include a file without markdown fences.
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Access**: public  
 
 | Param |
@@ -104,7 +104,7 @@ var fn = require('module-name')
 ```
 in your docs, which is what a user of the module will do.
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Access**: public  
 
 | Param | Type | Description |
@@ -118,7 +118,7 @@ in your docs, which is what a user of the module will do.
 ### helpers.exists(filename) ⇒ <code>boolean</code>
 Return true if a file exists
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Returns**: <code>boolean</code> - true, if the file or diectory exists  
 **Access**: public  
 
@@ -131,7 +131,7 @@ Return true if a file exists
 ### helpers.exec(command, options) ⇒ <code>string</code>
 Execute a command and include the output in a fenced code-block.
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Returns**: <code>string</code> - the output of `execSync`, enclosed in fences.  
 **Access**: public  
 
@@ -167,7 +167,7 @@ The expected input is of the form
 
 The tree is transformed and rendered using [archy](https://www.npmjs.com/package/archy)
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Access**: public  
 
 | Param | Type | Description |
@@ -186,7 +186,7 @@ This block helper executes the block in the current context but sets special var
 * `@url`: The github-url of the given file in the current package version is stored into
 * `@package`The `package.json` of the file's module is stored into
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Access**: public  
 
 | Param | Type | Description |
@@ -199,7 +199,7 @@ This block helper executes the block in the current context but sets special var
 ### helpers.npm(packageName)
 Create a link to the npm-page of a package
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Access**: public  
 
 | Param | Type | Description |
@@ -224,7 +224,7 @@ htmlId('ハッピークリスマス') === 'ハッピークリスマス' // Do no
 htmlId('ABCDE') === 'abcde'   // Convert to lowercase
 ```
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Returns**: <code>string</code> - a string value  
 **Access**: public  
 
@@ -241,7 +241,7 @@ Check the .travis.yml and the appveyor.yml files for the string 'coveralls'
 and return true if any of them exists and contains the string.
 We expect coveralls to be configured then.
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Returns**: <code>boolean</code> - true, if coveralls is configured  
 **Access**: public  
 <a name="helpers.hasGreenkeeper"></a>
@@ -251,7 +251,7 @@ Check, if [Greenkeeper](https://greenkeeper.io) is enabled for this repository
 
 This is done by analyzing the greenkeeper.io-[badge](https://badges.greenkeeper.io/nknapp/thought.svg)
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Access**: public  
 
 | Param | Type | Description |
@@ -266,7 +266,7 @@ Resolve the display-URL of a file on github.
 This works for files in the current package and in dependencies, as long as the repository-url is
 set correctly in package.json
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Returns**: <code>string</code> - the URL  
 **Access**: public  
 
@@ -279,7 +279,7 @@ set correctly in package.json
 ### helpers.githubRepo() ⇒ <code>string</code>
 Returns the current repository group and name (e.g. `nknapp/thought` for this project)
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Access**: public  
 <a name="helpers.arr"></a>
 
@@ -288,7 +288,7 @@ Returns an array of the passed arguments (excluding the `options`-parameter).
 This helper can be used like `{{dirTree 'dir' ignore=(arr 'file1' 'file2')}}`
 to provide array-arguments to other helpers.
 
-**Kind**: static method of <code>[helpers](#helpers)</code>  
+**Kind**: static method of [<code>helpers</code>](#helpers)  
 **Access**: public  
 
 | Param | Type | Description |

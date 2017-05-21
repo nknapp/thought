@@ -3,6 +3,11 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.1.3 (Sun, 21 May 2017 12:34:06 GMT)
+
+* [4ff79e3](https://github.com/nknapp/thought/commit/4ff79e3) Fix removal of q - Nils Knappmeier
+* [61204e1](https://github.com/nknapp/thought/commit/61204e1) fix(package): update customize-write-files to version 2.0.0 - greenkeeper[bot]
+
 # Version 1.1.2 (Sun, 09 Apr 2017 08:57:35 GMT)
 
 * [68adcb4](https://github.com/nknapp/thought/commit/68adcb4) Fix removal of q-deep - Nils Knappmeier
