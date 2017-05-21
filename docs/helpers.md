@@ -24,6 +24,7 @@ Default Handlebars-helpers for Thought
     * [.hasCoveralls()](#helpers.hasCoveralls) ⇒ <code>boolean</code>
     * [.hasGreenkeeper(options)](#helpers.hasGreenkeeper)
     * [.github(filePath)](#helpers.github) ⇒ <code>string</code>
+    * [.repoWebUrl(gitUrl)](#helpers.repoWebUrl)
     * [.githubRepo()](#helpers.githubRepo) ⇒ <code>string</code>
     * [.arr(...args)](#helpers.arr)
 
@@ -273,6 +274,19 @@ set correctly in package.json
 | Param | Type | Description |
 | --- | --- | --- |
 | filePath | <code>string</code> | the path to the file |
+
+<a name="helpers.repoWebUrl"></a>
+
+### helpers.repoWebUrl(gitUrl)
+Returns the http-url for viewing a git-repository in the browser given a repo-url from the package.json
+Currently, only github urls are supported
+
+**Kind**: static method of [<code>helpers</code>](#helpers)  
+**Access**: public  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| gitUrl | <code>string</code> | the git url from the repository.url-property of package.json |
 
 <a name="helpers.githubRepo"></a>
 

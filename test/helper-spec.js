@@ -543,4 +543,11 @@ describe('thought-helpers:', function () {
       return expectHbs("{{#each (arr 'a' 'b' 'c')}}v:{{.}} {{/each}}", {}).to.eventually.equal('v:a v:b v:c')
     })
   })
+
+  describe('The "repoWebUrl" helper', function () {
+    it('should return a github-web-url for a github-ssh-url', function () {
+      return expect(helpers.repoWebUrl('git+ssh://git@github.com/nknapp/thought-plugin-jsdoc.git'))
+        .to.equal('https://github.com/nknapp/thought-plugin-jsdoc')
+    })
+  })
 })

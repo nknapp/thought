@@ -31,6 +31,7 @@ module.exports = {
   withPackageOf,
   github,
   githubRepo,
+  repoWebUrl,
   npm,
   htmlId,
   hasCoveralls,
@@ -380,7 +381,7 @@ function transformTree (object, fn) {
  * @memberOf helpers
  */
 function github (filePath) {
-  // Build url to correct version and file in github
+  // Build url to correct version and file in githubs
   const packageJson = findPackage(path.resolve(filePath), true)
   const url = packageJson && packageJson.repository && packageJson.repository.url
   if (url && url.match(/github.com/)) {
@@ -388,6 +389,25 @@ function github (filePath) {
     // path within the package
     const relativePath = path.relative(path.dirname(packageJson.paths.absolute), filePath)
     return url.replace(/^git\+/, '').replace(/\.git$/, '') + '/blob/v' + version + '/' + relativePath
+  }
+}
+
+/**
+ * Returns the http-url for viewing a git-repository in the browser given a repo-url from the package.json
+ * Currently, only github urls are supported
+ * @param {string} gitUrl the git url from the repository.url-property of package.json
+ * @access public
+ * @memberOf helpers
+ */
+function repoWebUrl (gitUrl) {
+  if (!gitUrl) {
+    return undefined
+  }
+  const match = gitUrl.match(/.*?(:\/\/|@)github\.com[/:](.*?)(#.*?)?$/)
+  if (match) {
+    return 'https://github.com/' + match[2].replace(/\.git$/, '')
+  } else {
+    return null
   }
 }
 
