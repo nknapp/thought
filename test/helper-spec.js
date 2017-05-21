@@ -557,5 +557,10 @@ describe('thought-helpers:', function () {
       return expect(helpers.repoWebUrl('git+ssh://git@github.com/nknapp/thought-plugin-jsdoc.git'))
         .to.equal('https://github.com/nknapp/thought-plugin-jsdoc')
     })
+
+    it('should return null for unknown urls for a github-ssh-url', function () {
+      return expect(helpers.repoWebUrl('git+ssh://git@example.com/nknapp/thought-plugin-jsdoc.git'))
+        .to.equal(null)
+    })
   })
 })
