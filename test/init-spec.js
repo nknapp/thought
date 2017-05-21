@@ -23,7 +23,7 @@ var qfs = require('m-io/fs')
 var expect = chai.expect
 
 describe('The "init" option', function () {
-  this.timeout(15000)
+  this.timeout(30000)
   it('should add scripts and devDependency to package.json', function () {
     var scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init1')
     return scenario.prepareAndRun(() => {
