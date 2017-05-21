@@ -3,6 +3,10 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.1.4 (Sun, 21 May 2017 12:35:54 GMT)
+
+* [3475e8f](https://github.com/nknapp/thought/commit/3475e8f) Fix removal of q (2) - Nils Knappmeier
+
 # Version 1.1.3 (Sun, 21 May 2017 12:34:06 GMT)
 
 * [4ff79e3](https://github.com/nknapp/thought/commit/4ff79e3) Fix removal of q - Nils Knappmeier
