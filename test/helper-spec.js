@@ -290,6 +290,14 @@ describe('thought-helpers:', function () {
         .to.eventually.equal(versions(fixture('include/withPackageOf.default.md')))
     })
 
+    it('should create a url and package.json for file on github (with a git-ssh-url)', function () {
+      return expectHbs(
+        '{{#withPackageOf file}} {{@url}} - {{@package.name}} {{/withPackageOf}}',
+        {file: 'test/fixtures/github-ssh-repo-url/package.json'}
+      )
+        .to.eventually.equal(versions(fixture('include/withPackageOf.ssh.md')))
+    })
+
     it('should create a url and package.json for files in dependency projects (based on the their current package version)', function () {
       return expectHbs(
         '{{#withPackageOf file}} {{@url}} - {{@package.name}} {{/withPackageOf}}',

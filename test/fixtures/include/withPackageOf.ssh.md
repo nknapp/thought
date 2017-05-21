@@ -1,0 +1,1 @@
+https://github.com/nknapp/thought-plugin-jsdoc/blob/v1.0.0/package.json - github-ssh-repo-url

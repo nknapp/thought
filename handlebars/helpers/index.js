@@ -383,12 +383,12 @@ function transformTree (object, fn) {
 function github (filePath) {
   // Build url to correct version and file in githubs
   const packageJson = findPackage(path.resolve(filePath), true)
-  const url = packageJson && packageJson.repository && packageJson.repository.url
+  const url = repoWebUrl(packageJson && packageJson.repository && packageJson.repository.url)
   if (url && url.match(/github.com/)) {
     const version = packageJson.version
     // path within the package
     const relativePath = path.relative(path.dirname(packageJson.paths.absolute), filePath)
-    return url.replace(/^git\+/, '').replace(/\.git$/, '') + '/blob/v' + version + '/' + relativePath
+    return `${url}/blob/v${version}/${relativePath}`
   }
 }
 
