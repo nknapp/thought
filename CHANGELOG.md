@@ -3,6 +3,11 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.2.0 (Mon, 22 May 2017 19:17:41 GMT)
+
+* [a3405c5](https://github.com/nknapp/thought/commit/a3405c5) Helper "withPackageOf" now also supports github-ssh-urls in package.json - Nils Knappmeier
+* [134ac29](https://github.com/nknapp/thought/commit/134ac29) New helper "repoWebUrl" - Nils Knappmeier
+
 # Version 1.1.5 (Sun, 21 May 2017 15:02:04 GMT)
 
 * [4f22c1f](https://github.com/nknapp/thought/commit/4f22c1f) Fixed "thought init" process - Nils Knappmeier
