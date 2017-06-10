@@ -3,6 +3,10 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.3.0 (Sat, 10 Jun 2017 20:44:35 GMT)
+
+* [b52a6fe](https://github.com/nknapp/thought/commit/b52a6fe) Helper '#withPackageOf' adds file-path relative to the project root - Nils Knappmeier
+
 # Version 1.2.0 (Mon, 22 May 2017 19:17:41 GMT)
 
 * [a3405c5](https://github.com/nknapp/thought/commit/a3405c5) Helper "withPackageOf" now also supports github-ssh-urls in package.json - Nils Knappmeier

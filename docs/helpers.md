@@ -185,7 +185,8 @@ Set special variable for accessing information from the context of a file (possi
 This block helper executes the block in the current context but sets special variables:
 
 * `@url`: The github-url of the given file in the current package version is stored into
-* `@package`The `package.json` of the file's module is stored into
+* `@package`: The `package.json` of the file's module is stored into
+* `@relativePath`: The relative path of the file within the repository
 
 **Kind**: static method of [<code>helpers</code>](#helpers)  
 **Access**: public  
