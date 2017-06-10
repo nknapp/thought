@@ -7,7 +7,7 @@ const _ = {
   map: require('lodash.map')
 }
 const debug = require('debug')('thought:helpers')
-const findPackage = require('find-package')
+const {resolvePackageRoot} = require('../../lib/utils/resolve-package-root')
 const Handlebars = require('handlebars')
 const qfs = require('m-io/fs')
 const util = require('util')
@@ -213,7 +213,8 @@ function renderTree (object, options) {
  * This block helper executes the block in the current context but sets special variables:
  *
  * * `@url`: The github-url of the given file in the current package version is stored into
- * * `@package`The `package.json` of the file's module is stored into
+ * * `@package`: The `package.json` of the file's module is stored into
+ * * `@relativePath`: The relative path of the file within the repository
  *
  * @param {string} filePath file that is used to find that package.json
  * @param {object} options options passed in by Handlebars
@@ -221,10 +222,14 @@ function renderTree (object, options) {
  * @memberOf helpers
  */
 function withPackageOf (filePath, options) {
-  const data = Handlebars.createFrame(options.data)
-  data.url = github(filePath)
-  data.package = findPackage(path.resolve(filePath), false)
-  return options.fn(this, {data: data})
+  return resolvePackageRoot(path.resolve(filePath))
+    .then(function (resolvedPackageRoot) {
+      const data = Handlebars.createFrame(options.data)
+      data.url = _githubUrl(resolvedPackageRoot)
+      data.package = resolvedPackageRoot.packageJson
+      data.relativePath = resolvedPackageRoot.relativeFile
+      return options.fn(this, {data: data})
+    })
 }
 
 /**
@@ -382,14 +387,7 @@ function transformTree (object, fn) {
  */
 function github (filePath) {
   // Build url to correct version and file in githubs
-  const packageJson = findPackage(path.resolve(filePath), true)
-  const url = repoWebUrl(packageJson && packageJson.repository && packageJson.repository.url)
-  if (url && url.match(/github.com/)) {
-    const version = packageJson.version
-    // path within the package
-    const relativePath = path.relative(path.dirname(packageJson.paths.absolute), filePath)
-    return `${url}/blob/v${version}/${relativePath}`
-  }
+  return resolvePackageRoot(path.resolve(filePath)).then(_githubUrl)
 }
 
 /**
@@ -454,4 +452,21 @@ function regex (strings, ...args) {
  */
 function arr (...args) {
   return args.slice(0, args.length - 1)
+}
+
+/**
+ * Computes the github-url of a file based on the information retrieved by the {@link resolvePackageRoot}
+ * function. The code is extracted into a function because it is used in multiple places.
+ * @param {object} resolvedPackageRoot
+ * @param {object} resolvedPackageRoot.packageJson the contents of the package.json as javascript object
+ * @param {string} resolvePackageRoot.relativeFile the relative path of the file within the package
+ * @returns {string}
+ * @private
+ */
+function _githubUrl (resolvedPackageRoot) {
+  var {packageJson, relativeFile} = resolvedPackageRoot
+  const url = repoWebUrl(packageJson && packageJson.repository && packageJson.repository.url)
+  if (url && url.match(/github.com/)) {
+    return `${url}/blob/v${packageJson.version}/${relativeFile}`
+  }
 }

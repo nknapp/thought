@@ -124,7 +124,7 @@ describe('thought-helpers:', function () {
       return expectHbs('{{dirTree directory glob ignore=ignore}}', {
         directory: 'test/fixtures/dir-tree',
         glob: '**',
-        ignore: [ '**/aFile.txt', '**/bFile.txt' ]
+        ignore: ['**/aFile.txt', '**/bFile.txt']
       })
         .to.eventually.equal(fixture('dir-tree.output.ignore.files.txt'))
     })
@@ -148,7 +148,7 @@ describe('thought-helpers:', function () {
     it('create links relative to the current target file if the "links"-option is set"', function () {
       return expectHbs(
         '{{dirTree directory glob links=\'true\'}}',
-        { directory: 'test/fixtures/dir-tree/subdirA/bDir' },
+        {directory: 'test/fixtures/dir-tree/subdirA/bDir'},
         'src/test.md'
       )
         .to.eventually.equal(fixture('dir-tree.output.links.relative.txt'))
@@ -313,6 +313,22 @@ describe('thought-helpers:', function () {
       )
         .to.eventually.equal(versions(fixture('include/withPackageOf.no-repo.md')))
     })
+
+    it('should create a @relativePath for files in dependency projects', function () {
+      return expectHbs(
+        '{{#withPackageOf file}}{{@relativePath}}{{/withPackageOf}}',
+        {file: require.resolve('customize/helpers-io.js')}
+      )
+        .to.eventually.equal('helpers-io.js')
+    })
+  })
+
+  it('should create a @relativePath for projects without repository-property', function () {
+    return expectHbs(
+      '{{#withPackageOf file}}{{@relativePath}}{{/withPackageOf}}',
+      {file: require.resolve('./fixtures/no-git-repo/package.json')}
+    )
+      .to.eventually.equal('package.json')
   })
 
   describe('The "github"-helper', function () {
@@ -548,7 +564,7 @@ describe('thought-helpers:', function () {
 
   describe('The "arr" helper', function () {
     it('should return an array of its arguments', function () {
-      return expectHbs("{{#each (arr 'a' 'b' 'c')}}v:{{.}} {{/each}}", {}).to.eventually.equal('v:a v:b v:c')
+      return expectHbs('{{#each (arr \'a\' \'b\' \'c\')}}v:{{.}} {{/each}}', {}).to.eventually.equal('v:a v:b v:c')
     })
   })
 
