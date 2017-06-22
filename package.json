@@ -71,7 +71,7 @@
     "eslint-plugin-node": "^4.2.2",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
-    "husky": "^0.13.3",
+    "husky": "^0.14.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "nock": "^9.0.11",
