@@ -185,6 +185,7 @@ Set special variable for accessing information from the context of a file (possi
 This block helper executes the block in the current context but sets special variables:
 
 * `@url`: The github-url of the given file in the current package version is stored into
+* `@rawUrl`: The url to the raw file contents on `https://raw.githubusercontent.com`
 * `@package`: The `package.json` of the file's module is stored into
 * `@relativePath`: The relative path of the file within the repository
 

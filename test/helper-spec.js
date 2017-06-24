@@ -290,6 +290,14 @@ describe('thought-helpers:', function () {
         .to.eventually.equal(versions(fixture('include/withPackageOf.default.md')))
     })
 
+    it('should create a rawUrl for file on github (based on the current package version)', function () {
+      return expectHbs(
+        '{{#withPackageOf file}}{{@rawUrl}}{{/withPackageOf}}',
+        {file: 'test/fixtures/shout.js'}
+      )
+        .to.eventually.equal(versions('https://raw.githubusercontent.com/nknapp/thought/THOUGHT_VERSION/test/fixtures/shout.js'))
+    })
+
     it('should create a url and package.json for file on github (with a git-ssh-url)', function () {
       return expectHbs(
         '{{#withPackageOf file}} {{@url}} - {{@package.name}} {{/withPackageOf}}',
@@ -298,20 +306,36 @@ describe('thought-helpers:', function () {
         .to.eventually.equal(versions(fixture('include/withPackageOf.ssh.md')))
     })
 
-    it('should create a url and package.json for files in dependency projects (based on the their current package version)', function () {
+    it('should create a rawurl file on github (with a git-ssh-url)', function () {
       return expectHbs(
-        '{{#withPackageOf file}} {{@url}} - {{@package.name}} {{/withPackageOf}}',
-        {file: require.resolve('customize/helpers-io.js')}
+        '{{#withPackageOf file}}{{@rawUrl}}{{/withPackageOf}}',
+        {file: 'test/fixtures/github-ssh-repo-url/package.json'}
       )
-        .to.eventually.equal(versions(fixture('include/withPackageOf.dependency.md')))
+        .to.eventually.equal(versions('https://raw.githubusercontent.com/nknapp/thought-plugin-jsdoc/v1.0.0/package.json'))
     })
 
-    it('should not create an url for files without repository-property in the pacakge.json', function () {
+    it('should create a rawUrl for files in dependency projects (based on the their current package version)', function () {
+      return expectHbs(
+        '{{#withPackageOf file}}{{@rawUrl}}{{/withPackageOf}}',
+        {file: require.resolve('customize/helpers-io.js')}
+      )
+        .to.eventually.equal(versions('https://raw.githubusercontent.com/bootprint/customize/CUSTOMIZE_VERSION/helpers-io.js'))
+    })
+
+    it('should not create an url for files without repository-property in the package.json', function () {
       return expectHbs(
         '{{#withPackageOf file}} {{@url}} - {{@package.name}} {{/withPackageOf}}',
         {file: require.resolve('./fixtures/no-git-repo/package.json')}
       )
         .to.eventually.equal(versions(fixture('include/withPackageOf.no-repo.md')))
+    })
+
+    it('should not create a rawUrl for files without repository-property in the package.json', function () {
+      return expectHbs(
+        '{{#withPackageOf file}}{{@rawUrl}}{{/withPackageOf}}',
+        {file: require.resolve('./fixtures/no-git-repo/package.json')}
+      )
+        .to.eventually.equal('')
     })
 
     it('should create a @relativePath for files in dependency projects', function () {

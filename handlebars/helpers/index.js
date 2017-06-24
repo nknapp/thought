@@ -213,6 +213,7 @@ function renderTree (object, options) {
  * This block helper executes the block in the current context but sets special variables:
  *
  * * `@url`: The github-url of the given file in the current package version is stored into
+ * * `@rawUrl`: The url to the raw file contents on `https://raw.githubusercontent.com`
  * * `@package`: The `package.json` of the file's module is stored into
  * * `@relativePath`: The relative path of the file within the repository
  *
@@ -228,6 +229,7 @@ function withPackageOf (filePath, options) {
       data.url = _githubUrl(resolvedPackageRoot)
       data.package = resolvedPackageRoot.packageJson
       data.relativePath = resolvedPackageRoot.relativeFile
+      data.rawUrl = _rawGithubUrl(resolvedPackageRoot)
       return options.fn(this, {data: data})
     })
 }
@@ -401,9 +403,9 @@ function repoWebUrl (gitUrl) {
   if (!gitUrl) {
     return undefined
   }
-  const match = gitUrl.match(/.*?(:\/\/|@)github\.com[/:](.*?)(#.*?)?$/)
-  if (match) {
-    return 'https://github.com/' + match[2].replace(/\.git$/, '')
+  const orgRepo = _githubOrgRepo(gitUrl)
+  if (orgRepo) {
+    return 'https://github.com/' + orgRepo
   } else {
     return null
   }
@@ -469,4 +471,30 @@ function _githubUrl (resolvedPackageRoot) {
   if (url && url.match(/github.com/)) {
     return `${url}/blob/v${packageJson.version}/${relativeFile}`
   }
+}
+
+/**
+ * Return the raw url of a file in a githb repository
+ * @private
+ */
+function _rawGithubUrl (resolvedPackageRoot) {
+  var {packageJson, relativeFile} = resolvedPackageRoot
+  const orgRepo = _githubOrgRepo(packageJson && packageJson.repository && packageJson.repository.url)
+  if (orgRepo) {
+    return `https://raw.githubusercontent.com/${orgRepo}/v${packageJson.version}/${relativeFile}`
+  }
+}
+
+/**
+ * Returns the "org/repo"-part of a github url
+ * @param {string=} gitUrl the full repository url
+ * @return {string|null} org and repository, separated by a "/"
+ * @private
+ */
+function _githubOrgRepo (gitUrl) {
+  if (!gitUrl) {
+    return null
+  }
+  const match = gitUrl.match(/.*?(:\/\/|@)github\.com[/:](.*?)(#.*?)?$/)
+  return match && match[2] && match[2].replace(/\.git$/, '')
 }
