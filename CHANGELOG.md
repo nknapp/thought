@@ -3,6 +3,10 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.4.0 (Sat, 24 Jun 2017 21:24:30 GMT)
+
+* [d97570f](https://github.com/nknapp/thought/commit/d97570f) Add @rawUrl special-variable to "#withPackageOf"-helper - Nils Knappmeier
+
 # Version 1.3.0 (Sat, 10 Jun 2017 20:44:35 GMT)
 
 * [b52a6fe](https://github.com/nknapp/thought/commit/b52a6fe) Helper '#withPackageOf' adds file-path relative to the project root - Nils Knappmeier
