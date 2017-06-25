@@ -2,7 +2,6 @@
 
 [![NPM version](https://badge.fury.io/js/simple-project.svg)](http://badge.fury.io/js/simple-project)
 
-
 > A simple description
 
 

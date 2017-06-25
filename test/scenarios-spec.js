@@ -52,7 +52,7 @@ function walk (baseDir, relativeDir, visitor) {
   })
 }
 
-describe('the integation test: ', function () {
+describe('the integration test: ', function () {
   this.timeout(10000)
   Scenario.all().forEach((scenario) => {
     describe(`In the scenario "${scenario.name}",`, function () {

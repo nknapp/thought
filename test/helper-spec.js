@@ -433,6 +433,30 @@ describe('thought-helpers:', function () {
     })
   })
 
+  describe('The "hasCodecov"-helper (positive)', function () {
+    executeInDir('test/fixtures/hasCodecov-helper')
+
+    it('should return true, if coveralls is mentioned in the .travis.yml file', function () {
+      return expectHbs(
+        '{{#if (hasCodecov)}}yeah{{else}}nope{{/if}}',
+        {}
+      )
+        .to.eventually.equal('yeah')
+    })
+  })
+
+  describe('The "hasCodecov"-helper (negative)', function () {
+    executeInDir('test/fixtures/hasCodecov-helper-false')
+
+    it('should return true, if coveralls is not configured', function () {
+      return expectHbs(
+        '{{#if (hasCodecov)}}yeah{{else}}nope{{/if}}',
+        {}
+      )
+        .to.eventually.equal('nope')
+    })
+  })
+
   describe('The "githubRepo"-helper', function () {
     it('should return the name of organization/repository in a module with a configured ' +
       'repository on github (e.g. Thought itself)', function () {

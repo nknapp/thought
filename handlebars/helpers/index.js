@@ -35,6 +35,7 @@ module.exports = {
   npm,
   htmlId,
   hasCoveralls,
+  hasCodecov,
   hasGreenkeeper,
   arr
 }
@@ -292,12 +293,37 @@ function htmlId (value) {
  * @memberOf helpers
  */
 function hasCoveralls () {
+  return _searchCiConfig('coveralls')
+}
+
+/**
+ * Check, if [codecov.io](https://codecov.io) is configured in this package
+ *
+ * Check the .travis.yml and the appveyor.yml files for the string 'codecov'
+ * and return true if any of them exists and contains the string.
+ * We expect coveralls to be configured then.
+ *
+ * @return {boolean} true, if coveralls is configured
+ *
+ * @access public
+ * @memberOf helpers
+ */
+function hasCodecov () {
+  return _searchCiConfig('codecov')
+}
+
+/**
+ * Internal function to look for a given string in popular CI config files (like .travis.yml and appveyor.yml)
+ * @param searchString
+ * @private
+ */
+function _searchCiConfig(searchString) {
   const travis = qfs.read('.travis.yml')
   const appveyor = qfs.read('appveyor.yml')
   return Q.allSettled([travis, appveyor]).then(function (files) {
     let i
     for (i = 0; i < files.length; i++) {
-      if (files[i].state === 'fulfilled' && files[i].value.indexOf('coveralls') >= 0) {
+      if (files[i].state === 'fulfilled' && files[i].value.indexOf(searchString) >= 0) {
         return true
       }
     }
