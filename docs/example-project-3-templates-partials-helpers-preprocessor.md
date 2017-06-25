@@ -12,6 +12,7 @@ The following partials exist by default:
 ├── <a href="../handlebars/partials/api.md.hbs">api.md.hbs</a>
 ├─┬ badge/
 │ ├── <a href="../handlebars/partials/badge/appveyor.md.hbs">appveyor.md.hbs</a>
+│ ├── <a href="../handlebars/partials/badge/codecov.md.hbs">codecov.md.hbs</a>
 │ ├── <a href="../handlebars/partials/badge/coveralls.md.hbs">coveralls.md.hbs</a>
 │ ├── <a href="../handlebars/partials/badge/greenkeeper.md.hbs">greenkeeper.md.hbs</a>
 │ ├── <a href="../handlebars/partials/badge/npm.md.hbs">npm.md.hbs</a>

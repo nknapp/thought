@@ -2,7 +2,6 @@
 
 [![NPM version](https://badge.fury.io/js/example-project-4-writing-plugins.svg)](http://badge.fury.io/js/example-project-4-writing-plugins)
 
-
 > An example to show what thought generates on with the vanilla template. (modified by example-plugin)
 
 

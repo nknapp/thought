@@ -22,6 +22,7 @@ Default Handlebars-helpers for Thought
     * [.npm(packageName)](#helpers.npm)
     * [.htmlId(value)](#helpers.htmlId) ⇒ <code>string</code>
     * [.hasCoveralls()](#helpers.hasCoveralls) ⇒ <code>boolean</code>
+    * [.hasCodecov()](#helpers.hasCodecov) ⇒ <code>boolean</code>
     * [.hasGreenkeeper(options)](#helpers.hasGreenkeeper)
     * [.github(filePath)](#helpers.github) ⇒ <code>string</code>
     * [.repoWebUrl(gitUrl)](#helpers.repoWebUrl)
@@ -241,6 +242,18 @@ htmlId('ABCDE') === 'abcde'   // Convert to lowercase
 Check, if [coveralls.io](https://coveralls.io) is configured in this package
 
 Check the .travis.yml and the appveyor.yml files for the string 'coveralls'
+and return true if any of them exists and contains the string.
+We expect coveralls to be configured then.
+
+**Kind**: static method of [<code>helpers</code>](#helpers)  
+**Returns**: <code>boolean</code> - true, if coveralls is configured  
+**Access**: public  
+<a name="helpers.hasCodecov"></a>
+
+### helpers.hasCodecov() ⇒ <code>boolean</code>
+Check, if [codecov.io](https://codecov.io) is configured in this package
+
+Check the .travis.yml and the appveyor.yml files for the string 'codecov'
 and return true if any of them exists and contains the string.
 We expect coveralls to be configured then.
 

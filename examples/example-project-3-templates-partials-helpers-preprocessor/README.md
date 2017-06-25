@@ -2,7 +2,6 @@
 
 [![NPM version](https://badge.fury.io/js/example-project-3-templates-partials-helpers-preprocessor.svg)](http://badge.fury.io/js/example-project-3-templates-partials-helpers-preprocessor)
 
-
 > An example to show what thought generates on with the vanilla template.
 
 The partial 'overview.md.hbs` is included at the top of the page and may contain general information about the module.
@@ -13,6 +12,7 @@ The following partials can be overwritten in `.thought/partials`:
 ├── api.md.hbs
 ├─┬ badge/
 │ ├── appveyor.md.hbs
+│ ├── codecov.md.hbs
 │ ├── coveralls.md.hbs
 │ ├── greenkeeper.md.hbs
 │ ├── npm.md.hbs

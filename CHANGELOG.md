@@ -3,6 +3,10 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.5.0 (Sun, 25 Jun 2017 08:52:58 GMT)
+
+* [0a694ac](https://github.com/nknapp/thought/commit/0a694ac) Generate codecov-badge if codecov appears in .travis.yml or appveyor.yml - Nils Knappmeier
+
 # Version 1.4.0 (Sat, 24 Jun 2017 21:24:30 GMT)
 
 * [d97570f](https://github.com/nknapp/thought/commit/d97570f) Add @rawUrl special-variable to "#withPackageOf"-helper - Nils Knappmeier
