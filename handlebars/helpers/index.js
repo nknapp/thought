@@ -317,7 +317,7 @@ function hasCodecov () {
  * @param searchString
  * @private
  */
-function _searchCiConfig(searchString) {
+function _searchCiConfig (searchString) {
   const travis = qfs.read('.travis.yml')
   const appveyor = qfs.read('appveyor.yml')
   return Q.allSettled([travis, appveyor]).then(function (files) {
