@@ -10,6 +10,7 @@
 'use strict'
 
 var Scenario = require('./lib/scenarios')
+var cpMock = require('./lib/child-process-mock')
 var init = require('../lib/init')
 var bluebird = require('bluebird')
 var simpleGit = require('simple-git')
@@ -24,6 +25,19 @@ var expect = chai.expect
 
 describe('The "init" option', function () {
   this.timeout(30000)
+
+  beforeEach(function () {
+    // Make "npm install" faster by not really executing it
+    cpMock.mockSpawn(
+      (cmd) => cmd.match(/npm/),
+      function (cmd, args, options) {
+        setTimeout(() => this.emit('exit', 0), 10)
+      }
+    )
+  })
+
+  afterEach(() => cpMock.clearMocks())
+
   it('should add scripts and devDependency to package.json', function () {
     var scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init1')
     return scenario.prepareAndRun(() => {

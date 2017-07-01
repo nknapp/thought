@@ -10,6 +10,8 @@
 const path = require('path')
 const fs = require('fs')
 const debug = require('debug')
+const pify = require('pify')
+const readFile = pify(fs.readFile)
 
 /**
  * Default configuration for .thought. Override this configuration by creating a file `.thought/config.js`
@@ -48,7 +50,7 @@ module.exports = function createSpec (workingDir) {
           templates: path.join(__dirname, 'handlebars', 'templates'),
           helpers: require.resolve('./handlebars/helpers/index.js'),
           data: {
-            'package': require(path.resolve(workingDir, 'package.json')),
+            'package': readFile(path.resolve(workingDir, 'package.json'), 'utf-8').then(JSON.parse),
             config: config,
             workingDir: workingDir
           },
