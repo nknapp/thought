@@ -1,6 +1,6 @@
 # example-project-2-example-license-jsdoc-badges 
 
-[![NPM version](https://badge.fury.io/js/example-project-2-example-license-jsdoc-badges.svg)](http://badge.fury.io/js/example-project-2-example-license-jsdoc-badges)
+[![NPM version](https://img.shields.io/npm/v/example-project-2-example-license-jsdoc-badges.svg)](https://npmjs.com/package/example-project-2-example-license-jsdoc-badges)
 [![Travis Build Status](https://travis-ci.org/nknapp/thought-example.svg?branch=master)](https://travis-ci.org/nknapp/thought-example)
 [![Coverage Status](https://img.shields.io/coveralls/nknapp/thought-example.svg)](https://coveralls.io/r/nknapp/thought-example)
 [![Greenkeeper badge](https://badges.greenkeeper.io/nknapp/thought-example.svg)](https://greenkeeper.io/)

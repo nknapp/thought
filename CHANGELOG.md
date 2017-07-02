@@ -3,6 +3,16 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.5.1 (Sun, 02 Jul 2017 21:56:57 GMT)
+
+*  Fix tests for npm-badge from shields.io - Nils Knappmeier
+* [6f7b912](https://github.com/nknapp/thought/commit/6f7b912) Remove "preversion"-script from package.json - Nils Knappmeier
+* [314d5c3](https://github.com/nknapp/thought/commit/314d5c3) Remove "find-package"-dependency from cli-script (+ refactoring) - Nils Knappmeier
+* [6e2f575](https://github.com/nknapp/thought/commit/6e2f575) [372a953](https://github.com/nknapp/thought/commit/372a953) Use npm-badge from shields.io - Nils Knappmeier
+  * This one may be controversial in terms of Semver, because tests of old Thought versions are failing due to this change, but I 
+    consider this to be a patch-change only, because it fixes the badge for scoped packages and the badge is not really supposed to 
+    be parsed (humans still see mainly the same badge)
+
 # Version 1.5.0 (Sun, 25 Jun 2017 08:52:58 GMT)
 
 * [0a694ac](https://github.com/nknapp/thought/commit/0a694ac) Generate codecov-badge if codecov appears in .travis.yml or appveyor.yml - Nils Knappmeier

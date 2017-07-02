@@ -1,6 +1,6 @@
 # example-project-3-templates-partials-helpers-preprocessor 
 
-[![NPM version](https://badge.fury.io/js/example-project-3-templates-partials-helpers-preprocessor.svg)](http://badge.fury.io/js/example-project-3-templates-partials-helpers-preprocessor)
+[![NPM version](https://img.shields.io/npm/v/example-project-3-templates-partials-helpers-preprocessor.svg)](https://npmjs.com/package/example-project-3-templates-partials-helpers-preprocessor)
 
 > An example to show what thought generates on with the vanilla template.
 
