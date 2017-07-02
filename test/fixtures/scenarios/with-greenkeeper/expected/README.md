@@ -1,6 +1,6 @@
 # simple-project 
 
-[![NPM version](https://badge.fury.io/js/simple-project.svg)](http://badge.fury.io/js/simple-project)
+[![NPM version](https://img.shields.io/npm/v/simple-project.svg)](https://npmjs.com/package/simple-project)
 [![Greenkeeper badge](https://badges.greenkeeper.io/bootprint/bootprint.svg)](https://greenkeeper.io/)
 
 > 
