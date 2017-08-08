@@ -44,7 +44,7 @@
     "customize": "^2.0.1",
     "customize-engine-handlebars": "^2.0.0",
     "customize-write-files": "^2.0.0",
-    "debug": "^2.6.3",
+    "debug": "^3.0.0",
     "deep-aplus": "^1.0.4",
     "glob": "^7.1.1",
     "handlebars": "^4.0.6",
