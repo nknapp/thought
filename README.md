@@ -75,18 +75,19 @@ Calling `thought --help` will print a command-line reference:
 Usage: thought [options] [command]
 
 
+  Options:
+
+    -V, --version  output the version number
+    -d, --debug    higher stack-trace-limit, long stack-traces
+    -h, --help     output usage information
+
+
   Commands:
 
     run [options]   Generate documentation from your package.json and some templates.
     init            Register scripts in the current module's package.json
     check-engines   Check that all engines (such as npm) have versions that ensure Thought to run correctly
     up-to-date      Perform up-to-date check of the current documentation. Exit with non-zero exit-code when thought must be run again.
-
-  Options:
-
-    -h, --help     output usage information
-    -V, --version  output the version number
-    -d, --debug    higher stack-trace-limit, long stack-traces
 ```
 
 #### `thought init`: Using Thought as version-script for npm

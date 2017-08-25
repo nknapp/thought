@@ -3,6 +3,14 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 1.5.2 (Fri, 25 Aug 2017 21:01:33 GMT)
+
+* [c1d5831](https://github.com/nknapp/thought/commit/c1d5831) Remove NodeJS 7 from travis build. Add NodeJS 8 - Nils Knappmeier
+* [28d3171](https://github.com/nknapp/thought/commit/28d3171) Bump dependency versions, fix code style - Nils Knappmeier
+  * It also bumps the dependency of "trace-and-clarify-if-possible", which disables "trace@2" for NodeJS 8.
+
+
+
 # Version 1.5.1 (Sun, 02 Jul 2017 21:56:57 GMT)
 
 *  Fix tests for npm-badge from shields.io - Nils Knappmeier
