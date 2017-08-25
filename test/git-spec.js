@@ -32,11 +32,10 @@ describe('The "addToGit" option', function () {
         // Check only which files have been added to the index
         .then((status) => {
           return status.files
-              .filter(fileEntry => fileEntry.index === 'A')
-              .map(fileEntry => fileEntry.path)
-              .sort()
-        }
-        )
+            .filter(fileEntry => fileEntry.index === 'A')
+            .map(fileEntry => fileEntry.path)
+            .sort()
+        })
         .then((files) => expect(files).to.deep.equal(['CONTRIBUTING.md', 'README.md']))
     })
   })
