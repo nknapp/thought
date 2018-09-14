@@ -73,7 +73,7 @@
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "mocha": "^4.0.0",
-    "nock": "^9.0.14",
+    "nock": "^10.0.0",
     "recursive-copy": "^2.0.6",
     "thought-plugin-jsdoc": "^1.0.1",
     "thoughtful-release": "^0.3.1"
