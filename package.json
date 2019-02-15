@@ -41,7 +41,7 @@
     "bluebird": "^3.5.0",
     "cheerio": "^1.0.0-rc.2",
     "commander": "^2.11.0",
-    "customize": "^2.0.1",
+    "customize": "^3.0.0",
     "customize-engine-handlebars": "^2.2.2",
     "customize-write-files": "^2.0.1",
     "debug": "^3.0.1",
