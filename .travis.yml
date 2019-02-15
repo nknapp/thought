@@ -11,4 +11,4 @@ script:
   - eslint --max-warnings 0 .
 after_script:
   - npm install coveralls
-  - cat ./coverage/lcov.info | coveralls
+  - nyc report --reporter=text-lcov | coveralls
