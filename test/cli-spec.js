@@ -145,7 +145,7 @@ function runMockThought (...args) {
     cli(argv, fakeConsole, (code) => {
       const stdout = fakeConsole.stdout.join('\n')
       const stderr = fakeConsole.stderr.join('\n')
-      resolve({code, stdout, stderr})
+      resolve({ code, stdout, stderr })
     })
   })
 }

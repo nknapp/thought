@@ -51,7 +51,7 @@ function expectHbs (template, input, filename) {
           partials: {},
           partialWrapper: a => a,
           helpers: helpers,
-          hbsOptions: {noEscape: true},
+          hbsOptions: { noEscape: true },
           templates: {},
           data: input
         }
@@ -77,7 +77,7 @@ function expectHbs (template, input, filename) {
 function fixture (filename) {
   const absPath = path.join(__dirname, 'fixtures', filename)
   try {
-    const result = fs.readFileSync(absPath, {encoding: 'utf-8'}).trim()
+    const result = fs.readFileSync(absPath, { encoding: 'utf-8' }).trim()
     return result
   } catch (e) {
     if (e.code === 'ENOENT') {
@@ -90,12 +90,12 @@ function fixture (filename) {
 describe('thought-helpers:', function () {
   describe('The "dirTree" helper', function () {
     it('should return a file-hierarchy as markdown code', function () {
-      return expectHbs('{{dirTree directory}}', {directory: 'test/fixtures/dir-tree'})
+      return expectHbs('{{dirTree directory}}', { directory: 'test/fixtures/dir-tree' })
         .to.eventually.equal(fixture('dir-tree.output.txt'))
     })
 
     it('should add a label as name of the root-node, if specified', function () {
-      return expectHbs('{{dirTree directory label=\'rootNode\'}}', {directory: 'test/fixtures/dir-tree'})
+      return expectHbs('{{dirTree directory label=\'rootNode\'}}', { directory: 'test/fixtures/dir-tree' })
         .to.eventually.equal(fixture('dir-tree.label.txt'))
     })
 
@@ -108,7 +108,7 @@ describe('thought-helpers:', function () {
     })
 
     it('should condense paths with a single subdirectory into a single node', function () {
-      return expectHbs('{{dirTree directory glob}}', {directory: 'test/fixtures/dir-tree', glob: '**/aFile.txt'})
+      return expectHbs('{{dirTree directory glob}}', { directory: 'test/fixtures/dir-tree', glob: '**/aFile.txt' })
         .to.eventually.equal(fixture('dir-tree.output.condensed.txt'))
     })
 
@@ -148,14 +148,14 @@ describe('thought-helpers:', function () {
     it('create links relative to the current target file if the "links"-option is set"', function () {
       return expectHbs(
         '{{dirTree directory glob links=\'true\'}}',
-        {directory: 'test/fixtures/dir-tree/subdirA/bDir'},
+        { directory: 'test/fixtures/dir-tree/subdirA/bDir' },
         'src/test.md'
       )
         .to.eventually.equal(fixture('dir-tree.output.links.relative.txt'))
     })
 
     it('should throw an error if the glob does not resolve to any files', function () {
-      return expectHbs('{{dirTree directory}}', {directory: 'non-existing-dir'})
+      return expectHbs('{{dirTree directory}}', { directory: 'non-existing-dir' })
         .to.be.rejectedWith('Cannot find a single file for \'**\' in \'non-existing-dir\'')
     })
   })
@@ -166,7 +166,7 @@ describe('thought-helpers:', function () {
     it('should resolve the current project properly', function () {
       return expectHbs(
         '{{example file}}',
-        {file: 'examples/full.js'}
+        { file: 'examples/full.js' }
       )
         .to.eventually.equal(fixture('example-helper/examples/output.full.md'))
     })
@@ -174,7 +174,7 @@ describe('thought-helpers:', function () {
     it('should return the marked part of the file if `options.hash.snippet` is true', function () {
       return expectHbs(
         '{{example file snippet=true}}',
-        {file: 'examples/snippet.js'}
+        { file: 'examples/snippet.js' }
       )
         .to.eventually.equal(fixture('example-helper/examples/output.snippet.md'))
     })
@@ -182,7 +182,7 @@ describe('thought-helpers:', function () {
     it('should ignore the snippet markers, if "snippet=true" is not set`', function () {
       return expectHbs(
         '{{example file}}',
-        {file: 'examples/snippet.js'}
+        { file: 'examples/snippet.js' }
       )
         .to.eventually.equal(fixture('example-helper/examples/output.snippet-full.md'))
     })
@@ -190,31 +190,31 @@ describe('thought-helpers:', function () {
 
   describe('The "json"-helper', function () {
     it('should display a javascript-object as JSON', function () {
-      return expectHbs('{{json .}}', {a: {b: 2}, c: [1, 2, 'a', 'b']})
+      return expectHbs('{{json .}}', { a: { b: 2 }, c: [1, 2, 'a', 'b'] })
         .to.eventually.equal(fixture('json.output.simple.md'))
     })
   })
 
   describe('The "include"-helper', function () {
     it('should include a file into fences', function () {
-      return expectHbs('{{include file}}', {file: 'test/fixtures/include/javascript.js'})
+      return expectHbs('{{include file}}', { file: 'test/fixtures/include/javascript.js' })
         .to.eventually.equal(fixture('include/output.javascript.md'))
     })
 
     it('should use the file extension as language descriptor', function () {
-      return expectHbs('{{include file}}', {file: 'test/fixtures/include/text.txt'})
+      return expectHbs('{{include file}}', { file: 'test/fixtures/include/text.txt' })
         .to.eventually.equal(fixture('include/output.text.md'))
     })
 
     it('should prefer the file language descriptor provided as second parameter', function () {
-      return expectHbs('{{include file "txt"}}', {file: 'test/fixtures/include/javascript.js'})
+      return expectHbs('{{include file "txt"}}', { file: 'test/fixtures/include/javascript.js' })
         .to.eventually.equal(fixture('include/output.javascript-as-text.md'))
     })
   })
 
   describe('The "includeRaw"-helper', function () {
     it('should include a file without any fences', function () {
-      return expectHbs('{{includeRaw file}}', {file: 'test/fixtures/include/javascript.js'})
+      return expectHbs('{{includeRaw file}}', { file: 'test/fixtures/include/javascript.js' })
         .to.eventually.equal(fixture('include/javascript.js'))
     })
   })
@@ -248,7 +248,7 @@ describe('thought-helpers:', function () {
 
   describe('The "renderTree"-helper', function () {
     it('render a tree', function () {
-      return expectHbs('{{#renderTree tree}}--{{prop1}} ({{children.length}})--{{/renderTree}}', {tree: tree()})
+      return expectHbs('{{#renderTree tree}}--{{prop1}} ({{children.length}})--{{/renderTree}}', { tree: tree() })
         .to.eventually.equal(fixture('renderTree.output.md'))
     })
 
@@ -285,7 +285,7 @@ describe('thought-helpers:', function () {
     it('should create a url and package.json for file on github (based on the current package version)', function () {
       return expectHbs(
         '{{#withPackageOf file}} {{@url}} - {{@package.name}} {{/withPackageOf}}',
-        {file: 'test/fixtures/shout.js'}
+        { file: 'test/fixtures/shout.js' }
       )
         .to.eventually.equal(versions(fixture('include/withPackageOf.default.md')))
     })
@@ -293,7 +293,7 @@ describe('thought-helpers:', function () {
     it('should create a rawUrl for file on github (based on the current package version)', function () {
       return expectHbs(
         '{{#withPackageOf file}}{{@rawUrl}}{{/withPackageOf}}',
-        {file: 'test/fixtures/shout.js'}
+        { file: 'test/fixtures/shout.js' }
       )
         .to.eventually.equal(versions('https://raw.githubusercontent.com/nknapp/thought/THOUGHT_VERSION/test/fixtures/shout.js'))
     })
@@ -301,7 +301,7 @@ describe('thought-helpers:', function () {
     it('should create a url and package.json for file on github (with a git-ssh-url)', function () {
       return expectHbs(
         '{{#withPackageOf file}} {{@url}} - {{@package.name}} {{/withPackageOf}}',
-        {file: 'test/fixtures/github-ssh-repo-url/package.json'}
+        { file: 'test/fixtures/github-ssh-repo-url/package.json' }
       )
         .to.eventually.equal(versions(fixture('include/withPackageOf.ssh.md')))
     })
@@ -309,7 +309,7 @@ describe('thought-helpers:', function () {
     it('should create a rawurl file on github (with a git-ssh-url)', function () {
       return expectHbs(
         '{{#withPackageOf file}}{{@rawUrl}}{{/withPackageOf}}',
-        {file: 'test/fixtures/github-ssh-repo-url/package.json'}
+        { file: 'test/fixtures/github-ssh-repo-url/package.json' }
       )
         .to.eventually.equal(versions('https://raw.githubusercontent.com/nknapp/thought-plugin-jsdoc/v1.0.0/package.json'))
     })
@@ -317,7 +317,7 @@ describe('thought-helpers:', function () {
     it('should create a rawUrl for files in dependency projects (based on the their current package version)', function () {
       return expectHbs(
         '{{#withPackageOf file}}{{@rawUrl}}{{/withPackageOf}}',
-        {file: require.resolve('customize/helpers-io.js')}
+        { file: require.resolve('customize/helpers-io.js') }
       )
         .to.eventually.equal(versions('https://raw.githubusercontent.com/bootprint/customize/CUSTOMIZE_VERSION/helpers-io.js'))
     })
@@ -325,7 +325,7 @@ describe('thought-helpers:', function () {
     it('should not create an url for files without repository-property in the package.json', function () {
       return expectHbs(
         '{{#withPackageOf file}} {{@url}} - {{@package.name}} {{/withPackageOf}}',
-        {file: require.resolve('./fixtures/no-git-repo/package.json')}
+        { file: require.resolve('./fixtures/no-git-repo/package.json') }
       )
         .to.eventually.equal(versions(fixture('include/withPackageOf.no-repo.md')))
     })
@@ -333,7 +333,7 @@ describe('thought-helpers:', function () {
     it('should not create a rawUrl for files without repository-property in the package.json', function () {
       return expectHbs(
         '{{#withPackageOf file}}{{@rawUrl}}{{/withPackageOf}}',
-        {file: require.resolve('./fixtures/no-git-repo/package.json')}
+        { file: require.resolve('./fixtures/no-git-repo/package.json') }
       )
         .to.eventually.equal('')
     })
@@ -341,7 +341,7 @@ describe('thought-helpers:', function () {
     it('should create a @relativePath for files in dependency projects', function () {
       return expectHbs(
         '{{#withPackageOf file}}{{@relativePath}}{{/withPackageOf}}',
-        {file: require.resolve('customize/helpers-io.js')}
+        { file: require.resolve('customize/helpers-io.js') }
       )
         .to.eventually.equal('helpers-io.js')
     })
@@ -350,7 +350,7 @@ describe('thought-helpers:', function () {
   it('should create a @relativePath for projects without repository-property', function () {
     return expectHbs(
       '{{#withPackageOf file}}{{@relativePath}}{{/withPackageOf}}',
-      {file: require.resolve('./fixtures/no-git-repo/package.json')}
+      { file: require.resolve('./fixtures/no-git-repo/package.json') }
     )
       .to.eventually.equal('package.json')
   })
@@ -359,7 +359,7 @@ describe('thought-helpers:', function () {
     it('should create a url to file on github (based on the current package version)', function () {
       return expectHbs(
         '{{github file}}',
-        {file: 'test/fixtures/shout.js'}
+        { file: 'test/fixtures/shout.js' }
       )
         .to.eventually.equal(versions(fixture('include/github.default.md')))
     })
@@ -367,7 +367,7 @@ describe('thought-helpers:', function () {
     it('should create a url files in dependency projects (based on the their current package version)', function () {
       return expectHbs(
         '{{github file}}',
-        {file: require.resolve('customize/helpers-io.js')}
+        { file: require.resolve('customize/helpers-io.js') }
       )
         .to.eventually.equal(versions(fixture('include/github.dependency.md')))
     })
@@ -403,7 +403,7 @@ describe('thought-helpers:', function () {
     it('should create a link to the npm-page, given the package name', function () {
       return expectHbs(
         '{{npm file}}',
-        {file: 'bootprint-openapi'}
+        { file: 'bootprint-openapi' }
       )
         .to.eventually.equal('[bootprint-openapi](https://npmjs.com/package/bootprint-openapi)')
     })
@@ -496,6 +496,8 @@ describe('thought-helpers:', function () {
   })
 
   describe('The "hasGreenkeeper"-helper', function () {
+    // Increased timeout due to "got"-retries
+    this.timeout(10000)
     afterEach(httpMocks.cleanup)
 
     it('should return false, if the githubRepo is not set', function () {
@@ -539,7 +541,7 @@ describe('thought-helpers:', function () {
         .to.eventually.equal('false')
     })
 
-    it('should return true, if the project does have greenkeeper enabled (parsing the badge)', function () {
+    it('should return true, if the project does have greenkeeper enabled, parsing the badge', function () {
       httpMocks.greenkeeperEnabled('/group/repo.svg')
 
       return expectHbs('{{hasGreenkeeper}}', {

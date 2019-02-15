@@ -30,6 +30,7 @@ module.exports = {
     nock(`https://badges.greenkeeper.io/`)
       .get(urlPath)
       .reply(statusCode, `{"statusCode":${statusCode},"error":"Error"}`)
+      .persist()
   },
 
   /**

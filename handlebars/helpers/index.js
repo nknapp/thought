@@ -7,12 +7,12 @@ const _ = {
   map: require('lodash.map')
 }
 const debug = require('debug')('thought:helpers')
-const {resolvePackageRoot} = require('../../lib/utils/resolve-package-root')
+const { resolvePackageRoot } = require('../../lib/utils/resolve-package-root')
 const Handlebars = require('handlebars')
 const qfs = require('m-io/fs')
 const util = require('util')
 const Q = require('q')
-const popsicle = require('popsicle')
+const got = require('got')
 const $ = require('cheerio')
 
 /**
@@ -231,7 +231,7 @@ function withPackageOf (filePath, options) {
       data.package = resolvedPackageRoot.packageJson
       data.relativePath = resolvedPackageRoot.relativeFile
       data.rawUrl = _rawGithubUrl(resolvedPackageRoot)
-      return options.fn(this, {data: data})
+      return options.fn(this, { data: data })
     })
 }
 
@@ -348,17 +348,21 @@ function hasGreenkeeper (options) {
   }
   // otherwise autodetect via badge
   const slug = githubRepo(options)
-  return popsicle.get(`https://badges.greenkeeper.io/${slug}.svg`)
-    .then(function (response) {
-      if (response.status === 404) {
-        return false
-      } else if (response.status >= 400) {
-        const error = new Error(response.body)
-        error.statusCode = response.status
-        throw error
+  return got(`https://badges.greenkeeper.io:443/${slug}.svg`)
+    .then(
+      (response) => {
+        return $(response.body).find('text').last().text() !== 'not found'
+      },
+      (err) => {
+        if (err.statusCode === 404) {
+          return false
+        } else if (err.statusCode >= 400) {
+          const newError = new Error(err.body)
+          newError.statusCode = err.statusCode
+          throw newError
+        }
       }
-      return $(response.body).find('text').last().text() !== 'not found'
-    })
+    )
 }
 
 /**
@@ -492,7 +496,7 @@ function arr (...args) {
  * @private
  */
 function _githubUrl (resolvedPackageRoot) {
-  var {packageJson, relativeFile} = resolvedPackageRoot
+  var { packageJson, relativeFile } = resolvedPackageRoot
   const url = repoWebUrl(packageJson && packageJson.repository && packageJson.repository.url)
   if (url && url.match(/github.com/)) {
     return `${url}/blob/v${packageJson.version}/${relativeFile}`
@@ -504,7 +508,7 @@ function _githubUrl (resolvedPackageRoot) {
  * @private
  */
 function _rawGithubUrl (resolvedPackageRoot) {
-  var {packageJson, relativeFile} = resolvedPackageRoot
+  var { packageJson, relativeFile } = resolvedPackageRoot
   const orgRepo = _githubOrgRepo(packageJson && packageJson.repository && packageJson.repository.url)
   if (orgRepo) {
     return `https://raw.githubusercontent.com/${orgRepo}/v${packageJson.version}/${relativeFile}`

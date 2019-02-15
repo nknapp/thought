@@ -27,7 +27,7 @@ describe('The "addToGit" option', function () {
       var git = bluebird.promisifyAll(simpleGit(scenario.actual))
 
       return git.initAsync()
-        .then(() => thought({addToGit: true}))
+        .then(() => thought({ addToGit: true }))
         .then(() => git.statusAsync())
         // Check only which files have been added to the index
         .then((status) => {

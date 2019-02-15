@@ -54,7 +54,7 @@ function dirTree (baseDir, globPattern, options) {
 
       const rootNode = {
         label: hashOptions.label || '',
-        nodes: treeFromPaths(files, baseDir, ({parent, file, explicit}) => {
+        nodes: treeFromPaths(files, baseDir, ({ parent, file, explicit }) => {
           if (explicit && hashOptions.links) {
             // Compute relative path from current target-file to the listed file
             var targetPath = path.relative(path.dirname(options.customize.targetFile), `${parent}/${file}`)
@@ -102,7 +102,7 @@ function treeFromPaths (files, parent, renderLabelFn) {
     // just implicit through its children
     const explicit = group.indexOf(groupKey) >= 0
     return {
-      label: renderLabelFn({parent, file: groupKey, explicit}),
+      label: renderLabelFn({ parent, file: groupKey, explicit }),
       nodes: treeFromPaths(
         // Remove parent directory from file paths
         group

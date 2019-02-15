@@ -11,7 +11,7 @@ process.chdir(__dirname)
 qfs.list(__dirname)
   .then(list => list.filter(dir => dir.match(/^example-project.*$/)))
   .then(list => list.map(dir => {
-    return exeq('thought', ['run', '-a'], {cwd: dir})
+    return exeq('thought', ['run', '-a'], { cwd: dir })
       .then((result) => {
         console.log(`Done with '${dir}'`)
       })
