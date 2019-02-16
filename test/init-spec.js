@@ -19,7 +19,7 @@ var chai = require('chai')
 chai.use(require('chai-as-promised'))
 chai.use(require('dirty-chai'))
 
-var qfs = require('m-io/fs')
+var fs = require('fs-extra')
 
 var expect = chai.expect
 
@@ -46,12 +46,12 @@ describe('The "init" option', function () {
       return git.initAsync()
         .then(() => git.addAsync('package.json'))
         .then(() => git.commitAsync('Initial checkin'))
-        .then(() => qfs.write('.gitignore', 'node_modules'))
+        .then(() => fs.writeFile('.gitignore', 'node_modules'))
         .then(() => init())
         .then(() => git.logAsync())
         // Check only which files have been added to the index
         .then(log => expect(log.latest.message, 'package.json must have been committed').to.match(/Added scripts to run thought on version-bumps/))
-        .then(() => qfs.read('package.json'))
+        .then(() => fs.readFile('package.json','utf-8'))
         .then(pkgJson => expect(JSON.parse(pkgJson), 'Checking package.json').to.deep.equals({
           'author': '',
           'description': 'A simple description',
@@ -73,7 +73,7 @@ describe('The "init" option', function () {
           },
           'version': '1.0.0'
         }))
-        .then(() => expect(qfs.exists('node_modules/thought'), 'Thought dependency must be installed').to.be.ok())
+        .then(() => expect(fs.existsSync('node_modules/thought'), 'Thought dependency must be installed').to.be.true())
     })
   })
 
@@ -83,20 +83,20 @@ describe('The "init" option', function () {
       var git = bluebird.promisifyAll(simpleGit(scenario.actual))
 
       return git.initAsync()
-        .then(() => qfs.read('package.json'))
+        .then(() => fs.readFile('package.json','utf-8'))
         .then(JSON.parse)
         .then((pkgJson) => {
           delete pkgJson.scripts
-          return qfs.write('package.json', JSON.stringify(pkgJson))
+          return fs.writeFile('package.json', JSON.stringify(pkgJson))
         })
         .then(() => git.addAsync('package.json'))
         .then(() => git.commitAsync('Initial checkin'))
-        .then(() => qfs.write('.gitignore', 'node_modules'))
+        .then(() => fs.writeFile('.gitignore', 'node_modules'))
         .then(() => init())
         .then(() => git.logAsync())
         // Check only which files have been added to the index
         .then(log => expect(log.latest.message, 'package.json must have been committed').to.match(/Added scripts to run thought on version-bumps/))
-        .then(() => qfs.read('package.json'))
+        .then(() => fs.readFile('package.json','utf-8'))
         .then(pkgJson => expect(JSON.parse(pkgJson), 'Checking package.json').to.deep.equals({
           'author': '',
           'description': 'A simple description',
@@ -117,7 +117,7 @@ describe('The "init" option', function () {
           },
           'version': '1.0.0'
         }))
-        .then(() => expect(qfs.exists('node_modules/thought'), 'Thought dependency must be installed').to.be.ok())
+        .then(() => expect(fs.existsSync('node_modules/thought'), 'Thought dependency must be installed').to.be.ok())
     })
   })
 
@@ -136,12 +136,12 @@ describe('The "init" option', function () {
       var git = bluebird.promisifyAll(simpleGit(scenario.actual))
 
       return git.initAsync()
-        .then(() => qfs.read('package.json'))
+        .then(() => fs.readFile('package.json','utf-8'))
 
         .then(JSON.parse)
         .then((pkgJson) => {
           pkgJson.scripts.thought = 'thought run -a'
-          return qfs.write('package.json', JSON.stringify(pkgJson))
+          return fs.writeFile('package.json', JSON.stringify(pkgJson))
         })
         .then(() => git.addAsync('package.json'))
         .then(() => git.commitAsync('Initial checkin'))
@@ -155,17 +155,17 @@ describe('The "init" option', function () {
       var git = bluebird.promisifyAll(simpleGit(scenario.actual))
 
       return git.initAsync()
-        .then(() => qfs.read('package.json'))
+        .then(() => fs.readFile('package.json','utf-8'))
 
         .then(JSON.parse)
         .then((pkgJson) => {
           pkgJson.scripts.version = 'run something'
-          return qfs.write('package.json', JSON.stringify(pkgJson))
+          return fs.writeFile('package.json', JSON.stringify(pkgJson))
         })
         .then(() => git.addAsync('package.json'))
         .then(() => git.commitAsync('Initial checkin'))
         .then(() => init())
-        .then(() => qfs.read('package.json'))
+        .then(() => fs.readFile('package.json','utf-8'))
         .then(JSON.parse)
         .then((pkgJson) => expect(pkgJson.scripts.version).to.equal('npm run thought && run something'))
     })

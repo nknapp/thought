@@ -9,7 +9,7 @@ const _ = {
 const debug = require('debug')('thought:helpers')
 const { resolvePackageRoot } = require('../../lib/utils/resolve-package-root')
 const Handlebars = require('handlebars')
-const qfs = require('m-io/fs')
+const fs = require('fs-extra')
 const util = require('util')
 const Q = require('q')
 const got = require('got')
@@ -63,7 +63,7 @@ function json (obj) {
  * @memberOf helpers
  */
 function include (filename, language) {
-  return qfs.read(filename).then(function (contents) {
+  return fs.readFile(filename,'utf-8').then(function (contents) {
     return '```' +
       (typeof language === 'string' ? language : path.extname(filename).substr(1)) +
       '\n' +
@@ -80,7 +80,7 @@ function include (filename, language) {
  * @memberOf helpers
  */
 function includeRaw (filename) {
-  return qfs.read(filename)
+  return fs.readFile(filename, 'utf-8')
 }
 
 /**
@@ -106,7 +106,7 @@ function includeRaw (filename) {
  * @memberOf helpers
  */
 function example (filename, options) {
-  return qfs.read(filename)
+  return fs.readFile(filename, 'utf-8')
     .then(function (contents) {
       // Relative path to the current module (e.g. "../"). This path must be replaced
       // by the module name in the
@@ -130,12 +130,12 @@ function example (filename, options) {
  * Return true if a file exists
  *
  * @param {string} filename the path to the file
- * @return {boolean} true, if the file or diectory exists
+ * @return {Promise<boolean>} true, if the file or diectory exists
  * @access public
  * @memberOf helpers
  */
 function exists (filename) {
-  return qfs.exists(filename)
+  return fs.exists(filename)
 }
 
 /**
@@ -318,8 +318,8 @@ function hasCodecov () {
  * @private
  */
 function _searchCiConfig (searchString) {
-  const travis = qfs.read('.travis.yml')
-  const appveyor = qfs.read('appveyor.yml')
+  const travis = fs.readFile('.travis.yml','utf-8')
+  const appveyor = fs.readFile('appveyor.yml','utf-8')
   return Q.allSettled([travis, appveyor]).then(function (files) {
     let i
     for (i = 0; i < files.length; i++) {

@@ -9,8 +9,9 @@
 
 'use strict'
 
-var fs = require('fs')
-var qfs = require('m-io/fs')
+var fs = require('fs-extra')
+var pify = require('pify')
+var glob = pify(require('glob'))
 var deep = require('deep-aplus')(Promise)
 var path = require('path')
 var chai = require('chai')
@@ -20,17 +21,6 @@ var expect = chai.expect
 var thought = require('../')
 var Scenario = require('./lib/scenarios')
 
-function listTreeRelative (baseDir, filter) {
-  return qfs.listTree(baseDir, filter)
-    .then((result) => {
-      const relativeFiles = result.map((_path) => {
-        return path.relative(baseDir, _path)
-      })
-      relativeFiles.sort()
-      return relativeFiles
-    })
-}
-
 /**
  * Travers all files and subdirs of a base directory and
  * call the callback for each of them
@@ -38,7 +28,7 @@ function listTreeRelative (baseDir, filter) {
  * @param relativeDir the current directory within the base directory (only for recursive calls)
  * @param visitor the callback / visitor
  */
-function walk (baseDir, relativeDir, visitor) {
+function walk(baseDir, relativeDir, visitor) {
   var dirEntries = fs.readdirSync(path.join(baseDir, relativeDir))
   dirEntries.forEach(function (fileOrDir) {
     const relativePath = path.join(relativeDir, fileOrDir)
@@ -69,8 +59,8 @@ describe('the integration test: ', function () {
 
         it('the generated files in "actual" should be should match in "expected"', function () {
           var filter = (name, stats) => stats.isFile()
-          var expected = listTreeRelative(scenario.expected, filter)
-          var actual = listTreeRelative(scenario.actual, filter)
+          var expected = glob('**/*', { root: scenario.expected, nodir: true, dot: true })
+          var actual = glob('**/*', { root: scenario.actual, nodir: true, dot: true })
           return deep({ expected, actual })
             .then(function (result) {
               expect(result.actual).to.deep.equal(result.expected)

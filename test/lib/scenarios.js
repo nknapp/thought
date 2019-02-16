@@ -1,8 +1,5 @@
-var fs = require('fs')
+var fs = require('fs-extra')
 var path = require('path')
-
-var qfs = require('m-io/fs')
-var copy = require('recursive-copy')
 
 var basedir = path.resolve('test', 'fixtures', 'scenarios')
 
@@ -22,8 +19,8 @@ class Scenario {
    * Prepare setup of the scenario
    */
   prepare () {
-    return qfs.removeTree(this.actual)
-      .then(() => copy(this.input, this.actual, { dot: true }))
+    return fs.remove(this.actual)
+      .then(() => fs.copy(this.input, this.actual, { dot: true }))
       .then(() => this)
   }
 
