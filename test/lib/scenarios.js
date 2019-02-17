@@ -20,7 +20,7 @@ class Scenario {
    */
   prepare () {
     return fs.remove(this.actual)
-      .then(() => fs.copy(this.input, this.actual, { dot: true }))
+      .then(() => fs.copy(this.input, this.actual, { recursive: true }))
       .then(() => this)
   }
 
