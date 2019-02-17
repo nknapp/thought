@@ -63,7 +63,7 @@ function json (obj) {
  * @memberOf helpers
  */
 function include (filename, language) {
-  return fs.readFile(filename,'utf-8').then(function (contents) {
+  return fs.readFile(filename, 'utf-8').then(function (contents) {
     return '```' +
       (typeof language === 'string' ? language : path.extname(filename).substr(1)) +
       '\n' +
@@ -318,8 +318,8 @@ function hasCodecov () {
  * @private
  */
 function _searchCiConfig (searchString) {
-  const travis = fs.readFile('.travis.yml','utf-8')
-  const appveyor = fs.readFile('appveyor.yml','utf-8')
+  const travis = fs.readFile('.travis.yml', 'utf-8')
+  const appveyor = fs.readFile('appveyor.yml', 'utf-8')
   return Q.allSettled([travis, appveyor]).then(function (files) {
     let i
     for (i = 0; i < files.length; i++) {

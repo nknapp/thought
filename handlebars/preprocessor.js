@@ -24,7 +24,7 @@ module.exports = function (data) {
       if (licenseFiles.length > 0) {
         return {
           filename: licenseFiles[0],
-          contents: fs.readFile(path.join(data.workingDir, licenseFiles[0]),'utf-8'),
+          contents: fs.readFile(path.join(data.workingDir, licenseFiles[0]), 'utf-8'),
           fences: path.extname(licenseFiles[0]) !== '.md'
         }
       }

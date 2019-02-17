@@ -23,14 +23,17 @@ var fs = require('fs-extra')
 
 var expect = chai.expect
 
-describe('The "init" option', function () {
+describe('The init option', function () {
+  let npmInstallMockCalls
   this.timeout(30000)
 
   beforeEach(function () {
+    npmInstallMockCalls = []
     // Make "npm install" faster by not really executing it
     cpMock.mockSpawn(
       (cmd) => cmd.match(/npm/),
       function (cmd, args, options) {
+        npmInstallMockCalls.push({ cmd, args, options })
         setTimeout(() => this.emit('exit', 0), 10)
       }
     )
@@ -51,7 +54,7 @@ describe('The "init" option', function () {
         .then(() => git.logAsync())
         // Check only which files have been added to the index
         .then(log => expect(log.latest.message, 'package.json must have been committed').to.match(/Added scripts to run thought on version-bumps/))
-        .then(() => fs.readFile('package.json','utf-8'))
+        .then(() => fs.readFile('package.json', 'utf-8'))
         .then(pkgJson => expect(JSON.parse(pkgJson), 'Checking package.json').to.deep.equals({
           'author': '',
           'description': 'A simple description',
@@ -73,7 +76,13 @@ describe('The "init" option', function () {
           },
           'version': '1.0.0'
         }))
-        .then(() => expect(fs.existsSync('node_modules/thought'), 'Thought dependency must be installed').to.be.true())
+        .then(() => {
+          expect(npmInstallMockCalls).to.deep.equal([{
+            cmd: 'npm',
+            args: ['install', '--save-dev', 'thought'],
+            options: { stdio: 'inherit' }
+          }])
+        })
     })
   })
 
@@ -83,7 +92,7 @@ describe('The "init" option', function () {
       var git = bluebird.promisifyAll(simpleGit(scenario.actual))
 
       return git.initAsync()
-        .then(() => fs.readFile('package.json','utf-8'))
+        .then(() => fs.readFile('package.json', 'utf-8'))
         .then(JSON.parse)
         .then((pkgJson) => {
           delete pkgJson.scripts
@@ -96,7 +105,7 @@ describe('The "init" option', function () {
         .then(() => git.logAsync())
         // Check only which files have been added to the index
         .then(log => expect(log.latest.message, 'package.json must have been committed').to.match(/Added scripts to run thought on version-bumps/))
-        .then(() => fs.readFile('package.json','utf-8'))
+        .then(() => fs.readFile('package.json', 'utf-8'))
         .then(pkgJson => expect(JSON.parse(pkgJson), 'Checking package.json').to.deep.equals({
           'author': '',
           'description': 'A simple description',
@@ -117,7 +126,13 @@ describe('The "init" option', function () {
           },
           'version': '1.0.0'
         }))
-        .then(() => expect(fs.existsSync('node_modules/thought'), 'Thought dependency must be installed').to.be.ok())
+        .then(() => {
+          expect(npmInstallMockCalls).to.deep.equal([{
+            cmd: 'npm',
+            args: ['install', '--save-dev', 'thought'],
+            options: { stdio: 'inherit' }
+          }])
+        })
     })
   })
 
@@ -136,7 +151,7 @@ describe('The "init" option', function () {
       var git = bluebird.promisifyAll(simpleGit(scenario.actual))
 
       return git.initAsync()
-        .then(() => fs.readFile('package.json','utf-8'))
+        .then(() => fs.readFile('package.json', 'utf-8'))
 
         .then(JSON.parse)
         .then((pkgJson) => {
@@ -155,7 +170,7 @@ describe('The "init" option', function () {
       var git = bluebird.promisifyAll(simpleGit(scenario.actual))
 
       return git.initAsync()
-        .then(() => fs.readFile('package.json','utf-8'))
+        .then(() => fs.readFile('package.json', 'utf-8'))
 
         .then(JSON.parse)
         .then((pkgJson) => {
@@ -165,7 +180,7 @@ describe('The "init" option', function () {
         .then(() => git.addAsync('package.json'))
         .then(() => git.commitAsync('Initial checkin'))
         .then(() => init())
-        .then(() => fs.readFile('package.json','utf-8'))
+        .then(() => fs.readFile('package.json', 'utf-8'))
         .then(JSON.parse)
         .then((pkgJson) => expect(pkgJson.scripts.version).to.equal('npm run thought && run something'))
     })
