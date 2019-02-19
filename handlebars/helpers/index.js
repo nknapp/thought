@@ -11,7 +11,6 @@ const { resolvePackageRoot } = require('../../lib/utils/resolve-package-root')
 const Handlebars = require('handlebars')
 const fs = require('fs-extra')
 const util = require('util')
-const Q = require('q')
 
 /**
  * Default Handlebars-helpers for Thought
@@ -285,7 +284,7 @@ function htmlId (value) {
  * and return true if any of them exists and contains the string.
  * We expect coveralls to be configured then.
  *
- * @return {boolean} true, if coveralls is configured
+ * @return {Promise<boolean>} true, if coveralls is configured
  *
  * @access public
  * @memberOf helpers
@@ -301,32 +300,33 @@ function hasCoveralls () {
  * and return true if any of them exists and contains the string.
  * We expect coveralls to be configured then.
  *
- * @return {boolean} true, if coveralls is configured
+ * @return {Promise<boolean> boolean} true, if coveralls is configured
  *
  * @access public
  * @memberOf helpers
  */
-function hasCodecov () {
+async function hasCodecov () {
   return _searchCiConfig('codecov')
 }
 
 /**
  * Internal function to look for a given string in popular CI config files (like .travis.yml and appveyor.yml)
- * @param searchString
+ * @param {string} searchString the string to search for within the ci files
+ * @return {Promise<boolean>} true, if the given string is either part of .travis.yml or appveyor.yml
  * @private
  */
-function _searchCiConfig (searchString) {
-  const travis = fs.readFile('.travis.yml', 'utf-8')
-  const appveyor = fs.readFile('appveyor.yml', 'utf-8')
-  return Q.allSettled([travis, appveyor]).then(function (files) {
-    let i
-    for (i = 0; i < files.length; i++) {
-      if (files[i].state === 'fulfilled' && files[i].value.indexOf(searchString) >= 0) {
-        return true
+async function _searchCiConfig (searchString) {
+  const ciConfigs = await Promise.all(['.travis.yml', 'appveyor.yml'].map(async (filename) => {
+    try {
+      return await fs.readFile(filename, 'utf-8')
+    } catch (e) {
+      if (e.code === 'ENOENT') {
+        return ''
       }
+      throw e
     }
-    return false
-  })
+  }))
+  return ciConfigs.findIndex((contents) => contents.includes(searchString)) >= 0
 }
 
 /**

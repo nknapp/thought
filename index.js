@@ -7,7 +7,6 @@
 'use strict'
 
 var customize = require('customize')
-var Q = require('q')
 var debug = require('debug')('thought:run')
 var write = require('customize-write-files')
 
@@ -32,13 +31,11 @@ function thought (options) {
     .then(function (filenames) {
       if (options.addToGit) {
         // Add computed files to the git index.
-        var git = require('simple-git')()
-        var deferred = Q.defer()
-        debug('Adding ' + filenames.join(', ') + ' to git index')
-        git.add(filenames, deferred.makeNodeResolver())
-        //  Wait for git-add to finish, but return the filenames.
-        return deferred.promise.then(function () {
-          return filenames
+        return new Promise((resolve, reject) => {
+          var git = require('simple-git')()
+          debug('Adding ' + filenames.join(', ') + ' to git index')
+          //  Wait for git-add to finish, but return the filenames.
+          git.add(filenames, (err) => err ? reject(err) : resolve(filenames))
         })
       }
       return filenames
