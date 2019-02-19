@@ -323,6 +323,7 @@ async function _searchCiConfig (searchString) {
       if (e.code === 'ENOENT') {
         return ''
       }
+      /* istanbul ignore next */
       throw e
     }
   }))
