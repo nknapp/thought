@@ -15,9 +15,9 @@ var chai = require('chai')
 var deep = require('deep-aplus')(Promise)
 var chaiAsPromised = require('chai-as-promised')
 chai.use(chaiAsPromised)
+chai.use(require('dirty-chai'))
 var expect = chai.expect
 var path = require('path')
-var httpMocks = require('./lib/http-mocks')
 
 var engine = require('customize-engine-handlebars')
 
@@ -496,13 +496,7 @@ describe('thought-helpers:', function () {
   })
 
   describe('The "hasGreenkeeper"-helper', function () {
-    // Increased timeout due to "got"-retries
-    this.timeout(10000)
-    afterEach(httpMocks.cleanup)
-
     it('should return false, if the githubRepo is not set', function () {
-      httpMocks.greenkeeperError('/null.svg', 404)
-
       return expectHbs('{{hasGreenkeeper}}', {
         package: {
           name: 'no-git-repo'
@@ -512,8 +506,6 @@ describe('thought-helpers:', function () {
     })
 
     it('should return false, if the project does not have a github url', function () {
-      httpMocks.greenkeeperError('/null.svg', 404)
-
       return expectHbs('{{hasGreenkeeper}}', {
         package: {
           name: 'no-github-repo',
@@ -527,8 +519,6 @@ describe('thought-helpers:', function () {
     })
 
     it('should return false, if the project does not have greenkeeper enabled', function () {
-      httpMocks.greenkeeperDisabled('/group/repo.svg')
-
       return expectHbs('{{hasGreenkeeper}}', {
         package: {
           name: 'greenkeeper-disabled',
@@ -541,39 +531,25 @@ describe('thought-helpers:', function () {
         .to.eventually.equal('false')
     })
 
-    it('should return true, if the project does have greenkeeper enabled, parsing the badge', function () {
-      httpMocks.greenkeeperEnabled('/group/repo.svg')
-
-      return expectHbs('{{hasGreenkeeper}}', {
-        package: {
-          name: 'greenkeeper-enabled',
-          'repository': {
-            'type': 'git',
-            'url': 'https://github.com/group/repo.git'
-          }
-        }
-      })
-        .to.eventually.equal('true')
-    })
-
-    it('should throw an error, if the greenkeeper-badge returns an error other than 404', function () {
-      httpMocks.greenkeeperError('/group/repo.svg', 500)
-
+    it('should throw an error, if greenKeeper is enabled in the config, but not github url is found', function () {
       return expectHbs('{{hasGreenkeeper}}', {
         package: {
           name: 'no-git-repo',
           'repository': {
             'type': 'git',
-            'url': 'https://github.com/group/repo.git'
+            'url': 'https://gitlab.com/group/repo.git'
+          }
+        },
+        config: {
+          badges: {
+            greenkeeper: true
           }
         }
       })
-        .to.be.rejectedWith('{"statusCode":500,"error":"Error"}')
+        .to.be.rejectedWith(/no github-repo/)
     })
 
     it('should return true, if the badge is enabled in the config', function () {
-      httpMocks.greenkeeperDisabled('/group/repo.svg')
-
       return expectHbs('{{hasGreenkeeper}}', {
         package: {
           name: 'no-git-repo',
@@ -592,8 +568,6 @@ describe('thought-helpers:', function () {
     })
 
     it('should return true, if the badge is enabled in the config', function () {
-      httpMocks.greenkeeperEnabled('/group/repo.svg')
-
       return expectHbs('{{hasGreenkeeper}}', {
         package: {
           name: 'enabledRepo',

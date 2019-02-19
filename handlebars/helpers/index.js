@@ -12,8 +12,6 @@ const Handlebars = require('handlebars')
 const fs = require('fs-extra')
 const util = require('util')
 const Q = require('q')
-const got = require('got')
-const $ = require('cheerio')
 
 /**
  * Default Handlebars-helpers for Thought
@@ -334,35 +332,28 @@ function _searchCiConfig (searchString) {
 /**
  * Check, if [Greenkeeper](https://greenkeeper.io) is enabled for this repository
  *
- * This is done by analyzing the greenkeeper.io-[badge](https://badges.greenkeeper.io/nknapp/thought.svg)
- *
+ * This can be configured in the `.thought/config.js`-file 
+ * 
+ * ```
+ * module.exports = {
+ *   badges: {
+ *     greenkeeper: true
+ *   }
+ * }
+ * ```
+ *  *
  * @param {object} options options passed in by Handlebars
  * @access public
+ * @throws Error if no badge is enabled but not github-repo url is found in package.json
  * @memberOf helpers
  */
 function hasGreenkeeper (options) {
   const config = options.data.root.config
-  const showBadge = config && config.badges && config.badges.greenkeeper
-  if (showBadge != null) { // not undefined and not null ?
-    return showBadge
+  const showBadge = !!(config && config.badges && config.badges.greenkeeper) // coerce to boolean
+  if (showBadge && !githubRepo(options)) {
+    throw new Error('Greenkeeper badge should be enabled, but no github-repo was found.')
   }
-  // otherwise autodetect via badge
-  const slug = githubRepo(options)
-  return got(`https://badges.greenkeeper.io:443/${slug}.svg`)
-    .then(
-      (response) => {
-        return $(response.body).find('text').last().text() !== 'not found'
-      },
-      (err) => {
-        if (err.statusCode === 404) {
-          return false
-        } else if (err.statusCode >= 400) {
-          const newError = new Error(err.body)
-          newError.statusCode = err.statusCode
-          throw newError
-        }
-      }
-    )
+  return showBadge
 }
 
 /**
