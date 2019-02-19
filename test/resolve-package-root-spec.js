@@ -17,7 +17,7 @@ var { resolvePackageRoot } = require('../lib/utils/resolve-package-root')
 
 describe('The "resolve-package-root" utility', function () {
   var statSync
-  var fs = require('fs')
+  var fs = require('fs-extra')
 
   beforeEach(function () {
     statSync = fs.statSync
