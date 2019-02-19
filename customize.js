@@ -21,11 +21,10 @@ const defaultConfig = {
   plugins: [],
   badges: {
     /**
-     * Should there be a greenkeeper badge?
-     * `undefined` means autodetect (by parsing the badge for the repo-url)
+     * Should there be a greenkeeper badge? Default: false
      * @property
      */
-    greenkeeper: undefined
+    greenkeeper: false
   }
 }
 
@@ -44,6 +43,7 @@ module.exports = function createSpec (workingDir) {
     debug('config loaded', config)
     return customize
       .registerEngine('handlebars', require('customize-engine-handlebars'))
+      .merge({ handlebars: { data: { config: defaultConfig } } })
       .merge({
         handlebars: {
           partials: path.join(__dirname, 'handlebars', 'partials'),
@@ -63,9 +63,13 @@ module.exports = function createSpec (workingDir) {
       // Apply any customization from the config-files (such as loading modules)
       .load(function (customize) {
         debug('Loading modules', config)
-        return config.plugins.reduce((prev, plugin) => {
-          return prev.load(plugin)
-        }, customize)
+        if (config && config.plugins) {
+          return config.plugins.reduce((prev, plugin) => {
+            return prev.load(plugin)
+          }, customize)
+        } else {
+          return customize
+        }
       })
       .merge({
         handlebars: {
