@@ -11,8 +11,7 @@
 
 var Scenario = require('./lib/scenarios')
 var thought = require('../')
-var bluebird = require('bluebird')
-var simpleGit = require('simple-git')
+var simpleGit = require('simple-git/promise')
 
 var chai = require('chai')
 chai.use(require('chai-as-promised'))
@@ -24,11 +23,11 @@ describe('The "addToGit" option', function () {
   it('should add the generated files to the git-index', function () {
     var scenario = new Scenario('simple-project').withTmpDir('test-output/addToGit')
     return scenario.prepareAndRun(() => {
-      var git = bluebird.promisifyAll(simpleGit(scenario.actual))
+      var git = simpleGit(scenario.actual)
 
-      return git.initAsync()
+      return git.init()
         .then(() => thought({ addToGit: true }))
-        .then(() => git.statusAsync())
+        .then(() => git.status())
         // Check only which files have been added to the index
         .then((status) => {
           return status.files

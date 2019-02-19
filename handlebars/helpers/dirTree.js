@@ -1,8 +1,8 @@
 const _ = {
   groupBy: require('lodash.groupby')
 }
-const Promise = require('bluebird')
-const glob = Promise.promisify(require('glob'))
+const pify = require('pify')
+const glob = pify(require('glob'))
 const debug = require('debug')('thought:helpers')
 const path = require('path')
 

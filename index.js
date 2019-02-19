@@ -28,15 +28,11 @@ function thought (options) {
     .load(require('./customize.js')(options.cwd || '.'))
     .run()
     .then(write(options.cwd || '.'))
-    .then(function (filenames) {
+    .then(async function (filenames) {
       if (options.addToGit) {
-        // Add computed files to the git index.
-        return new Promise((resolve, reject) => {
-          var git = require('simple-git')()
-          debug('Adding ' + filenames.join(', ') + ' to git index')
-          //  Wait for git-add to finish, but return the filenames.
-          git.add(filenames, (err) => err ? reject(err) : resolve(filenames))
-        })
+        var git = require('simple-git/promise')()
+        debug('Adding ' + filenames.join(', ') + ' to git index')
+        await git.add(filenames)
       }
       return filenames
     })

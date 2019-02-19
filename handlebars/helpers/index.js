@@ -1,10 +1,7 @@
 const path = require('path')
 const cp = require('child_process')
 const _ = {
-  escapeRegExp: require('lodash.escaperegexp'),
-  cloneDeep: require('lodash.clonedeep'),
-  isPlainObject: require('lodash.isplainobject'),
-  map: require('lodash.map')
+  escapeRegExp: require('lodash.escaperegexp')
 }
 const debug = require('debug')('thought:helpers')
 const { resolvePackageRoot } = require('../../lib/utils/resolve-package-root')

@@ -12,8 +12,7 @@
 var Scenario = require('./lib/scenarios')
 var cpMock = require('./lib/child-process-mock')
 var init = require('../lib/init')
-var bluebird = require('bluebird')
-var simpleGit = require('simple-git')
+var simpleGit = require('simple-git/promise')
 
 var chai = require('chai')
 chai.use(require('chai-as-promised'))
@@ -44,14 +43,14 @@ describe('The init option', function () {
   it('should add scripts and devDependency to package.json', function () {
     var scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init1')
     return scenario.prepareAndRun(() => {
-      var git = bluebird.promisifyAll(simpleGit(scenario.actual))
+      var git = simpleGit(scenario.actual)
 
-      return git.initAsync()
-        .then(() => git.addAsync('package.json'))
-        .then(() => git.commitAsync('Initial checkin'))
+      return git.init()
+        .then(() => git.add('package.json'))
+        .then(() => git.commit('Initial checkin'))
         .then(() => fs.writeFile('.gitignore', 'node_modules'))
         .then(() => init())
-        .then(() => git.logAsync())
+        .then(() => git.log())
         // Check only which files have been added to the index
         .then(log => expect(log.latest.message, 'package.json must have been committed').to.match(/Added scripts to run thought on version-bumps/))
         .then(() => fs.readFile('package.json', 'utf-8'))
@@ -89,20 +88,20 @@ describe('The init option', function () {
   it('should add scripts and devDependency to package.json (even if no scripts-property exists', function () {
     var scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init1')
     return scenario.prepareAndRun(() => {
-      var git = bluebird.promisifyAll(simpleGit(scenario.actual))
+      var git = simpleGit(scenario.actual)
 
-      return git.initAsync()
+      return git.init()
         .then(() => fs.readFile('package.json', 'utf-8'))
         .then(JSON.parse)
         .then((pkgJson) => {
           delete pkgJson.scripts
           return fs.writeFile('package.json', JSON.stringify(pkgJson))
         })
-        .then(() => git.addAsync('package.json'))
-        .then(() => git.commitAsync('Initial checkin'))
+        .then(() => git.add('package.json'))
+        .then(() => git.commit('Initial checkin'))
         .then(() => fs.writeFile('.gitignore', 'node_modules'))
         .then(() => init())
-        .then(() => git.logAsync())
+        .then(() => git.log())
         // Check only which files have been added to the index
         .then(log => expect(log.latest.message, 'package.json must have been committed').to.match(/Added scripts to run thought on version-bumps/))
         .then(() => fs.readFile('package.json', 'utf-8'))
@@ -139,8 +138,8 @@ describe('The init option', function () {
   it('should throw an exception, if the package.json-file has uncommitted changes', function () {
     var scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init2')
     return scenario.prepareAndRun(() => {
-      var git = bluebird.promisifyAll(simpleGit(scenario.actual))
-      return git.initAsync()
+      var git = simpleGit(scenario.actual)
+      return git.init()
         .then(() => expect(init()).to.be.rejectedWith(/package.json has changes/))
     })
   })
@@ -148,9 +147,9 @@ describe('The init option', function () {
   it('should throw an exception, if Thought is already registered in a script', function () {
     var scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init2')
     return scenario.prepareAndRun(() => {
-      var git = bluebird.promisifyAll(simpleGit(scenario.actual))
+      var git = simpleGit(scenario.actual)
 
-      return git.initAsync()
+      return git.init()
         .then(() => fs.readFile('package.json', 'utf-8'))
 
         .then(JSON.parse)
@@ -158,8 +157,8 @@ describe('The init option', function () {
           pkgJson.scripts.thought = 'thought run -a'
           return fs.writeFile('package.json', JSON.stringify(pkgJson))
         })
-        .then(() => git.addAsync('package.json'))
-        .then(() => git.commitAsync('Initial checkin'))
+        .then(() => git.add('package.json'))
+        .then(() => git.commit('Initial checkin'))
         .then(() => expect(init()).to.be.rejectedWith(/scripts are already in your package.json/))
     })
   })
@@ -167,9 +166,9 @@ describe('The init option', function () {
   it('should prepend the version script, if it already exists', function () {
     var scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init2')
     return scenario.prepareAndRun(() => {
-      var git = bluebird.promisifyAll(simpleGit(scenario.actual))
+      var git = simpleGit(scenario.actual)
 
-      return git.initAsync()
+      return git.init()
         .then(() => fs.readFile('package.json', 'utf-8'))
 
         .then(JSON.parse)
@@ -177,8 +176,8 @@ describe('The init option', function () {
           pkgJson.scripts.version = 'run something'
           return fs.writeFile('package.json', JSON.stringify(pkgJson))
         })
-        .then(() => git.addAsync('package.json'))
-        .then(() => git.commitAsync('Initial checkin'))
+        .then(() => git.add('package.json'))
+        .then(() => git.commit('Initial checkin'))
         .then(() => init())
         .then(() => fs.readFile('package.json', 'utf-8'))
         .then(JSON.parse)
