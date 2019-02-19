@@ -332,8 +332,8 @@ function _searchCiConfig (searchString) {
 /**
  * Check, if [Greenkeeper](https://greenkeeper.io) is enabled for this repository
  *
- * This can be configured in the `.thought/config.js`-file 
- * 
+ * This can be configured in the `.thought/config.js`-file
+ *
  * ```
  * module.exports = {
  *   badges: {
