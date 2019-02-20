@@ -15,14 +15,14 @@ Default Handlebars-helpers for Thought
     * [.include(filename, language)](#helpers.include) ⇒ <code>string</code>
     * [.includeRaw(filename)](#helpers.includeRaw)
     * [.example(filename)](#helpers.example)
-    * [.exists(filename)](#helpers.exists) ⇒ <code>boolean</code>
+    * [.exists(filename)](#helpers.exists) ⇒ <code>Promise.&lt;boolean&gt;</code>
     * [.exec(command, options)](#helpers.exec) ⇒ <code>string</code>
     * [.renderTree(object, options)](#helpers.renderTree) ⇒ <code>string</code>
     * [.withPackageOf(filePath, options)](#helpers.withPackageOf)
     * [.npm(packageName)](#helpers.npm)
     * [.htmlId(value)](#helpers.htmlId) ⇒ <code>string</code>
-    * [.hasCoveralls()](#helpers.hasCoveralls) ⇒ <code>boolean</code>
-    * [.hasCodecov()](#helpers.hasCodecov) ⇒ <code>boolean</code>
+    * [.hasCoveralls()](#helpers.hasCoveralls) ⇒ <code>Promise.&lt;boolean&gt;</code>
+    * [.hasCodecov()](#helpers.hasCodecov) ⇒ <code>Promise.&lt;boolean&gt;</code>
     * [.hasGreenkeeper(options)](#helpers.hasGreenkeeper)
     * [.github(filePath)](#helpers.github) ⇒ <code>string</code>
     * [.repoWebUrl(gitUrl)](#helpers.repoWebUrl)
@@ -117,11 +117,11 @@ in your docs, which is what a user of the module will do.
 
 <a name="helpers.exists"></a>
 
-### helpers.exists(filename) ⇒ <code>boolean</code>
+### helpers.exists(filename) ⇒ <code>Promise.&lt;boolean&gt;</code>
 Return true if a file exists
 
 **Kind**: static method of [<code>helpers</code>](#helpers)  
-**Returns**: <code>boolean</code> - true, if the file or diectory exists  
+**Returns**: <code>Promise.&lt;boolean&gt;</code> - true, if the file or diectory exists  
 **Access**: public  
 
 | Param | Type | Description |
@@ -238,7 +238,7 @@ htmlId('ABCDE') === 'abcde'   // Convert to lowercase
 
 <a name="helpers.hasCoveralls"></a>
 
-### helpers.hasCoveralls() ⇒ <code>boolean</code>
+### helpers.hasCoveralls() ⇒ <code>Promise.&lt;boolean&gt;</code>
 Check, if [coveralls.io](https://coveralls.io) is configured in this package
 
 Check the .travis.yml and the appveyor.yml files for the string 'coveralls'
@@ -246,11 +246,11 @@ and return true if any of them exists and contains the string.
 We expect coveralls to be configured then.
 
 **Kind**: static method of [<code>helpers</code>](#helpers)  
-**Returns**: <code>boolean</code> - true, if coveralls is configured  
+**Returns**: <code>Promise.&lt;boolean&gt;</code> - true, if coveralls is configured  
 **Access**: public  
 <a name="helpers.hasCodecov"></a>
 
-### helpers.hasCodecov() ⇒ <code>boolean</code>
+### helpers.hasCodecov() ⇒ <code>Promise.&lt;boolean&gt;</code>
 Check, if [codecov.io](https://codecov.io) is configured in this package
 
 Check the .travis.yml and the appveyor.yml files for the string 'codecov'
@@ -258,16 +258,29 @@ and return true if any of them exists and contains the string.
 We expect coveralls to be configured then.
 
 **Kind**: static method of [<code>helpers</code>](#helpers)  
-**Returns**: <code>boolean</code> - true, if coveralls is configured  
+**Returns**: <code>Promise.&lt;boolean&gt;</code> - true, if coveralls is configured  
 **Access**: public  
 <a name="helpers.hasGreenkeeper"></a>
 
 ### helpers.hasGreenkeeper(options)
 Check, if [Greenkeeper](https://greenkeeper.io) is enabled for this repository
 
-This is done by analyzing the greenkeeper.io-[badge](https://badges.greenkeeper.io/nknapp/thought.svg)
+This can be configured in the `.thought/config.js`-file
+
+```
+module.exports = {
+  badges: {
+    greenkeeper: true
+  }
+}
+```
+ *
 
 **Kind**: static method of [<code>helpers</code>](#helpers)  
+**Throws**:
+
+- Error if no badge is enabled but not github-repo url is found in package.json
+
 **Access**: public  
 
 | Param | Type | Description |

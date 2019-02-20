@@ -32,6 +32,8 @@ the [thought-plugin-jsdoc](https://npmjs.com/package/thought-plugin-jsdoc) and s
 
 # Basic Usage
 
+*Starting with version 2.0, Thought will support NodeJS LTS and active versions. Dropping support for pre-LTS versions will not be considered a breaking change.*
+
 The most basic way to use Thought is to go into your directory of your `package.json` and type
 
 ```bash
@@ -74,20 +76,16 @@ Calling `thought --help` will print a command-line reference:
 ```
 Usage: thought [options] [command]
 
+Options:
+  -V, --version  output the version number
+  -d, --debug    higher stack-trace-limit, long stack-traces
+  -h, --help     output usage information
 
-  Options:
-
-    -V, --version  output the version number
-    -d, --debug    higher stack-trace-limit, long stack-traces
-    -h, --help     output usage information
-
-
-  Commands:
-
-    run [options]   Generate documentation from your package.json and some templates.
-    init            Register scripts in the current module's package.json
-    check-engines   Check that all engines (such as npm) have versions that ensure Thought to run correctly
-    up-to-date      Perform up-to-date check of the current documentation. Exit with non-zero exit-code when thought must be run again.
+Commands:
+  run [options]  Generate documentation from your package.json and some templates.
+  init           Register scripts in the current module's package.json
+  check-engines  Check that all engines (such as npm) have versions that ensure Thought to run correctly
+  up-to-date     Perform up-to-date check of the current documentation. Exit with non-zero exit-code when thought must be run again.
 ```
 
 #### `thought init`: Using Thought as version-script for npm

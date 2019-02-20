@@ -297,7 +297,7 @@ function hasCoveralls () {
  * and return true if any of them exists and contains the string.
  * We expect coveralls to be configured then.
  *
- * @return {Promise<boolean> boolean} true, if coveralls is configured
+ * @return {Promise<boolean>} true, if coveralls is configured
  *
  * @access public
  * @memberOf helpers
