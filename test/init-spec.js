@@ -12,25 +12,27 @@
 var Scenario = require('./lib/scenarios')
 var cpMock = require('./lib/child-process-mock')
 var init = require('../lib/init')
-var bluebird = require('bluebird')
-var simpleGit = require('simple-git')
+var simpleGit = require('simple-git/promise')
 
 var chai = require('chai')
 chai.use(require('chai-as-promised'))
 chai.use(require('dirty-chai'))
 
-var qfs = require('m-io/fs')
+var fs = require('fs-extra')
 
 var expect = chai.expect
 
-describe('The "init" option', function () {
+describe('The init option', function () {
+  let npmInstallMockCalls
   this.timeout(30000)
 
   beforeEach(function () {
+    npmInstallMockCalls = []
     // Make "npm install" faster by not really executing it
     cpMock.mockSpawn(
       (cmd) => cmd.match(/npm/),
       function (cmd, args, options) {
+        npmInstallMockCalls.push({ cmd, args, options })
         setTimeout(() => this.emit('exit', 0), 10)
       }
     )
@@ -41,17 +43,17 @@ describe('The "init" option', function () {
   it('should add scripts and devDependency to package.json', function () {
     var scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init1')
     return scenario.prepareAndRun(() => {
-      var git = bluebird.promisifyAll(simpleGit(scenario.actual))
+      var git = simpleGit(scenario.actual)
 
-      return git.initAsync()
-        .then(() => git.addAsync('package.json'))
-        .then(() => git.commitAsync('Initial checkin'))
-        .then(() => qfs.write('.gitignore', 'node_modules'))
+      return git.init()
+        .then(() => git.add('package.json'))
+        .then(() => git.commit('Initial checkin'))
+        .then(() => fs.writeFile('.gitignore', 'node_modules'))
         .then(() => init())
-        .then(() => git.logAsync())
+        .then(() => git.log())
         // Check only which files have been added to the index
         .then(log => expect(log.latest.message, 'package.json must have been committed').to.match(/Added scripts to run thought on version-bumps/))
-        .then(() => qfs.read('package.json'))
+        .then(() => fs.readFile('package.json', 'utf-8'))
         .then(pkgJson => expect(JSON.parse(pkgJson), 'Checking package.json').to.deep.equals({
           'author': '',
           'description': 'A simple description',
@@ -73,30 +75,36 @@ describe('The "init" option', function () {
           },
           'version': '1.0.0'
         }))
-        .then(() => expect(qfs.exists('node_modules/thought'), 'Thought dependency must be installed').to.be.ok())
+        .then(() => {
+          expect(npmInstallMockCalls).to.deep.equal([{
+            cmd: 'npm',
+            args: ['install', '--save-dev', 'thought'],
+            options: { stdio: 'inherit' }
+          }])
+        })
     })
   })
 
   it('should add scripts and devDependency to package.json (even if no scripts-property exists', function () {
     var scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init1')
     return scenario.prepareAndRun(() => {
-      var git = bluebird.promisifyAll(simpleGit(scenario.actual))
+      var git = simpleGit(scenario.actual)
 
-      return git.initAsync()
-        .then(() => qfs.read('package.json'))
+      return git.init()
+        .then(() => fs.readFile('package.json', 'utf-8'))
         .then(JSON.parse)
         .then((pkgJson) => {
           delete pkgJson.scripts
-          return qfs.write('package.json', JSON.stringify(pkgJson))
+          return fs.writeFile('package.json', JSON.stringify(pkgJson))
         })
-        .then(() => git.addAsync('package.json'))
-        .then(() => git.commitAsync('Initial checkin'))
-        .then(() => qfs.write('.gitignore', 'node_modules'))
+        .then(() => git.add('package.json'))
+        .then(() => git.commit('Initial checkin'))
+        .then(() => fs.writeFile('.gitignore', 'node_modules'))
         .then(() => init())
-        .then(() => git.logAsync())
+        .then(() => git.log())
         // Check only which files have been added to the index
         .then(log => expect(log.latest.message, 'package.json must have been committed').to.match(/Added scripts to run thought on version-bumps/))
-        .then(() => qfs.read('package.json'))
+        .then(() => fs.readFile('package.json', 'utf-8'))
         .then(pkgJson => expect(JSON.parse(pkgJson), 'Checking package.json').to.deep.equals({
           'author': '',
           'description': 'A simple description',
@@ -117,15 +125,21 @@ describe('The "init" option', function () {
           },
           'version': '1.0.0'
         }))
-        .then(() => expect(qfs.exists('node_modules/thought'), 'Thought dependency must be installed').to.be.ok())
+        .then(() => {
+          expect(npmInstallMockCalls).to.deep.equal([{
+            cmd: 'npm',
+            args: ['install', '--save-dev', 'thought'],
+            options: { stdio: 'inherit' }
+          }])
+        })
     })
   })
 
   it('should throw an exception, if the package.json-file has uncommitted changes', function () {
     var scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init2')
     return scenario.prepareAndRun(() => {
-      var git = bluebird.promisifyAll(simpleGit(scenario.actual))
-      return git.initAsync()
+      var git = simpleGit(scenario.actual)
+      return git.init()
         .then(() => expect(init()).to.be.rejectedWith(/package.json has changes/))
     })
   })
@@ -133,18 +147,18 @@ describe('The "init" option', function () {
   it('should throw an exception, if Thought is already registered in a script', function () {
     var scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init2')
     return scenario.prepareAndRun(() => {
-      var git = bluebird.promisifyAll(simpleGit(scenario.actual))
+      var git = simpleGit(scenario.actual)
 
-      return git.initAsync()
-        .then(() => qfs.read('package.json'))
+      return git.init()
+        .then(() => fs.readFile('package.json', 'utf-8'))
 
         .then(JSON.parse)
         .then((pkgJson) => {
           pkgJson.scripts.thought = 'thought run -a'
-          return qfs.write('package.json', JSON.stringify(pkgJson))
+          return fs.writeFile('package.json', JSON.stringify(pkgJson))
         })
-        .then(() => git.addAsync('package.json'))
-        .then(() => git.commitAsync('Initial checkin'))
+        .then(() => git.add('package.json'))
+        .then(() => git.commit('Initial checkin'))
         .then(() => expect(init()).to.be.rejectedWith(/scripts are already in your package.json/))
     })
   })
@@ -152,20 +166,20 @@ describe('The "init" option', function () {
   it('should prepend the version script, if it already exists', function () {
     var scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init2')
     return scenario.prepareAndRun(() => {
-      var git = bluebird.promisifyAll(simpleGit(scenario.actual))
+      var git = simpleGit(scenario.actual)
 
-      return git.initAsync()
-        .then(() => qfs.read('package.json'))
+      return git.init()
+        .then(() => fs.readFile('package.json', 'utf-8'))
 
         .then(JSON.parse)
         .then((pkgJson) => {
           pkgJson.scripts.version = 'run something'
-          return qfs.write('package.json', JSON.stringify(pkgJson))
+          return fs.writeFile('package.json', JSON.stringify(pkgJson))
         })
-        .then(() => git.addAsync('package.json'))
-        .then(() => git.commitAsync('Initial checkin'))
+        .then(() => git.add('package.json'))
+        .then(() => git.commit('Initial checkin'))
         .then(() => init())
-        .then(() => qfs.read('package.json'))
+        .then(() => fs.readFile('package.json', 'utf-8'))
         .then(JSON.parse)
         .then((pkgJson) => expect(pkgJson.scripts.version).to.equal('npm run thought && run something'))
     })

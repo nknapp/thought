@@ -1,7 +1,8 @@
 sudo: false
 language: "node_js"
 node_js:
-  - "6"
+  - "node"
+  - "lts/*"
   - "8"
 script:
   - git config --global user.email "thought@knappi.org"
@@ -11,4 +12,4 @@ script:
   - eslint --max-warnings 0 .
 after_script:
   - npm install coveralls
-  - cat ./coverage/lcov.info | coveralls
+  - nyc report --reporter=text-lcov | coveralls

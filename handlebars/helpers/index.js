@@ -1,19 +1,13 @@
 const path = require('path')
 const cp = require('child_process')
 const _ = {
-  escapeRegExp: require('lodash.escaperegexp'),
-  cloneDeep: require('lodash.clonedeep'),
-  isPlainObject: require('lodash.isplainobject'),
-  map: require('lodash.map')
+  escapeRegExp: require('lodash.escaperegexp')
 }
 const debug = require('debug')('thought:helpers')
-const {resolvePackageRoot} = require('../../lib/utils/resolve-package-root')
+const { resolvePackageRoot } = require('../../lib/utils/resolve-package-root')
 const Handlebars = require('handlebars')
-const qfs = require('m-io/fs')
+const fs = require('fs-extra')
 const util = require('util')
-const Q = require('q')
-const popsicle = require('popsicle')
-const $ = require('cheerio')
 
 /**
  * Default Handlebars-helpers for Thought
@@ -63,7 +57,7 @@ function json (obj) {
  * @memberOf helpers
  */
 function include (filename, language) {
-  return qfs.read(filename).then(function (contents) {
+  return fs.readFile(filename, 'utf-8').then(function (contents) {
     return '```' +
       (typeof language === 'string' ? language : path.extname(filename).substr(1)) +
       '\n' +
@@ -80,7 +74,7 @@ function include (filename, language) {
  * @memberOf helpers
  */
 function includeRaw (filename) {
-  return qfs.read(filename)
+  return fs.readFile(filename, 'utf-8')
 }
 
 /**
@@ -106,7 +100,7 @@ function includeRaw (filename) {
  * @memberOf helpers
  */
 function example (filename, options) {
-  return qfs.read(filename)
+  return fs.readFile(filename, 'utf-8')
     .then(function (contents) {
       // Relative path to the current module (e.g. "../"). This path must be replaced
       // by the module name in the
@@ -130,12 +124,12 @@ function example (filename, options) {
  * Return true if a file exists
  *
  * @param {string} filename the path to the file
- * @return {boolean} true, if the file or diectory exists
+ * @return {Promise<boolean>} true, if the file or diectory exists
  * @access public
  * @memberOf helpers
  */
 function exists (filename) {
-  return qfs.exists(filename)
+  return fs.exists(filename)
 }
 
 /**
@@ -231,7 +225,7 @@ function withPackageOf (filePath, options) {
       data.package = resolvedPackageRoot.packageJson
       data.relativePath = resolvedPackageRoot.relativeFile
       data.rawUrl = _rawGithubUrl(resolvedPackageRoot)
-      return options.fn(this, {data: data})
+      return options.fn(this, { data: data })
     })
 }
 
@@ -287,7 +281,7 @@ function htmlId (value) {
  * and return true if any of them exists and contains the string.
  * We expect coveralls to be configured then.
  *
- * @return {boolean} true, if coveralls is configured
+ * @return {Promise<boolean>} true, if coveralls is configured
  *
  * @access public
  * @memberOf helpers
@@ -303,62 +297,61 @@ function hasCoveralls () {
  * and return true if any of them exists and contains the string.
  * We expect coveralls to be configured then.
  *
- * @return {boolean} true, if coveralls is configured
+ * @return {Promise<boolean>} true, if coveralls is configured
  *
  * @access public
  * @memberOf helpers
  */
-function hasCodecov () {
+async function hasCodecov () {
   return _searchCiConfig('codecov')
 }
 
 /**
  * Internal function to look for a given string in popular CI config files (like .travis.yml and appveyor.yml)
- * @param searchString
+ * @param {string} searchString the string to search for within the ci files
+ * @return {Promise<boolean>} true, if the given string is either part of .travis.yml or appveyor.yml
  * @private
  */
-function _searchCiConfig (searchString) {
-  const travis = qfs.read('.travis.yml')
-  const appveyor = qfs.read('appveyor.yml')
-  return Q.allSettled([travis, appveyor]).then(function (files) {
-    let i
-    for (i = 0; i < files.length; i++) {
-      if (files[i].state === 'fulfilled' && files[i].value.indexOf(searchString) >= 0) {
-        return true
+async function _searchCiConfig (searchString) {
+  const ciConfigs = await Promise.all(['.travis.yml', 'appveyor.yml'].map(async (filename) => {
+    try {
+      return await fs.readFile(filename, 'utf-8')
+    } catch (e) {
+      if (e.code === 'ENOENT') {
+        return ''
       }
+      /* istanbul ignore next */
+      throw e
     }
-    return false
-  })
+  }))
+  return ciConfigs.findIndex((contents) => contents.includes(searchString)) >= 0
 }
 
 /**
  * Check, if [Greenkeeper](https://greenkeeper.io) is enabled for this repository
  *
- * This is done by analyzing the greenkeeper.io-[badge](https://badges.greenkeeper.io/nknapp/thought.svg)
+ * This can be configured in the `.thought/config.js`-file
  *
+ * ```
+ * module.exports = {
+ *   badges: {
+ *     greenkeeper: true
+ *   }
+ * }
+ * ```
+ *  *
  * @param {object} options options passed in by Handlebars
  * @access public
+ * @throws Error if no badge is enabled but not github-repo url is found in package.json
  * @memberOf helpers
  */
 function hasGreenkeeper (options) {
   const config = options.data.root.config
-  const showBadge = config && config.badges && config.badges.greenkeeper
-  if (showBadge != null) { // not undefined and not null ?
-    return showBadge
+  const showBadge = !!(config && config.badges && config.badges.greenkeeper) // coerce to boolean
+  if (showBadge && !githubRepo(options)) {
+    throw new Error('Greenkeeper badge should be enabled, but no github-repo was found.')
   }
-  // otherwise autodetect via badge
-  const slug = githubRepo(options)
-  return popsicle.get(`https://badges.greenkeeper.io/${slug}.svg`)
-    .then(function (response) {
-      if (response.status === 404) {
-        return false
-      } else if (response.status >= 400) {
-        const error = new Error(response.body)
-        error.statusCode = response.status
-        throw error
-      }
-      return $(response.body).find('text').last().text() !== 'not found'
-    })
+  return showBadge
 }
 
 /**
@@ -492,7 +485,7 @@ function arr (...args) {
  * @private
  */
 function _githubUrl (resolvedPackageRoot) {
-  var {packageJson, relativeFile} = resolvedPackageRoot
+  var { packageJson, relativeFile } = resolvedPackageRoot
   const url = repoWebUrl(packageJson && packageJson.repository && packageJson.repository.url)
   if (url && url.match(/github.com/)) {
     return `${url}/blob/v${packageJson.version}/${relativeFile}`
@@ -504,7 +497,7 @@ function _githubUrl (resolvedPackageRoot) {
  * @private
  */
 function _rawGithubUrl (resolvedPackageRoot) {
-  var {packageJson, relativeFile} = resolvedPackageRoot
+  var { packageJson, relativeFile } = resolvedPackageRoot
   const orgRepo = _githubOrgRepo(packageJson && packageJson.repository && packageJson.repository.url)
   if (orgRepo) {
     return `https://raw.githubusercontent.com/${orgRepo}/v${packageJson.version}/${relativeFile}`

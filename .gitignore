@@ -3,3 +3,6 @@ coverage
 *.iml
 /test-output/
 /test/fixtures/scenarios/*/actual
+/.nyc_output
+/.idea
+test-output

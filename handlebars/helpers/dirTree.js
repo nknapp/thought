@@ -1,8 +1,8 @@
 const _ = {
   groupBy: require('lodash.groupby')
 }
-const Promise = require('bluebird')
-const glob = Promise.promisify(require('glob'))
+const pify = require('pify')
+const glob = pify(require('glob'))
 const debug = require('debug')('thought:helpers')
 const path = require('path')
 
@@ -26,7 +26,7 @@ module.exports = dirTree
  * @access public
  * @memberOf helpers
  */
-function dirTree (baseDir, globPattern, options) {
+async function dirTree (baseDir, globPattern, options) {
   // Is basedir is not a string, it is probably the handlebars "options" object
   if (typeof globPattern !== 'string' && options == null) {
     options = globPattern
@@ -39,36 +39,34 @@ function dirTree (baseDir, globPattern, options) {
 
   const hashOptions = (options && options.hash) || /* istanbul ignore next: never happens */ {}
 
-  return glob(globPattern, {
+  const files = await glob(globPattern, {
     cwd: baseDir,
     mark: true,
     dot: Boolean(hashOptions.dot),
     ignore: hashOptions.ignore
   })
-    .then((files) => {
-      debug('dirTree glob result', files)
-      if (files.length === 0) {
-        throw new Error('Cannot find a single file for \'' + globPattern + '\' in \'' + baseDir + '\'')
+  debug('dirTree glob result', files)
+  if (files.length === 0) {
+    throw new Error('Cannot find a single file for \'' + globPattern + '\' in \'' + baseDir + '\'')
+  }
+  files.sort()
+
+  const rootNode = {
+    label: hashOptions.label || '',
+    nodes: treeFromPaths(files, baseDir, ({ parent, file, explicit }) => {
+      if (explicit && hashOptions.links) {
+        // Compute relative path from current target-file to the listed file
+        var targetPath = path.relative(path.dirname(options.customize.targetFile), `${parent}/${file}`)
+        return `<a href="${targetPath}">${file}</a>`
       }
-      files.sort()
-
-      const rootNode = {
-        label: hashOptions.label || '',
-        nodes: treeFromPaths(files, baseDir, ({parent, file, explicit}) => {
-          if (explicit && hashOptions.links) {
-            // Compute relative path from current target-file to the listed file
-            var targetPath = path.relative(path.dirname(options.customize.targetFile), `${parent}/${file}`)
-            return `<a href="${targetPath}">${file}</a>`
-          }
-          return file
-        })
-      }
-
-      const treeObject = condense(rootNode)
-
-      const tree = require('archy')(treeObject)
-      return '<pre><code>\n' + tree.trim() + '\n</code></pre>'
+      return file
     })
+  }
+
+  const treeObject = condense(rootNode)
+
+  const tree = require('archy')(treeObject)
+  return '<pre><code>\n' + tree.trim() + '\n</code></pre>'
 }
 
 /**
@@ -102,7 +100,7 @@ function treeFromPaths (files, parent, renderLabelFn) {
     // just implicit through its children
     const explicit = group.indexOf(groupKey) >= 0
     return {
-      label: renderLabelFn({parent, file: groupKey, explicit}),
+      label: renderLabelFn({ parent, file: groupKey, explicit }),
       nodes: treeFromPaths(
         // Remove parent directory from file paths
         group

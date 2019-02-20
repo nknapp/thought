@@ -30,9 +30,9 @@ describe('The cli script', function () {
   it('should report missing hooks in package.json', function () {
     return scenario.prepareAndRun(() => runMockThought('run'))
       .then(result => {
-        expect(result.code).to.equal(0)
-        expect(result.stdout).to.match(/Not registered in package.json yet/)
         expect(result.stderr).to.equal('')
+        expect(result.stdout).to.match(/Not registered in package.json yet/)
+        expect(result.code).to.equal(0)
         expect(scenario.readActual('README.md')).to.equal(scenario.readExpected('README.md'))
       })
   })
@@ -145,7 +145,7 @@ function runMockThought (...args) {
     cli(argv, fakeConsole, (code) => {
       const stdout = fakeConsole.stdout.join('\n')
       const stderr = fakeConsole.stderr.join('\n')
-      resolve({code, stdout, stderr})
+      resolve({ code, stdout, stderr })
     })
   })
 }

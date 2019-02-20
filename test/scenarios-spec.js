@@ -9,27 +9,16 @@
 
 'use strict'
 
-var fs = require('fs')
-var qfs = require('m-io/fs')
+var fs = require('fs-extra')
+var pify = require('pify')
+var glob = pify(require('glob'))
 var deep = require('deep-aplus')(Promise)
 var path = require('path')
 var chai = require('chai')
-chai.use(require('chai-as-promised'))
 chai.use(require('dirty-chai'))
 var expect = chai.expect
 var thought = require('../')
 var Scenario = require('./lib/scenarios')
-
-function listTreeRelative (baseDir, filter) {
-  return qfs.listTree(baseDir, filter)
-    .then((result) => {
-      const relativeFiles = result.map((_path) => {
-        return path.relative(baseDir, _path)
-      })
-      relativeFiles.sort()
-      return relativeFiles
-    })
-}
 
 /**
  * Travers all files and subdirs of a base directory and
@@ -54,6 +43,11 @@ function walk (baseDir, relativeDir, visitor) {
 
 describe('the integration test: ', function () {
   this.timeout(10000)
+
+  beforeEach(() => {
+    Error.stackTraceLimit = 10
+  })
+
   Scenario.all().forEach((scenario) => {
     describe(`In the scenario "${scenario.name}",`, function () {
       if (scenario.expectFailure) {
@@ -67,14 +61,12 @@ describe('the integration test: ', function () {
           return scenario.prepareAndRun(() => thought())
         })
 
-        it('the generated files in "actual" should be should match in "expected"', function () {
-          var filter = (name, stats) => stats.isFile()
-          var expected = listTreeRelative(scenario.expected, filter)
-          var actual = listTreeRelative(scenario.actual, filter)
-          return deep({ expected, actual })
-            .then(function (result) {
-              expect(result.actual).to.deep.equal(result.expected)
-            })
+        it('the generated files in "actual" should be should match in "expected"', async function () {
+          var [expected, actual] = await Promise.all([
+            glob('**/*', { root: scenario.expected, nodir: true, dot: true }),
+            glob('**/*', { root: scenario.actual, nodir: true, dot: true })
+          ])
+          expect(actual).to.deep.equal(expected)
         })
 
         walk(scenario.expected, '', function (file) {

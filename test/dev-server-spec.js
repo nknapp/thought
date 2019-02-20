@@ -36,9 +36,9 @@ xdescribe('the thought dev-server', function () {
         'result': {
           'handlebars': {
             'CONTRIBUTING.md': fs.readFileSync('test/fixtures/scenarios/simple-project/expected/CONTRIBUTING.md',
-              {encoding: 'utf-8'}),
+              { encoding: 'utf-8' }),
             'README.md': fs.readFileSync('test/fixtures/scenarios/simple-project/expected/README.md',
-              {encoding: 'utf-8'})
+              { encoding: 'utf-8' })
           }
         }
       })

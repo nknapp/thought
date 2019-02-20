@@ -13,11 +13,11 @@ var chai = require('chai')
 chai.use(require('chai-as-promised'))
 chai.use(require('dirty-chai'))
 var expect = chai.expect
-var {resolvePackageRoot} = require('../lib/utils/resolve-package-root')
+var { resolvePackageRoot } = require('../lib/utils/resolve-package-root')
 
 describe('The "resolve-package-root" utility', function () {
   var statSync
-  var fs = require('fs')
+  var fs = require('fs-extra')
 
   beforeEach(function () {
     statSync = fs.statSync
@@ -31,7 +31,7 @@ describe('The "resolve-package-root" utility', function () {
     return expect(resolvePackageRoot('test/fixtures/mini-project/a/b/test.txt')).to.eventually.deep.equal({
       packageRoot: 'test/fixtures/mini-project',
       relativeFile: 'a/b/test.txt',
-      packageJson: {'name': 'mini-project', 'version': '1.0.0'}
+      packageJson: { 'name': 'mini-project', 'version': '1.0.0' }
     })
   })
 
@@ -39,7 +39,7 @@ describe('The "resolve-package-root" utility', function () {
     return expect(resolvePackageRoot('test/fixtures/mini-project/a/b/package.json/test.txt')).to.eventually.deep.equal({
       packageRoot: 'test/fixtures/mini-project',
       relativeFile: 'a/b/package.json/test.txt',
-      packageJson: {'name': 'mini-project', 'version': '1.0.0'}
+      packageJson: { 'name': 'mini-project', 'version': '1.0.0' }
     })
   })
 
