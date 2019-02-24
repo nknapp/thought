@@ -67,11 +67,11 @@
     "eslint-plugin-standard": "^4.0.0",
     "husky": "^1.3.1",
     "lodash.isplainobject": "^4.0.6",
-    "mocha": "^6.0.0",
+    "mocha": "^6.0.1",
     "nock": "^10.0.6",
     "nyc": "^13.3.0",
     "thought-plugin-jsdoc": "^1.1.0",
-    "thoughtful-release": "^0.3.1"
+    "thoughtful-release": "^1.0.0"
   },
   "standard": {
     "ignore": [
