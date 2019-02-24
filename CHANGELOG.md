@@ -3,6 +3,35 @@
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 <a name="current-release"></a>
+# Version 2.0.0 (Wed, 20 Feb 2019 22:02:31 GMT)
+
+* BREAKING CHANGES
+  * [b437746](https://github.com/nknapp/thought/commit/b437746) auto-drop support for unsupported versions NodeJS - Nils Knappmeier (BREAKING CHANGE):
+    In the future, only supported versions (LTS and active) of NodeJS will be supported by this package. 
+  * [15ed4b6](https://github.com/nknapp/thought/commit/15ed4b6) feat: remove greenkeeper autodetection in `hasGreenkeeper`-helper - Nils Knappmeier
+    The Greenkeeper badge now has to be configured in `.thought/config.js`
+
+* refactorings
+  * [043ff2a](https://github.com/nknapp/thought/commit/043ff2a) refactor: use promise-based fs-extra instead of pify(fs()) - Nils Knappmeier
+  * [a0011fd](https://github.com/nknapp/thought/commit/a0011fd) refactor: remove obsolete packages - Nils Knappmeier
+  * [a84fdd9](https://github.com/nknapp/thought/commit/a84fdd9) fix: remove implicit use of Q - Nils Knappmeier
+  * [b19ea37](https://github.com/nknapp/thought/commit/b19ea37) chore: remove unneeded devDependency "recursive-copy" - Nils Knappmeier
+  * [02760c5](https://github.com/nknapp/thought/commit/02760c5) refactor: replace 'm-io' by 'fs-extra' and 'glob' - Nils Knappmeier
+  * [22e58cc](https://github.com/nknapp/thought/commit/22e58cc) chore: bump dependency versions, use nyc instead of istanbul - Nils Knappmeier
+
+* bump dependency versions
+  * [c3eac5d](https://github.com/nknapp/thought/commit/c3eac5d), 
+    [22e58cc](https://github.com/nknapp/thought/commit/22e58cc), 
+    [f44963f](https://github.com/nknapp/thought/commit/f44963f),
+    [4a4702f](https://github.com/nknapp/thought/commit/4a4702f),
+    [f44963f](https://github.com/nknapp/thought/commit/f44963f)
+    [11734aa](https://github.com/nknapp/thought/commit/11734aa)
+
+* bugfixes
+  * [def3693](https://github.com/nknapp/thought/commit/def3693) fix: fix silently rejected promise warning in dirTree helper - Nils Knappmeier
+  * [003e932](https://github.com/nknapp/thought/commit/003e932) fix: handle missing plugins properly in config - Nils Knappmeier
+
+
 # Version 1.5.2 (Fri, 25 Aug 2017 21:01:33 GMT)
 
 * [c1d5831](https://github.com/nknapp/thought/commit/c1d5831) Remove NodeJS 7 from travis build. Add NodeJS 8 - Nils Knappmeier
