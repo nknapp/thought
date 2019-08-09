@@ -38,7 +38,7 @@
   },
   "dependencies": {
     "archy": "^1.0.0",
-    "commander": "^2.19.0",
+    "commander": "^3.0.0",
     "customize": "^3.0.0",
     "customize-engine-handlebars": "^3.0.1",
     "customize-write-files": "^3.0.1",
