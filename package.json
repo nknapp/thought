@@ -41,7 +41,7 @@
     "commander": "^2.19.0",
     "customize": "^3.0.0",
     "customize-engine-handlebars": "^3.0.1",
-    "customize-write-files": "^3.0.1",
+    "customize-write-files": "^4.0.0",
     "debug": "^4.1.1",
     "deep-aplus": "^1.0.4",
     "fs-extra": "^7.0.1",
