@@ -30,11 +30,11 @@ example-project-2-example-license-jsdoc-badges/
 The example file for the project looks like this:
 
 ```js
-var multiply = require('../')
+const multiply = require('../')
 
-var x = 3
-var y = 4
-var xy = multiply(x, y)
+const x = 3
+const y = 4
+const xy = multiply(x, y)
 
 console.log(xy)
 

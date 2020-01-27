@@ -81,9 +81,7 @@ The plugin is loaded in the file `config.js`
 
 ```js
 module.exports = {
-  plugins: [
-    require('../../example-plugin/index')
-  ]
+  plugins: [require('../../example-plugin/index')]
 }
 
 ```

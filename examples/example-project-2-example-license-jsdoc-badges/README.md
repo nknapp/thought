@@ -20,11 +20,11 @@ npm install example-project-2-example-license-jsdoc-badges
 The following example demonstrates how to use this module:
 
 ```js
-var multiply = require('example-project-2-example-license-jsdoc-badges')
+const multiply = require('example-project-2-example-license-jsdoc-badges')
 
-var x = 3
-var y = 4
-var xy = multiply(x, y)
+const x = 3
+const y = 4
+const xy = multiply(x, y)
 
 console.log(xy)
 ```

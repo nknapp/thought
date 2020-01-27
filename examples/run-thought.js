@@ -12,10 +12,11 @@ fs.readdir(__dirname)
   .then(list => list.filter(dir => dir.match(/^example-project.*$/)))
   .then(list =>
     list.map(dir => {
-      return exeq('thought', ['run', '-a'], { cwd: dir }).then(result => {
+      return exeq(require.resolve('../bin/thought'), ['run', '-a'], { cwd: dir }).then(result => {
         console.log(`Done with '${dir}'`)
       })
     })
   )
   .then(promises => deep(promises))
   .then(() => console.log('finished...'))
+  .catch(error => console.error(error))

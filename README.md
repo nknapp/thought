@@ -82,10 +82,11 @@ Options:
   -h, --help     output usage information
 
 Commands:
-  run [options]  Generate documentation from your package.json and some templates.
+  run [options]  Generate documentation from your package.json and some
+                 templates.
   init           Register scripts in the current module's package.json
-  check-engines  Check that all engines (such as npm) have versions that ensure Thought to run correctly
-  up-to-date     Perform up-to-date check of the current documentation. Exit with non-zero exit-code when thought must be run again.
+  up-to-date     Perform up-to-date check of the current documentation. Exit
+                 with non-zero exit-code when thought must be run again.
 ```
 
 #### `thought init`: Using Thought as version-script for npm
@@ -124,7 +125,7 @@ non-zero exit-code and prints an error message.
 ### Calling `thought` from node.
 
 ```js
-var thought = require('thought')
+const thought = require('thought')
 
 thought({
   addToGit: true

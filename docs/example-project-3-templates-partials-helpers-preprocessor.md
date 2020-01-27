@@ -19,7 +19,6 @@ The following partials exist by default:
 │ └── <a href="../handlebars/partials/badge/travis.md.hbs">travis.md.hbs</a>
 ├── <a href="../handlebars/partials/badges.md.hbs">badges.md.hbs</a>
 ├── <a href="../handlebars/partials/changelog.md.hbs">changelog.md.hbs</a>
-├── <a href="../handlebars/partials/contributing.md.hbs">contributing.md.hbs</a>
 ├── <a href="../handlebars/partials/howitworks.md.hbs">howitworks.md.hbs</a>
 ├── <a href="../handlebars/partials/installation.md.hbs">installation.md.hbs</a>
 ├── <a href="../handlebars/partials/license.md.hbs">license.md.hbs</a>
@@ -40,7 +39,6 @@ If you create a file `.thought/partials/contributing.md.hbs`, it will replace th
 The same applies for templates. The default set of templates is 
 
 <pre><code>
-├── <a href="../handlebars/templates/CONTRIBUTING.md.hbs">CONTRIBUTING.md.hbs</a>
 └── <a href="../handlebars/templates/README.md.hbs">README.md.hbs</a>
 </code></pre>
 

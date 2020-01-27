@@ -19,7 +19,6 @@ The following partials can be overwritten in `.thought/partials`:
 │ └── travis.md.hbs
 ├── badges.md.hbs
 ├── changelog.md.hbs
-├── contributing.md.hbs
 ├── howitworks.md.hbs
 ├── installation.md.hbs
 ├── license.md.hbs
