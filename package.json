@@ -31,15 +31,15 @@
     "format": "prettier --write '**/*.js'",
     "lint": "eslint --fix .",
     "test": "mocha && npm run lint",
-    "coverage": "nyc mocha",
-    "postcoverage": "nyc check-coverage coverage/coverage.json --statements 100",
+    "coverage": "nyc --reporter=lcov --reporter=html --reporter=text-summary mocha",
+    "postcoverage": "nyc check-coverage",
     "thought": "bin/thought.js run -a",
     "postthought": "node examples/run-thought.js",
     "version": "thoughtful changelog -o -a && npm run thought"
   },
   "dependencies": {
     "archy": "^1.0.0",
-    "commander": "^2.20.3",
+    "commander": "^4.1.0",
     "customize": "^4.0.1",
     "customize-engine-handlebars": "^4.0.1",
     "customize-write-files": "^4.0.1",

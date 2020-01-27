@@ -1,0 +1,15 @@
+{
+  "nyc": {
+    "all": true,
+    "include": [
+      "lib/**/*.js",
+      "index.js",
+      "customize.js",
+      "handlebars/**/*.js"
+    ],
+    "branches": 100,
+    "lines": 100,
+    "functions": 100,
+    "statements": 100
+  }
+}
