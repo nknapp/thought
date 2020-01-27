@@ -35,7 +35,7 @@
     "postcoverage": "nyc check-coverage",
     "thought": "bin/thought.js run -a",
     "postthought": "node examples/run-thought.js",
-    "version": "thoughtful changelog -o -a && npm run thought"
+    "version": "standard-changelog && npm run thought"
   },
   "dependencies": {
     "archy": "^1.0.0",
@@ -76,8 +76,7 @@
     "prettier": "^1.19.1",
     "prettier-config-standard": "^1.0.1",
     "standard-changelog": "^2.0.21",
-    "thought-plugin-jsdoc": "^2.0.0",
-    "thoughtful-release": "^1.0.0"
+    "thought-plugin-jsdoc": "^2.0.0"
   },
   "keywords": [],
   "husky": {
