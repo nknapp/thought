@@ -445,7 +445,7 @@ function githubRepo(options) {
       return null
     }
   } catch (e) {
-    // No repositor-url exists
+    // No repository-url exists
     return null
   }
 }
