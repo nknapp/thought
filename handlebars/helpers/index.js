@@ -309,20 +309,28 @@ async function hasCodecov() {
  * @private
  */
 async function _searchCiConfig(searchString) {
-  const ciConfigs = await Promise.all(
-    ['.travis.yml', 'appveyor.yml'].map(async filename => {
-      try {
-        return await fs.readFile(filename, 'utf-8')
-      } catch (e) {
-        if (e.code === 'ENOENT') {
-          return ''
-        }
-        /* istanbul ignore next */
-        throw e
-      }
-    })
+  return _anyResolvesToTrue(
+    ['.travis.yml', 'appveyor.yml'].map(async filename => _fileContainsString(filename, searchString))
   )
-  return ciConfigs.findIndex(contents => contents.includes(searchString)) >= 0
+}
+
+async function _anyResolvesToTrue(promises) {
+  const results = await Promise.all(promises)
+  return results.includes(true)
+}
+
+async function _fileContainsString(filename, searchString) {
+  try {
+    const contents = await fs.readFile(filename, 'utf-8')
+    return contents.includes(searchString)
+  } catch (e) {
+    /* istanbul ignore else: very difficult to test */
+    if (e.code === 'ENOENT') {
+      return ''
+    }
+    /* istanbul ignore next */
+    throw e
+  }
 }
 
 /**
