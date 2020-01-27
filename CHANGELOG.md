@@ -1,3 +1,24 @@
+# [3.0.0](https://github.com/nknapp/thought/compare/v2.0.0...v3.0.0) (2020-01-27)
+
+
+### Bug Fixes
+
+* do not generate CONTRIBUTING.md by default ([0348d34](https://github.com/nknapp/thought/commit/0348d3421823d915deecbc683836c22ec5342454))
+* support for modules inside a mono-repo ([1346e33](https://github.com/nknapp/thought/commit/1346e33def668cb246452eb694a0d4e99ed8899f))
+
+
+### Code Refactoring
+
+* remove "check-engines"-option ([721f34d](https://github.com/nknapp/thought/commit/721f34d95ab6acfe36b138ce44214984e2cd9c06))
+
+
+### BREAKING CHANGES
+
+* "check-engines"-options removed
+* CONTRIBUTING.md is not generated anymore
+
+
+
 # Change Log
 
 This project adheres to [Semantic Versioning](http://semver.org/).
