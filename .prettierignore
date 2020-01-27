@@ -1,5 +1,5 @@
 node_modules
-coverage
+package-lock.json
+*.iml
 test/fixtures
-test-output
 /.eslintcache
