@@ -18,12 +18,6 @@
 * CONTRIBUTING.md is not generated anymore
 
 
-
-# Change Log
-
-This project adheres to [Semantic Versioning](http://semver.org/).
-
-<a name="current-release"></a>
 # Version 2.0.0 (Wed, 20 Feb 2019 22:02:31 GMT)
 
 * BREAKING CHANGES
