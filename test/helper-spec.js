@@ -319,7 +319,9 @@ describe('thought-helpers:', function() {
       return expectHbs('{{#withPackageOf file}}{{@rawUrl}}{{/withPackageOf}}', {
         file: require.resolve('customize/helpers-io.js')
       }).to.eventually.equal(
-        versions('https://raw.githubusercontent.com/bootprint/customize/CUSTOMIZE_VERSION/helpers-io.js')
+        versions(
+          'https://raw.githubusercontent.com/bootprint/bootprint-monorepo/CUSTOMIZE_VERSION/packages/customize/helpers-io.js'
+        )
       )
     })
 
@@ -351,13 +353,15 @@ describe('thought-helpers:', function() {
   describe('The "github"-helper', function() {
     it('should create a url to file on github (based on the current package version)', function() {
       return expectHbs('{{github file}}', { file: 'test/fixtures/shout.js' }).to.eventually.equal(
-        versions(fixture('include/github.default.md'))
+        versions('https://github.com/nknapp/thought/blob/THOUGHT_VERSION/test/fixtures/shout.js')
       )
     })
 
     it('should create a url files in dependency projects (based on the their current package version)', function() {
       return expectHbs('{{github file}}', { file: require.resolve('customize/helpers-io.js') }).to.eventually.equal(
-        versions(fixture('include/github.dependency.md'))
+        versions(
+          'https://github.com/bootprint/bootprint-monorepo/blob/CUSTOMIZE_VERSION/packages/customize/helpers-io.js'
+        )
       )
     })
   })

@@ -485,8 +485,9 @@ function arr(...args) {
 function _githubUrl(resolvedPackageRoot) {
   const { packageJson, relativeFile } = resolvedPackageRoot
   const url = repoWebUrl(packageJson && packageJson.repository && packageJson.repository.url)
+  const relativePathWithinRepo = _relativePathWithinRepository(packageJson, relativeFile)
   if (url && url.match(/github.com/)) {
-    return `${url}/blob/v${packageJson.version}/${relativeFile}`
+    return `${url}/blob/v${packageJson.version}/${relativePathWithinRepo}`
   }
 }
 
@@ -497,8 +498,10 @@ function _githubUrl(resolvedPackageRoot) {
 function _rawGithubUrl(resolvedPackageRoot) {
   const { packageJson, relativeFile } = resolvedPackageRoot
   const orgRepo = _githubOrgRepo(packageJson && packageJson.repository && packageJson.repository.url)
+  const relativePathWithinRepo = _relativePathWithinRepository(packageJson, relativeFile)
+
   if (orgRepo) {
-    return `https://raw.githubusercontent.com/${orgRepo}/v${packageJson.version}/${relativeFile}`
+    return `https://raw.githubusercontent.com/${orgRepo}/v${packageJson.version}/${relativePathWithinRepo}`
   }
 }
 
@@ -514,4 +517,13 @@ function _githubOrgRepo(gitUrl) {
   }
   const match = gitUrl.match(/.*?(:\/\/|@)github\.com[/:](.*?)(#.*?)?$/)
   return match && match[2] && match[2].replace(/\.git$/, '')
+}
+
+function _relativePathWithinRepository(packageJson, fileRelativeToPackageJson) {
+  const directory = packageJson && packageJson.repository && packageJson.repository.directory
+  if (directory) {
+    // This is a monorepo and the package.json is in a sub-directory
+    return `${directory}/${fileRelativeToPackageJson}`
+  }
+  return fileRelativeToPackageJson
 }
