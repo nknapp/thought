@@ -35,7 +35,7 @@ describe('The "addToGit" option', function () {
             .map(fileEntry => fileEntry.path)
             .sort()
         })
-        .then((files) => expect(files).to.deep.equal(['CONTRIBUTING.md', 'README.md']))
+        .then((files) => expect(files).to.deep.equal(['README.md']))
     })
   })
 })
