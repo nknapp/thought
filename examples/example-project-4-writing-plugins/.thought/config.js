@@ -1,5 +1,3 @@
 module.exports = {
-  plugins: [
-    require('../../example-plugin/index')
-  ]
+  plugins: [require('../../example-plugin/index')]
 }

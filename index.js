@@ -6,9 +6,9 @@
  */
 'use strict'
 
-var customize = require('customize')
-var debug = require('debug')('thought:run')
-var write = require('customize-write-files')
+const customize = require('customize')
+const debug = require('debug')('thought:run')
+const write = require('customize-write-files')
 
 module.exports = thought
 
@@ -20,20 +20,22 @@ module.exports = thought
  * @param {boolean} [options.addToGit] add created files to git
  * @api public
  */
-function thought (options) {
+function thought(options) {
   options = options || {}
   debug('options', options)
-  return customize()
-    // Load `customize`-spec
-    .load(require('./customize.js')(options.cwd || '.'))
-    .run()
-    .then(write(options.cwd || '.'))
-    .then(async function (filenames) {
-      if (options.addToGit) {
-        var git = require('simple-git/promise')()
-        debug('Adding ' + filenames.join(', ') + ' to git index')
-        await git.add(filenames)
-      }
-      return filenames
-    })
+  return (
+    customize()
+      // Load `customize`-spec
+      .load(require('./customize.js')(options.cwd || '.'))
+      .run()
+      .then(write(options.cwd || '.'))
+      .then(async function(filenames) {
+        if (options.addToGit) {
+          const git = require('simple-git/promise')()
+          debug('Adding ' + filenames.join(', ') + ' to git index')
+          await git.add(filenames)
+        }
+        return filenames
+      })
+  )
 }

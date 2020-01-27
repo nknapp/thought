@@ -18,7 +18,7 @@ const originalExecFile = cp.execFile
 /**
  * Restore the original execFile function
  */
-function clearMocks () {
+function clearMocks() {
   cp.spawn = originalSpawn
   cp.execFile = originalExecFile
 }
@@ -32,8 +32,8 @@ function clearMocks () {
  *   execution. The "this"-context for the function execution is the ChildProces-object
  *   that is returned by the mocked spawn function.
  */
-function mockSpawn (predicate, mockFn) {
-  cp.spawn = function (command, args, options) {
+function mockSpawn(predicate, mockFn) {
+  cp.spawn = function(command, args, options) {
     if (options == null && _.isPlainObject(args)) {
       options = args
       args = null
@@ -57,8 +57,8 @@ function mockSpawn (predicate, mockFn) {
  *   execution. The "this"-context for the function execution is the ChildProcess-object
  *   that is returned by the mocked execFile function.
  */
-function mockExecFile (predicate, mockFn) {
-  cp.execFile = function (command, args, options, callback) {
+function mockExecFile(predicate, mockFn) {
+  cp.execFile = function(command, args, options, callback) {
     if (callback == null && typeof options === 'function') {
       callback = options
       options = null

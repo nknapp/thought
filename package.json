@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "archy": "^1.0.0",
-    "commander": "^4.1.0",
+    "commander": "^2.20.3",
     "customize": "^4.0.1",
     "customize-engine-handlebars": "^4.0.1",
     "customize-write-files": "^4.0.1",
@@ -68,6 +68,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "husky": "^4.2.1",
+    "lint-staged": "^10.0.3",
     "lodash.isplainobject": "^4.0.6",
     "mocha": "^7.0.1",
     "nock": "^11.7.2",
@@ -78,10 +79,16 @@
     "thought-plugin-jsdoc": "^2.0.0",
     "thoughtful-release": "^1.0.0"
   },
-  "standard": {
-    "ignore": [
-      "test/fixtures/**"
-    ]
+  "keywords": [],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
-  "keywords": []
+  "lint-staged": {
+    "*.js": [
+      "eslint --cache --fix",
+      "prettier --write"
+    ]
+  }
 }

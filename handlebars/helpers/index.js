@@ -43,7 +43,7 @@ module.exports = {
  * @access public
  * @memberOf helpers
  */
-function json (obj) {
+function json(obj) {
   return '```json\n' + JSON.stringify(obj, null, 2) + '\n```\n'
 }
 
@@ -56,13 +56,11 @@ function json (obj) {
  * @access public
  * @memberOf helpers
  */
-function include (filename, language) {
-  return fs.readFile(filename, 'utf-8').then(function (contents) {
-    return '```' +
-      (typeof language === 'string' ? language : path.extname(filename).substr(1)) +
-      '\n' +
-      contents +
-      '\n```\n'
+function include(filename, language) {
+  return fs.readFile(filename, 'utf-8').then(function(contents) {
+    return (
+      '```' + (typeof language === 'string' ? language : path.extname(filename).substr(1)) + '\n' + contents + '\n```\n'
+    )
   })
 }
 
@@ -73,7 +71,7 @@ function include (filename, language) {
  * @access public
  * @memberOf helpers
  */
-function includeRaw (filename) {
+function includeRaw(filename) {
   return fs.readFile(filename, 'utf-8')
 }
 
@@ -99,25 +97,25 @@ function includeRaw (filename) {
  * @access public
  * @memberOf helpers
  */
-function example (filename, options) {
-  return fs.readFile(filename, 'utf-8')
-    .then(function (contents) {
-      // Relative path to the current module (e.g. "../"). This path must be replaced
-      // by the module name in the
-      const modulePath = path.relative(path.dirname(filename), '.')
-      debug('example modulepath', modulePath)
-      const requireModuleRegex = new RegExp(regex`require\('${modulePath}/?(.*?)'\)`, 'g')
-      if (options && options.hash && options.hash.snippet) {
-        contents = contents.match(/---<snip>---.*\n([\S\s]*?)\n.*---<\/snip>---/)[1]
-      }
+function example(filename, options) {
+  return fs.readFile(filename, 'utf-8').then(function(contents) {
+    // Relative path to the current module (e.g. "../"). This path must be replaced
+    // by the module name in the
+    const modulePath = path.relative(path.dirname(filename), '.')
+    debug('example modulepath', modulePath)
+    const requireModuleRegex = new RegExp(regex`require\('${modulePath}/?(.*?)'\)`, 'g')
+    if (options && options.hash && options.hash.snippet) {
+      contents = contents.match(/---<snip>---.*\n([\S\s]*?)\n.*---<\/snip>---/)[1]
+    }
 
-      return util.format('```%s\n%s\n```',
-        path.extname(filename).substr(1),
-        contents.trim().replace(requireModuleRegex, function (match, suffix) {
-          return `require('${require(process.cwd() + '/package').name}${suffix ? '/' + suffix : ''}')`
-        })
-      )
-    })
+    return util.format(
+      '```%s\n%s\n```',
+      path.extname(filename).substr(1),
+      contents.trim().replace(requireModuleRegex, function(match, suffix) {
+        return `require('${require(process.cwd() + '/package').name}${suffix ? '/' + suffix : ''}')`
+      })
+    )
+  })
 }
 
 /**
@@ -128,7 +126,7 @@ function example (filename, options) {
  * @access public
  * @memberOf helpers
  */
-function exists (filename) {
+function exists(filename) {
   return fs.exists(filename)
 }
 
@@ -144,27 +142,26 @@ function exists (filename) {
  * @access public
  * @memberOf helpers
  */
-function exec (command, options) {
-  let start
-  let end
+function exec(command, options) {
+  const cwd = options.hash && options.hash.cwd
   const lang = options.hash && options.hash.lang
-  switch (lang) {
-    case 'raw':
-      start = end = ''
-      break
-    case 'inline':
-      start = end = '`'
-      break
-    default:
-      const fenceLanguage = lang || ''
-      start = '```' + fenceLanguage + '\n'
-      end = '\n```'
-  }
+
   const output = cp.execSync(command, {
     encoding: 'utf8',
-    cwd: options.hash && options.hash.cwd
+    cwd: cwd
   })
-  return start + output.trim() + end
+  const trimmedOutput = output.trim()
+
+  if (lang === 'raw') {
+    return trimmedOutput
+  }
+  if (lang === 'inline') {
+    return '`' + trimmedOutput + '`'
+  }
+  if (lang == null) {
+    return '```\n' + trimmedOutput + '\n```'
+  }
+  return '```' + lang + '\n' + trimmedOutput + '\n```'
 }
 
 /**
@@ -197,7 +194,7 @@ function exec (command, options) {
  * @access public
  * @memberOf helpers
  */
-function renderTree (object, options) {
+function renderTree(object, options) {
   const tree = require('archy')(transformTree(object, options.fn))
   return '<pre><code>\n' + tree + '</code></pre>'
 }
@@ -217,16 +214,15 @@ function renderTree (object, options) {
  * @access public
  * @memberOf helpers
  */
-function withPackageOf (filePath, options) {
-  return resolvePackageRoot(path.resolve(filePath))
-    .then(function (resolvedPackageRoot) {
-      const data = Handlebars.createFrame(options.data)
-      data.url = _githubUrl(resolvedPackageRoot)
-      data.package = resolvedPackageRoot.packageJson
-      data.relativePath = resolvedPackageRoot.relativeFile
-      data.rawUrl = _rawGithubUrl(resolvedPackageRoot)
-      return options.fn(this, { data: data })
-    })
+function withPackageOf(filePath, options) {
+  return resolvePackageRoot(path.resolve(filePath)).then(function(resolvedPackageRoot) {
+    const data = Handlebars.createFrame(options.data)
+    data.url = _githubUrl(resolvedPackageRoot)
+    data.package = resolvedPackageRoot.packageJson
+    data.relativePath = resolvedPackageRoot.relativeFile
+    data.rawUrl = _rawGithubUrl(resolvedPackageRoot)
+    return options.fn(this, { data: data })
+  })
 }
 
 /**
@@ -236,7 +232,7 @@ function withPackageOf (filePath, options) {
  * @access public
  * @memberOf helpers
  */
-function npm (packageName) {
+function npm(packageName) {
   return '[' + packageName + '](https://npmjs.com/package/' + packageName + ')'
 }
 
@@ -262,7 +258,7 @@ function npm (packageName) {
  * @access public
  * @memberOf helpers
  */
-function htmlId (value) {
+function htmlId(value) {
   // see http://stackoverflow.com/questions/19001140/amend-regular-expression-to-allow-german-umlauts-french-accents-and-other-valid
   // and https://github.com/mathiasbynens/unicode-data/blob/17a920119b8015c6f7fe922ee7ab9fe29bef4394/4.0.1/blocks/Katakana-regex.js
   // There are probably a lot of characters missing. Please make a PR, if you want to include more ranges in the valid characters.
@@ -286,7 +282,7 @@ function htmlId (value) {
  * @access public
  * @memberOf helpers
  */
-function hasCoveralls () {
+function hasCoveralls() {
   return _searchCiConfig('coveralls')
 }
 
@@ -302,7 +298,7 @@ function hasCoveralls () {
  * @access public
  * @memberOf helpers
  */
-async function hasCodecov () {
+async function hasCodecov() {
   return _searchCiConfig('codecov')
 }
 
@@ -312,19 +308,21 @@ async function hasCodecov () {
  * @return {Promise<boolean>} true, if the given string is either part of .travis.yml or appveyor.yml
  * @private
  */
-async function _searchCiConfig (searchString) {
-  const ciConfigs = await Promise.all(['.travis.yml', 'appveyor.yml'].map(async (filename) => {
-    try {
-      return await fs.readFile(filename, 'utf-8')
-    } catch (e) {
-      if (e.code === 'ENOENT') {
-        return ''
+async function _searchCiConfig(searchString) {
+  const ciConfigs = await Promise.all(
+    ['.travis.yml', 'appveyor.yml'].map(async filename => {
+      try {
+        return await fs.readFile(filename, 'utf-8')
+      } catch (e) {
+        if (e.code === 'ENOENT') {
+          return ''
+        }
+        /* istanbul ignore next */
+        throw e
       }
-      /* istanbul ignore next */
-      throw e
-    }
-  }))
-  return ciConfigs.findIndex((contents) => contents.includes(searchString)) >= 0
+    })
+  )
+  return ciConfigs.findIndex(contents => contents.includes(searchString)) >= 0
 }
 
 /**
@@ -345,7 +343,7 @@ async function _searchCiConfig (searchString) {
  * @throws Error if no badge is enabled but not github-repo url is found in package.json
  * @memberOf helpers
  */
-function hasGreenkeeper (options) {
+function hasGreenkeeper(options) {
   const config = options.data.root.config
   const showBadge = !!(config && config.badges && config.badges.greenkeeper) // coerce to boolean
   if (showBadge && !githubRepo(options)) {
@@ -381,12 +379,12 @@ function hasGreenkeeper (options) {
  *
  * @access private
  */
-function transformTree (object, fn) {
+function transformTree(object, fn) {
   const label = fn(object).trim()
   if (object.children) {
     return {
       label: label,
-      nodes: object.children.map(function (child) {
+      nodes: object.children.map(function(child) {
         return transformTree(child, fn)
       })
     }
@@ -406,7 +404,7 @@ function transformTree (object, fn) {
  * @access public
  * @memberOf helpers
  */
-function github (filePath) {
+function github(filePath) {
   // Build url to correct version and file in githubs
   return resolvePackageRoot(path.resolve(filePath)).then(_githubUrl)
 }
@@ -418,7 +416,7 @@ function github (filePath) {
  * @access public
  * @memberOf helpers
  */
-function repoWebUrl (gitUrl) {
+function repoWebUrl(gitUrl) {
   if (!gitUrl) {
     return undefined
   }
@@ -437,7 +435,7 @@ function repoWebUrl (gitUrl) {
  * @access public
  * @memberOf helpers
  */
-function githubRepo (options) {
+function githubRepo(options) {
   try {
     const url = options.data.root.package.repository.url
     const match = url.match(/.*?(:\/\/|@)github\.com[/:](.*?)(#.*?)?$/)
@@ -459,7 +457,7 @@ function githubRepo (options) {
  * @returns {string}
  * @access private
  */
-function regex (strings, ...args) {
+function regex(strings, ...args) {
   return String.raw(strings, ...args.map(_.escapeRegExp))
 }
 
@@ -471,7 +469,7 @@ function regex (strings, ...args) {
  * @access public
  * @memberOf helpers
  */
-function arr (...args) {
+function arr(...args) {
   return args.slice(0, args.length - 1)
 }
 
@@ -484,8 +482,8 @@ function arr (...args) {
  * @returns {string}
  * @private
  */
-function _githubUrl (resolvedPackageRoot) {
-  var { packageJson, relativeFile } = resolvedPackageRoot
+function _githubUrl(resolvedPackageRoot) {
+  const { packageJson, relativeFile } = resolvedPackageRoot
   const url = repoWebUrl(packageJson && packageJson.repository && packageJson.repository.url)
   if (url && url.match(/github.com/)) {
     return `${url}/blob/v${packageJson.version}/${relativeFile}`
@@ -496,8 +494,8 @@ function _githubUrl (resolvedPackageRoot) {
  * Return the raw url of a file in a githb repository
  * @private
  */
-function _rawGithubUrl (resolvedPackageRoot) {
-  var { packageJson, relativeFile } = resolvedPackageRoot
+function _rawGithubUrl(resolvedPackageRoot) {
+  const { packageJson, relativeFile } = resolvedPackageRoot
   const orgRepo = _githubOrgRepo(packageJson && packageJson.repository && packageJson.repository.url)
   if (orgRepo) {
     return `https://raw.githubusercontent.com/${orgRepo}/v${packageJson.version}/${relativeFile}`
@@ -510,7 +508,7 @@ function _rawGithubUrl (resolvedPackageRoot) {
  * @return {string|null} org and repository, separated by a "/"
  * @private
  */
-function _githubOrgRepo (gitUrl) {
+function _githubOrgRepo(gitUrl) {
   if (!gitUrl) {
     return null
   }

@@ -26,7 +26,7 @@ module.exports = dirTree
  * @access public
  * @memberOf helpers
  */
-async function dirTree (baseDir, globPattern, options) {
+async function dirTree(baseDir, globPattern, options) {
   // Is basedir is not a string, it is probably the handlebars "options" object
   if (typeof globPattern !== 'string' && options == null) {
     options = globPattern
@@ -47,7 +47,7 @@ async function dirTree (baseDir, globPattern, options) {
   })
   debug('dirTree glob result', files)
   if (files.length === 0) {
-    throw new Error('Cannot find a single file for \'' + globPattern + '\' in \'' + baseDir + '\'')
+    throw new Error("Cannot find a single file for '" + globPattern + "' in '" + baseDir + "'")
   }
   files.sort()
 
@@ -56,7 +56,7 @@ async function dirTree (baseDir, globPattern, options) {
     nodes: treeFromPaths(files, baseDir, ({ parent, file, explicit }) => {
       if (explicit && hashOptions.links) {
         // Compute relative path from current target-file to the listed file
-        var targetPath = path.relative(path.dirname(options.customize.targetFile), `${parent}/${file}`)
+        const targetPath = path.relative(path.dirname(options.customize.targetFile), `${parent}/${file}`)
         return `<a href="${targetPath}">${file}</a>`
       }
       return file
@@ -92,9 +92,9 @@ async function dirTree (baseDir, globPattern, options) {
  * @returns {object} a tree structure as needed by [archy](https://www.npmjs.com/package/archy)
  * @access private
  */
-function treeFromPaths (files, parent, renderLabelFn) {
-  var groups = _.groupBy(files, file => file.match(/^[^/]*\/?/))
-  return Object.keys(groups).map(function (groupKey) {
+function treeFromPaths(files, parent, renderLabelFn) {
+  const groups = _.groupBy(files, file => file.match(/^[^/]*\/?/))
+  return Object.keys(groups).map(function(groupKey) {
     const group = groups[groupKey]
     // Is this group explicitly part of the result, or
     // just implicit through its children
@@ -120,7 +120,7 @@ function treeFromPaths (files, parent, renderLabelFn) {
  * Keep nodes with zero, two or more childs.
  * @access private
  */
-function condense (node) {
+function condense(node) {
   if (node.nodes.length === 1 && node.nodes[0].nodes.length > 0) {
     return condense({
       label: (node.label || '') + node.nodes[0].label,

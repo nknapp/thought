@@ -1,4 +1,4 @@
-var thought = require('../')
+const thought = require('../')
 
 thought({
   addToGit: true

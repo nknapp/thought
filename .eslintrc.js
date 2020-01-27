@@ -10,15 +10,15 @@ module.exports = {
     ecmaVersion: 2018
   },
   rules: {
-    "no-var": "error",
-    "prefer-const": "warn",
-    "no-console": "warn"
+    'no-var': 'error',
+    'prefer-const': 'warn',
+    'no-console': 'warn'
   },
   overrides: [
     {
       files: ['**/test/*-spec.js'],
       env: {
-        mocha: true
+        // mocha: true
       }
     },
     {

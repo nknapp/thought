@@ -1,13 +1,13 @@
-var fs = require('fs-extra')
-var path = require('path')
+const fs = require('fs-extra')
+const path = require('path')
 
-var basedir = path.resolve('test', 'fixtures', 'scenarios')
+const basedir = path.resolve('test', 'fixtures', 'scenarios')
 
 /**
  * Helpe for executing thought in different repos.
  */
 class Scenario {
-  constructor (name) {
+  constructor(name) {
     this.name = name
     this.expectFailure = name.lastIndexOf('failure-', 0) === 0
     this.input = path.join(basedir, name, 'input')
@@ -18,8 +18,9 @@ class Scenario {
   /**
    * Prepare setup of the scenario
    */
-  prepare () {
-    return fs.remove(this.actual)
+  prepare() {
+    return fs
+      .remove(this.actual)
       .then(() => fs.copy(this.input, this.actual, { recursive: true }))
       .then(() => this)
   }
@@ -29,8 +30,8 @@ class Scenario {
    *
    * @param {():Promise} fn the tester function
    */
-  run (fn) {
-    var oldCwd = process.cwd()
+  run(fn) {
+    const oldCwd = process.cwd()
 
     try {
       process.chdir(this.actual)
@@ -42,11 +43,11 @@ class Scenario {
     return Promise.resolve()
       .then(() => fn())
       .then(
-        (result) => {
+        result => {
           process.chdir(oldCwd)
           return result
         },
-        (err) => {
+        err => {
           process.chdir(oldCwd)
           throw err
         }
@@ -58,7 +59,7 @@ class Scenario {
    * @param {():Promise} fn the callback function
    * @returns {Promise}
    */
-  prepareAndRun (fn) {
+  prepareAndRun(fn) {
     return this.prepare().then(() => this.run(fn))
   }
 
@@ -66,7 +67,7 @@ class Scenario {
    * Create a new instance of this scenario with a different "actual" directory
    * @param newTmpDir
    */
-  withTmpDir (newTmpDir) {
+  withTmpDir(newTmpDir) {
     if (!newTmpDir.match(/test-output|actual/)) {
       throw new Error(`${newTmpDir} must be inside test-output or the 'actual' directory of a scenario.`)
       // because  I don't want to risk deleting important files
@@ -80,7 +81,7 @@ class Scenario {
    * Read a file from the "actual"-folder
    * @param {string} relativePath the path within the folder
    */
-  readActual (relativePath) {
+  readActual(relativePath) {
     return fs.readFileSync(path.join(this.actual, relativePath), 'utf-8')
   }
 
@@ -88,13 +89,13 @@ class Scenario {
    * Read a file from the "expected"-folder
    * @param {string} relativePath the path within the folder
    */
-  readExpected (relativePath) {
+  readExpected(relativePath) {
     return fs.readFileSync(path.join(this.expected, relativePath), 'utf-8')
   }
 }
 
-Scenario.all = function () {
-  return fs.readdirSync(basedir).map((name) => {
+Scenario.all = function() {
+  return fs.readdirSync(basedir).map(name => {
     return new Scenario(name)
   })
 }

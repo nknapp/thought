@@ -6,6 +6,6 @@
  * @module example-project
  * @public
  */
-module.exports = function multiply (a, b) {
+module.exports = function multiply(a, b) {
   return a * b
 }
