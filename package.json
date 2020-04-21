@@ -74,7 +74,7 @@
     "mocha": "^7.0.1",
     "nock": "^11.7.2",
     "nyc": "^15.0.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.5",
     "prettier-config-standard": "^1.0.1",
     "standard-changelog": "^2.0.21",
     "thought-plugin-jsdoc": "^2.0.0"
