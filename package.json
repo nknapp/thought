@@ -40,7 +40,7 @@
   },
   "dependencies": {
     "archy": "^1.0.0",
-    "commander": "^4.1.0",
+    "commander": "^5.1.0",
     "customize": "^4.0.1",
     "customize-engine-handlebars": "^4.0.1",
     "customize-write-files": "^4.0.1",
