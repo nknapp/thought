@@ -99,23 +99,38 @@ function includeRaw(filename) {
  */
 function example(filename, options) {
   return fs.readFile(filename, 'utf-8').then(function(contents) {
-    // Relative path to the current module (e.g. "../"). This path must be replaced
-    // by the module name in the
-    const modulePath = path.relative(path.dirname(filename), '.')
-    debug('example modulepath', modulePath)
-    const requireModuleRegex = new RegExp(regex`require\('${modulePath}/?(.*?)'\)`, 'g')
     if (options && options.hash && options.hash.snippet) {
       contents = contents.match(/---<snip>---.*\n([\S\s]*?)\n.*---<\/snip>---/)[1]
     }
 
-    return util.format(
-      '```%s\n%s\n```',
-      path.extname(filename).substr(1),
-      contents.trim().replace(requireModuleRegex, function(match, suffix) {
-        return `require('${require(process.cwd() + '/package').name}${suffix ? '/' + suffix : ''}')`
-      })
-    )
+    contents = contents.trim()
+
+    // Relative path to the current module (e.g. "../"). This path must be replaced
+    // by the module name from package.json
+    const modulePath = path.relative(path.dirname(filename), '.')
+    debug('example modulepath', modulePath)
+    const packageName = require(process.cwd() + '/package').name
+    contents = replaceRequireModule(contents, modulePath, packageName, '"')
+    contents = replaceRequireModule(contents, modulePath, packageName, '`')
+    contents = replaceRequireModule(contents, modulePath, packageName, "'")
+
+    return util.format('```%s\n%s\n```', path.extname(filename).substr(1), contents)
   })
+}
+
+function replaceRequireModule(contents, modulePath, packageName, quoteChar) {
+  const requireModuleSingleQuoteRegex = new RegExp(regex`require\(${quoteChar}${modulePath}(/.*?)?${quoteChar}\)`, 'g')
+
+  return contents.replace(requireModuleSingleQuoteRegex, function(match, suffix) {
+    return `require(${quoteChar}${combineRequirePath(packageName, suffix)}${quoteChar})`
+  })
+}
+
+function combineRequirePath(packageName, innerPath) {
+  if (innerPath == null || innerPath === '' || innerPath === '/') {
+    return packageName
+  }
+  return packageName + innerPath
 }
 
 /**
