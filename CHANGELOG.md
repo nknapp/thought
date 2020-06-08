@@ -1,3 +1,12 @@
+## [3.0.1](https://github.com/nknapp/thought/compare/v3.0.0...v3.0.1) (2020-06-08)
+
+
+### Bug Fixes
+
+* replace module-path in examples with different quotes ([a88eb0a](https://github.com/nknapp/thought/commit/a88eb0aceb670c60b510ef0843364e32016dfce8))
+
+
+
 # [3.0.0](https://github.com/nknapp/thought/compare/v2.0.0...v3.0.0) (2020-01-27)
 
 
