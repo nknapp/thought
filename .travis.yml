@@ -2,8 +2,8 @@ sudo: false
 language: "node_js"
 node_js:
   - "node"
-  - "lts/*"
-  - "8"
+  - "12"
+  - "10"
 script:
   - git config --global user.email "thought@knappi.org"
   - git config --global user.name "Thought in Travis"
