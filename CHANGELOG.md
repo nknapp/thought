@@ -1,3 +1,22 @@
+# [4.0.0](https://github.com/nknapp/thought/compare/v3.0.1...v4.0.0) (2020-07-02)
+
+
+### chore
+
+* drop support for Node 8 ([1153f00](https://github.com/nknapp/thought/commit/1153f00bd5f977acf46030ac7a0b1897c9b2832c))
+
+
+### Features
+
+* add command "eject" to override default files in the current project ([8040572](https://github.com/nknapp/thought/commit/8040572d3853cf3d53374a03d283c0d3277a3f43))
+
+
+### BREAKING CHANGES
+
+* drops support for Node 8
+
+
+
 ## [3.0.1](https://github.com/nknapp/thought/compare/v3.0.0...v3.0.1) (2020-06-08)
 
 
