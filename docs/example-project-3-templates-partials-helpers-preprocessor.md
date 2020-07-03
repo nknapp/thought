@@ -4,9 +4,9 @@ All templates and partials can be overridden by customized versions (it is curre
 not possible to remove a template completely).
 You can find the default configuration in the [handlebars/](handlebars/) directory. 
 
-## Partials
+## Partials and Templates
 
-The following partials exist by default:
+The following **partials** exist by default:
 
 <pre><code>
 ├── <a href="../handlebars/partials/api.md.hbs">api.md.hbs</a>
@@ -33,19 +33,37 @@ You can create a directory `.thought/partials` in the your project root, that ha
 If you create a file `.thought/partials/contributing.md.hbs`, it will replace the default
 `contributing.md.hbs` partial.
 
-
-## Templates
-
-The same applies for templates. The default set of templates is 
+The same applies for **templates**. The default set of templates is 
 
 <pre><code>
 └── <a href="../handlebars/templates/README.md.hbs">README.md.hbs</a>
 </code></pre>
 
-For every file in the `templates/` directory, a file is create in your project root (removing
+For every file in the `templates/` directory, a file is created in your project root (removing
 the `.hbs` extension). 
 
-#### Handlebars-Helpers
+### Generate replacement files via CLI
+
+You can use the command
+
+```
+thought eject partial contributing.md.hbs 
+```
+
+to automatically create the file `.thought/partials/contributing.md.hbs` with the default contents. If you are not sure
+which partials and templates you can specify in the command-line, run
+
+```
+thought eject
+```
+
+without any further parameters. It will display a list of files that exist by default and are not yet overridden in your
+project.
+
+
+ 
+
+## Handlebars-Helpers
 
 Thought comes with a default set of Handlebars-helpers that can be called
 from within templates and partials.
