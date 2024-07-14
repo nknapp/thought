@@ -1,3 +1,7 @@
+## [4.0.1](https://github.com/nknapp/thought/compare/v4.0.0...v4.0.1) (2024-07-14)
+
+
+
 # [4.0.0](https://github.com/nknapp/thought/compare/v3.0.1...v4.0.0) (2020-07-02)
 
 

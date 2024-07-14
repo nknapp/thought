@@ -60,9 +60,6 @@ thought eject
 without any further parameters. It will display a list of files that exist by default and are not yet overridden in your
 project.
 
-
- 
-
 ## Handlebars-Helpers
 
 Thought comes with a default set of Handlebars-helpers that can be called
