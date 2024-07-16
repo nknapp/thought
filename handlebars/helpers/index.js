@@ -230,7 +230,7 @@ function renderTree(object, options) {
  * @memberOf helpers
  */
 function withPackageOf(filePath, options) {
-  return resolvePackageRoot(path.resolve(filePath)).then(function (resolvedPackageRoot) {
+  return resolvePackageRoot(path.resolve(filePath), { posix: true }).then(function (resolvedPackageRoot) {
     const data = Handlebars.createFrame(options.data)
     data.url = _githubUrl(resolvedPackageRoot)
     data.package = resolvedPackageRoot.packageJson
@@ -426,7 +426,7 @@ function transformTree(object, fn) {
  */
 function github(filePath) {
   // Build url to correct version and file in githubs
-  return resolvePackageRoot(path.resolve(filePath)).then(_githubUrl)
+  return resolvePackageRoot(path.resolve(filePath), { posix: true }).then(_githubUrl)
 }
 
 /**
