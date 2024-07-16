@@ -43,9 +43,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        run: npm install
-        
-      - name: Test
-        run: npm run test
+      - run: git config --global user.email "thought@knappi.org"
+      - run: git config --global user.name "Thought in Travis"
+      - run: npm install
+      - run: npm run coverage
+      - run: eslint --max-warnings 0 .
         
