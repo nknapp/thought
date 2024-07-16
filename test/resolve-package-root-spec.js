@@ -14,6 +14,11 @@ chai.use(require('chai-as-promised'))
 chai.use(require('dirty-chai'))
 const expect = chai.expect
 const { resolvePackageRoot } = require('../lib/utils/resolve-package-root')
+const path = require('path')
+
+function osIndependent(somePath) {
+  return somePath.replace(/\//g, path.sep)
+}
 
 describe('The "resolve-package-root" utility', function () {
   let statSync
@@ -27,18 +32,18 @@ describe('The "resolve-package-root" utility', function () {
     fs.statSync = statSync
   })
 
-  it('find a package.json file and provide the relative path of the given file', function () {
+  it('finds a package.json file and provide the relative path of the given file', function () {
     return expect(resolvePackageRoot('test/fixtures/mini-project/a/b/test.txt')).to.eventually.deep.equal({
-      packageRoot: 'test/fixtures/mini-project',
-      relativeFile: 'a/b/test.txt',
+      packageRoot: osIndependent('test/fixtures/mini-project'),
+      relativeFile: osIndependent('a/b/test.txt'),
       packageJson: { name: 'mini-project', version: '1.0.0' }
     })
   })
 
-  it('find not be bothered by directory named "package.json"', function () {
+  it('is not be bothered by directory named "package.json"', function () {
     return expect(resolvePackageRoot('test/fixtures/mini-project/a/b/package.json/test.txt')).to.eventually.deep.equal({
-      packageRoot: 'test/fixtures/mini-project',
-      relativeFile: 'a/b/package.json/test.txt',
+      packageRoot: osIndependent('test/fixtures/mini-project'),
+      relativeFile: osIndependent('a/b/package.json/test.txt'),
       packageJson: { name: 'mini-project', version: '1.0.0' }
     })
   })

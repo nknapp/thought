@@ -4,7 +4,7 @@ const _ = {
 const pify = require('pify')
 const glob = pify(require('glob'))
 const debug = require('debug')('thought:helpers')
-const path = require('path')
+const path = require('path').posix
 
 module.exports = dirTree
 
