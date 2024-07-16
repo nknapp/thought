@@ -8,6 +8,7 @@ const cp = require('child_process')
 
 const fs = require('fs-extra')
 const path = require('path')
+const { osIndependentPath } = require('./lib/osIndependentPath')
 
 describe('The cli script', function () {
   this.timeout(30000)
@@ -171,7 +172,9 @@ describe('The cli script', function () {
         })
         await expectError({
           args: ['eject', 'template', 'anotherFile.md.hbs'],
-          errorMessage: `File ".thought/templates/anotherFile.md.hbs" already exists in this project!`
+          errorMessage: osIndependentPath(
+            `File ".thought/templates/anotherFile.md.hbs" already exists in this project!`
+          )
         })
 
         await expectError({
@@ -180,7 +183,7 @@ describe('The cli script', function () {
         })
         await expectError({
           args: ['eject', 'partial', 'usage.md.hbs'],
-          errorMessage: `File ".thought/partials/usage.md.hbs" already exists in this project!`
+          errorMessage: osIndependentPath(`File ".thought/partials/usage.md.hbs" already exists in this project!`)
         })
       })
     })

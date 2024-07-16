@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('path').posix
 const cp = require('child_process')
 const _ = {
   escapeRegExp: require('lodash.escaperegexp')
