@@ -46,6 +46,5 @@ jobs:
       - run: git config --global user.email "thought@knappi.org"
       - run: git config --global user.name "Thought in Travis"
       - run: npm install
+      - run: npm run lint
       - run: npm run coverage
-      - run: eslint --max-warnings 0 .
-        

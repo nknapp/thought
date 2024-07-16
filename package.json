@@ -29,7 +29,7 @@
   "license": "MIT",
   "scripts": {
     "format": "prettier --write '**/*.js'",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings 0",
     "lint:fix": "eslint --fix .",
     "test": "mocha && npm run lint",
     "coverage": "nyc --reporter=lcov --reporter=html --reporter=text-summary mocha",
