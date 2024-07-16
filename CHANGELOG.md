@@ -1,3 +1,28 @@
+# [5.0.0](https://github.com/nknapp/thought/compare/v4.0.1...v5.0.0) (2024-07-16)
+
+
+* chore!: drop Node support for versions before 14 ([45be5cd](https://github.com/nknapp/thought/commit/45be5cdb24bc1ab8d171b344919af9b863436557))
+
+
+### Features
+
+* add badges for gh-actions ([8f55fb6](https://github.com/nknapp/thought/commit/8f55fb6a32e074392e677f6400d9a06edca69aea))
+* also load Handlebars helper from .thought/helpers.cjs ([add52df](https://github.com/nknapp/thought/commit/add52df5d0de65bd6fbded3409c1349a8fc6a26e))
+
+
+### Reverts
+
+* Revert "chore: fix CI for Windows" ([706e675](https://github.com/nknapp/thought/commit/706e675fe41a42c9332c7c48d7bd4da354e5d536))
+* Revert "chore: fix CI for Windows (2)" ([a898057](https://github.com/nknapp/thought/commit/a898057f80ebee5d5a469904add7a0ab0f27a7b1))
+* Revert "chore: fix CI for Windows (3)" ([56392f8](https://github.com/nknapp/thought/commit/56392f8beadfd6f66c60a4ff120c6f0bc09fdcf2))
+
+
+### BREAKING CHANGES
+
+* Node 13.x and before are not supported anymore
+
+
+
 ## [4.0.1](https://github.com/nknapp/thought/compare/v4.0.0...v4.0.1) (2024-07-14)
 
 
