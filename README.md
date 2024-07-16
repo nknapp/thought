@@ -1,8 +1,6 @@
 # thought 
 
 [![NPM version](https://img.shields.io/npm/v/thought.svg)](https://npmjs.com/package/thought)
-[![Travis Build Status](https://travis-ci.org/nknapp/thought.svg?branch=master)](https://travis-ci.org/nknapp/thought)
-[![Coverage Status](https://img.shields.io/coveralls/nknapp/thought.svg)](https://coveralls.io/r/nknapp/thought)
 [![Greenkeeper badge](https://badges.greenkeeper.io/nknapp/thought.svg)](https://greenkeeper.io/)
 
 > A customizable documentation generator for github projects
@@ -40,6 +38,10 @@ The most basic way to use Thought is to go into your directory of your `package.
 npm -g install thought
 thought run -a
 ```
+
+> **Warning: Thought does not work correctly in Windows machines, because of the separator
+> "\\" instead of "/"
+> If you want to fix that, please contact me.**
 
 Thought will then create the files `README.md` and `CONTRIBUTING.md` with reasonable default texts for Open-Source
 projects in JavaScript that are hosted on http://npmjs.com. 
