@@ -14,6 +14,7 @@ The following partials can be overwritten in `.thought/partials`:
 │ ├── appveyor.md.hbs
 │ ├── codecov.md.hbs
 │ ├── coveralls.md.hbs
+│ ├── gh-workflows.md.hbs
 │ ├── greenkeeper.md.hbs
 │ ├── npm.md.hbs
 │ └── travis.md.hbs

@@ -8,6 +8,8 @@ const { resolvePackageRoot } = require('../../lib/utils/resolve-package-root')
 const Handlebars = require('handlebars')
 const fs = require('fs-extra')
 const util = require('util')
+const pify = require('pify')
+const _glob = pify(require('glob'))
 
 /**
  * Default Handlebars-helpers for Thought
@@ -31,7 +33,8 @@ module.exports = {
   hasCoveralls,
   hasCodecov,
   hasGreenkeeper,
-  arr
+  arr,
+  glob
 }
 
 /**
@@ -546,4 +549,21 @@ function _relativePathWithinRepository(packageJson, fileRelativeToPackageJson) {
     return `${directory}/${fileRelativeToPackageJson}`
   }
   return fileRelativeToPackageJson
+}
+
+/**
+ * Resolves files via glob pattern
+ *
+ * @param {string} pattern the glob
+ * @param {object} options
+ * @param {object} options.hash
+ * @param {string} options.hash.root the path to the directory that acts are root dir for this glob-query
+ * @returns {Promise<string[]>} a list of files
+ */
+async function glob(pattern, options) {
+  if (options && options.hash && options.hash.root) {
+    return _glob(pattern, { ignore: 'node_modules/', cwd: options.hash.root })
+  } else {
+    return _glob(pattern, { ignore: 'node_modules/' })
+  }
 }

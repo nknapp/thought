@@ -1,0 +1,3 @@
+{{~#each ( glob '*.yml' root='.github/workflows' ) as |workflowFile| ~}}
+    [![Github Actions Status](https://github.com/{{githubRepo}}/actions/workflows/{{workflowFile}}/badge.svg?branch=master)](https://github.com/{{githubRepo}}/actions/workflows/{{workflowFile}})
+{{/each~}}

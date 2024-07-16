@@ -2,6 +2,22 @@
 
 The following helpers are built-in for use in templates and partials
 
+## Members
+
+<dl>
+<dt><a href="#helpers">helpers</a></dt>
+<dd><p>Default Handlebars-helpers for Thought</p>
+</dd>
+</dl>
+
+## Functions
+
+<dl>
+<dt><a href="#glob">glob(pattern, options)</a> ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code></dt>
+<dd><p>Resolves files via glob pattern</p>
+</dd>
+</dl>
+
 <a name="helpers"></a>
 
 ## helpers
@@ -336,6 +352,21 @@ to provide array-arguments to other helpers.
 | Param | Type | Description |
 | --- | --- | --- |
 | ...args | <code>\*</code> | a list of arguments |
+
+<a name="glob"></a>
+
+## glob(pattern, options) ⇒ <code>Promise.&lt;Array.&lt;string&gt;&gt;</code>
+Resolves files via glob pattern
+
+**Kind**: global function  
+**Returns**: <code>Promise.&lt;Array.&lt;string&gt;&gt;</code> - a list of files  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| pattern | <code>string</code> | the glob |
+| options | <code>object</code> |  |
+| options.hash | <code>object</code> |  |
+| options.hash.root | <code>string</code> | the path to the directory that acts are root dir for this glob-query |
 
 
  

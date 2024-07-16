@@ -572,4 +572,20 @@ describe('thought-helpers:', function () {
       return expect(helpers.repoWebUrl('git+ssh://git@example.com/nknapp/thought-plugin-jsdoc.git')).to.equal(null)
     })
   })
+
+  describe("The 'glob' helper", function () {
+    it('returns a list of files matching the glob', async function () {
+      expect(await helpers.glob('test/fixtures/dir-tree/**/bFile.txt')).to.deep.equal([
+        'test/fixtures/dir-tree/subdirA/bDir/bFile.txt',
+        'test/fixtures/dir-tree/subdirB/subdirC/bFile.txt'
+      ])
+    })
+
+    it('returns paths starting with root dir', async function () {
+      expect(await helpers.glob('dir-tree/**/bFile.txt', { hash: { root: 'test/fixtures' } })).to.deep.equal([
+        'dir-tree/subdirA/bDir/bFile.txt',
+        'dir-tree/subdirB/subdirC/bFile.txt'
+      ])
+    })
+  })
 })
