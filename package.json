@@ -26,6 +26,9 @@
     "handlebars",
     "bin"
   ],
+  "engines": {
+    "node": ">=14"
+  },
   "license": "MIT",
   "scripts": {
     "format": "prettier --write '**/*.js'",

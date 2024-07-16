@@ -1,7 +1,7 @@
 # thought 
 
 [![NPM version](https://img.shields.io/npm/v/thought.svg)](https://npmjs.com/package/thought)
-[![Github Actions Status](https://github.com/nknapp/thought/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/nknapp/thought/actions/workflow/ci.yml)
+[![Github Actions Status](https://github.com/nknapp/thought/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/nknapp/thought/actions/workflows/ci.yml)
 [![Greenkeeper badge](https://badges.greenkeeper.io/nknapp/thought.svg)](https://greenkeeper.io/)
 
 > A customizable documentation generator for github projects
