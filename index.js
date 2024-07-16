@@ -29,7 +29,7 @@ function thought(options) {
       .load(require('./customize.js')(options.cwd || '.'))
       .run()
       .then(write(options.cwd || '.'))
-      .then(async function(filenames) {
+      .then(async function (filenames) {
         if (options.addToGit) {
           const git = require('simple-git/promise')()
           debug('Adding ' + filenames.join(', ') + ' to git index')

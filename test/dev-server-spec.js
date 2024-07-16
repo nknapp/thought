@@ -15,16 +15,16 @@ chai.use(chaiAsPromised)
 const expect = chai.expect
 const fs = require('fs')
 
-xdescribe('the thought dev-server', function() {
+xdescribe('the thought dev-server', function () {
   let child = null
   this.timeout(10000)
-  before(function() {
+  before(function () {
     child = require('child_process').fork(require.resolve('../lib/dev-server'), {
       cwd: 'test/fixtures/scenarios/simple-project/input'
     })
   })
 
-  it('should run thought and return the result (if a "run"-message is sent")', function(done) {
+  it('should run thought and return the result (if a "run"-message is sent")', function (done) {
     child.send({
       cmd: 'run'
     })

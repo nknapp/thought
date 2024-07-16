@@ -33,7 +33,7 @@ function clearMocks() {
  *   that is returned by the mocked spawn function.
  */
 function mockSpawn(predicate, mockFn) {
-  cp.spawn = function(command, args, options) {
+  cp.spawn = function (command, args, options) {
     if (options == null && _.isPlainObject(args)) {
       options = args
       args = null
@@ -58,7 +58,7 @@ function mockSpawn(predicate, mockFn) {
  *   that is returned by the mocked execFile function.
  */
 function mockExecFile(predicate, mockFn) {
-  cp.execFile = function(command, args, options, callback) {
+  cp.execFile = function (command, args, options, callback) {
     if (callback == null && typeof options === 'function') {
       callback = options
       options = null

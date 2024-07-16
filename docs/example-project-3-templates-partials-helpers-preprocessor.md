@@ -68,7 +68,7 @@ Have a look at the [API docs of the builtin-helpers](helpers.md). All helpers th
 [built into Handlebars](http://handlebarsjs.com/builtin_helpers.html) are also available.
 
 If you want to provide your own helpers (for example to perform some project-specific computations)
-you can create a file named `.thought/helpers.js` in your project. This file should export an object
+you can create a file named `.thought/helpers.js` or `.thought/helpers.cjs` in your project. This file should export an object
 of helper-functions like
 
 ```js

@@ -9,15 +9,15 @@ const debug = require('debug')('thought:preprocessor')
  * @param {object} data the data object of the configuration
  * @returns {*}
  */
-module.exports = function(data) {
+module.exports = function (data) {
   // shallow clone
   data = Object.assign({}, data)
 
   // Detect license file and read contents
   debug('workingdir', data.workingDir)
-  data.licenseFile = fs.readdir(data.workingDir).then(function(files) {
+  data.licenseFile = fs.readdir(data.workingDir).then(function (files) {
     debug('project files', files)
-    const licenseFiles = files.filter(function(filename) {
+    const licenseFiles = files.filter(function (filename) {
       return filename.lastIndexOf('LICENSE', 0) === 0
     })
     if (licenseFiles.length > 0) {

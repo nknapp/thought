@@ -29,7 +29,7 @@ const Scenario = require('./lib/scenarios')
  */
 function walk(baseDir, relativeDir, visitor) {
   const dirEntries = fs.readdirSync(path.join(baseDir, relativeDir))
-  dirEntries.forEach(function(fileOrDir) {
+  dirEntries.forEach(function (fileOrDir) {
     const relativePath = path.join(relativeDir, fileOrDir)
     const fullPath = path.join(baseDir, relativePath)
     const stats = fs.statSync(fullPath)
@@ -41,7 +41,7 @@ function walk(baseDir, relativeDir, visitor) {
   })
 }
 
-describe('the integration test: ', function() {
+describe('the integration test: ', function () {
   this.timeout(10000)
 
   beforeEach(() => {
@@ -49,19 +49,19 @@ describe('the integration test: ', function() {
   })
 
   Scenario.all().forEach(scenario => {
-    describe(`In the scenario "${scenario.name}",`, function() {
+    describe(`In the scenario "${scenario.name}",`, function () {
       if (scenario.expectFailure) {
-        it('running Thought should produce an error', function() {
+        it('running Thought should produce an error', function () {
           // This scenario must be rejected
           return expect(scenario.run(() => thought())).to.be.rejected
         })
       } else {
         // This scenario must pass
-        before(function() {
+        before(function () {
           return scenario.prepareAndRun(() => thought())
         })
 
-        it('the generated files in "actual" should be should match in "expected"', async function() {
+        it('the generated files in "actual" should be should match in "expected"', async function () {
           const [expected, actual] = await Promise.all([
             glob('**/*', { root: scenario.expected, nodir: true, dot: true }),
             glob('**/*', { root: scenario.actual, nodir: true, dot: true })
@@ -69,8 +69,8 @@ describe('the integration test: ', function() {
           expect(actual).to.deep.equal(expected)
         })
 
-        walk(scenario.expected, '', function(file) {
-          it(`the file "${file.relativePath}" should match`, function() {
+        walk(scenario.expected, '', function (file) {
+          it(`the file "${file.relativePath}" should match`, function () {
             const expectedContents = scenario.readExpected(file.relativePath)
             const actualContents = scenario.readActual(file.relativePath)
             return deep({ expectedContents, actualContents }).then(result =>

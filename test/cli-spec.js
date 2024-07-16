@@ -9,11 +9,11 @@ const cp = require('child_process')
 const fs = require('fs-extra')
 const path = require('path')
 
-describe('The cli script', function() {
+describe('The cli script', function () {
   this.timeout(30000)
   const scenario = new Scenario('simple-project')
 
-  it('should report missing hooks in package.json', function() {
+  it('should report missing hooks in package.json', function () {
     return scenario
       .prepareAndRun(() => runMockThought('run'))
       .then(result => {
@@ -24,7 +24,7 @@ describe('The cli script', function() {
       })
   })
 
-  it('should run without errors with debugging enabled', function() {
+  it('should run without errors with debugging enabled', function () {
     return scenario
       .prepareAndRun(() => runMockThought('-d', 'run'))
       .then(result => {
@@ -34,7 +34,7 @@ describe('The cli script', function() {
       })
   })
 
-  it('should initialize npm scripts with the "init" command', function() {
+  it('should initialize npm scripts with the "init" command', function () {
     return scenario.prepareAndRun(() => {
       return exec('git', ['init'])
         .then(() => exec('git', ['add', '-A']))
@@ -65,7 +65,7 @@ describe('The cli script', function() {
     })
   })
 
-  it('should perform the up-to-date check in a simple project', function() {
+  it('should perform the up-to-date check in a simple project', function () {
     return scenario.prepareAndRun(() =>
       runMockThought('up-to-date')
         .then(result => {
@@ -91,7 +91,7 @@ describe('The cli script', function() {
   describe('the "eject" command', () => {
     const ejectScenario = new Scenario('with-partial-and-template')
 
-    it('should show a list of ejectable files if no parameter is provided', async function() {
+    it('should show a list of ejectable files if no parameter is provided', async function () {
       await ejectScenario.prepareAndRun(() =>
         runMockThought('eject').then(result => {
           expect(result.code).to.equal(0)
@@ -104,7 +104,7 @@ describe('The cli script', function() {
       )
     })
 
-    it('should show only ejectable templates, if the prefix is "template"', async function() {
+    it('should show only ejectable templates, if the prefix is "template"', async function () {
       await ejectScenario.prepareAndRun(() =>
         runMockThought('eject', 'template').then(result => {
           expect(result.code).to.equal(0)
@@ -115,7 +115,7 @@ describe('The cli script', function() {
       )
     })
 
-    it('should show only ejectable partials, if the prefix is "partials"', async function() {
+    it('should show only ejectable partials, if the prefix is "partials"', async function () {
       await ejectScenario.prepareAndRun(() =>
         runMockThought('eject', 'partial').then(result => {
           expect(result.code).to.equal(0)
@@ -126,7 +126,7 @@ describe('The cli script', function() {
       )
     })
 
-    it('should eject a partial if a filename is specified and the prefix is "partial"', async function() {
+    it('should eject a partial if a filename is specified and the prefix is "partial"', async function () {
       await ejectScenario.prepareAndRun(async () => {
         const result = await runMockThought('eject', 'partial', 'howitworks.md.hbs')
 
@@ -143,7 +143,7 @@ describe('The cli script', function() {
       })
     })
 
-    it('should eject a template if a filename is specified and the prefix is "template"', async function() {
+    it('should eject a template if a filename is specified and the prefix is "template"', async function () {
       await ejectScenario.prepareAndRun(async () => {
         const result = await runMockThought('eject', 'template', 'README.md.hbs')
 
@@ -161,7 +161,7 @@ describe('The cli script', function() {
       })
     })
 
-    it('should give sensible error messages', async function() {
+    it('should give sensible error messages', async function () {
       await ejectScenario.prepareAndRun(async () => {
         await expectError({ args: ['eject', 'temp'], errorMessage: 'Unknown prefix "temp", try without prefix!' })
 

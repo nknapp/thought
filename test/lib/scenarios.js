@@ -94,7 +94,7 @@ class Scenario {
   }
 }
 
-Scenario.all = function() {
+Scenario.all = function () {
   return fs.readdirSync(basedir).map(name => {
     return new Scenario(name)
   })

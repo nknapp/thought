@@ -22,16 +22,16 @@ const fs = require('fs-extra')
 
 const expect = chai.expect
 
-describe('The init option', function() {
+describe('The init option', function () {
   let npmInstallMockCalls
   this.timeout(30000)
 
-  beforeEach(function() {
+  beforeEach(function () {
     npmInstallMockCalls = []
     // Make "npm install" faster by not really executing it
     cpMock.mockSpawn(
       cmd => cmd.match(/npm/),
-      function(cmd, args, options) {
+      function (cmd, args, options) {
         npmInstallMockCalls.push({ cmd, args, options })
         setTimeout(() => this.emit('exit', 0), 10)
       }
@@ -40,7 +40,7 @@ describe('The init option', function() {
 
   afterEach(() => cpMock.clearMocks())
 
-  it('should add scripts and devDependency to package.json', function() {
+  it('should add scripts and devDependency to package.json', function () {
     const scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init1')
     return scenario.prepareAndRun(() => {
       const git = simpleGit(scenario.actual)
@@ -96,7 +96,7 @@ describe('The init option', function() {
     })
   })
 
-  it('should add scripts and devDependency to package.json (even if no scripts-property exists', function() {
+  it('should add scripts and devDependency to package.json (even if no scripts-property exists', function () {
     const scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init1')
     return scenario.prepareAndRun(() => {
       const git = simpleGit(scenario.actual)
@@ -157,7 +157,7 @@ describe('The init option', function() {
     })
   })
 
-  it('should throw an exception, if the package.json-file has uncommitted changes', function() {
+  it('should throw an exception, if the package.json-file has uncommitted changes', function () {
     const scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init2')
     return scenario.prepareAndRun(() => {
       const git = simpleGit(scenario.actual)
@@ -165,7 +165,7 @@ describe('The init option', function() {
     })
   })
 
-  it('should throw an exception, if Thought is already registered in a script', function() {
+  it('should throw an exception, if Thought is already registered in a script', function () {
     const scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init2')
     return scenario.prepareAndRun(() => {
       const git = simpleGit(scenario.actual)
@@ -185,7 +185,7 @@ describe('The init option', function() {
     })
   })
 
-  it('should prepend the version script, if it already exists', function() {
+  it('should prepend the version script, if it already exists', function () {
     const scenario = new Scenario('simple-project').withTmpDir('test-output/thought-init2')
     return scenario.prepareAndRun(() => {
       const git = simpleGit(scenario.actual)

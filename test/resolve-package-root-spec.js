@@ -15,19 +15,19 @@ chai.use(require('dirty-chai'))
 const expect = chai.expect
 const { resolvePackageRoot } = require('../lib/utils/resolve-package-root')
 
-describe('The "resolve-package-root" utility', function() {
+describe('The "resolve-package-root" utility', function () {
   let statSync
   const fs = require('fs-extra')
 
-  beforeEach(function() {
+  beforeEach(function () {
     statSync = fs.statSync
   })
 
-  afterEach(function() {
+  afterEach(function () {
     fs.statSync = statSync
   })
 
-  it('find a package.json file and provide the relative path of the given file', function() {
+  it('find a package.json file and provide the relative path of the given file', function () {
     return expect(resolvePackageRoot('test/fixtures/mini-project/a/b/test.txt')).to.eventually.deep.equal({
       packageRoot: 'test/fixtures/mini-project',
       relativeFile: 'a/b/test.txt',
@@ -35,7 +35,7 @@ describe('The "resolve-package-root" utility', function() {
     })
   })
 
-  it('find not be bothered by directory named "package.json"', function() {
+  it('find not be bothered by directory named "package.json"', function () {
     return expect(resolvePackageRoot('test/fixtures/mini-project/a/b/package.json/test.txt')).to.eventually.deep.equal({
       packageRoot: 'test/fixtures/mini-project',
       relativeFile: 'a/b/package.json/test.txt',
@@ -43,8 +43,8 @@ describe('The "resolve-package-root" utility', function() {
     })
   })
 
-  it('should return a rejected promise on unexpected exceptions', function() {
-    fs.statSync = function() {
+  it('should return a rejected promise on unexpected exceptions', function () {
+    fs.statSync = function () {
       throw new Error('Test-Error')
     }
     return expect(resolvePackageRoot('test/fixtures/mini-project/a/b/package.json/test.txt')).to.be.rejectedWith(

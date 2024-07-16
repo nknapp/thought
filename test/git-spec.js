@@ -18,9 +18,9 @@ chai.use(require('chai-as-promised'))
 chai.use(require('dirty-chai'))
 const expect = chai.expect
 
-describe('The "addToGit" option', function() {
+describe('The "addToGit" option', function () {
   this.timeout(10000)
-  it('should add the generated files to the git-index', function() {
+  it('should add the generated files to the git-index', function () {
     const scenario = new Scenario('simple-project').withTmpDir('test-output/addToGit')
     return scenario.prepareAndRun(() => {
       const git = simpleGit(scenario.actual)

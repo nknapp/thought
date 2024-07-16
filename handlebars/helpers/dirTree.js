@@ -94,7 +94,7 @@ async function dirTree(baseDir, globPattern, options) {
  */
 function treeFromPaths(files, parent, renderLabelFn) {
   const groups = _.groupBy(files, file => file.match(/^[^/]*\/?/))
-  return Object.keys(groups).map(function(groupKey) {
+  return Object.keys(groups).map(function (groupKey) {
     const group = groups[groupKey]
     // Is this group explicitly part of the result, or
     // just implicit through its children

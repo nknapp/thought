@@ -60,7 +60,7 @@ module.exports = function createSpec(workingDir) {
           }
         })
         // Apply any customization from the config-files (such as loading modules)
-        .load(function(customize) {
+        .load(function (customize) {
           debug('Loading modules', config)
           if (config && config.plugins) {
             return config.plugins.reduce((prev, plugin) => {
@@ -76,6 +76,11 @@ module.exports = function createSpec(workingDir) {
             templates: path.join(workingDir, '.thought', 'templates'),
             helpers: path.resolve(workingDir, '.thought', 'helpers.js'),
             preprocessor: path.resolve(workingDir, '.thought', 'preprocessor.js')
+          }
+        })
+        .merge({
+          handlebars: {
+            helpers: path.resolve(workingDir, '.thought', 'helpers.cjs')
           }
         })
     )

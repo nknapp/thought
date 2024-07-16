@@ -4,7 +4,7 @@ module.exports = {
    * @param {string} text a text to be shouted
    * @returns {string} the text in uppercases
    */
-  shout: function(text) {
+  shout: function (text) {
     return text && text.toUpperCase()
   },
 
@@ -15,7 +15,7 @@ module.exports = {
    * @param {string} text
    * @returns {Promise<string>} a promise for the text
    */
-  delay: function(text) {
+  delay: function (text) {
     return new Promise((resolve, reject) => setTimeout(() => resolve(text), 10))
   }
 }

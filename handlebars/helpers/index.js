@@ -57,7 +57,7 @@ function json(obj) {
  * @memberOf helpers
  */
 function include(filename, language) {
-  return fs.readFile(filename, 'utf-8').then(function(contents) {
+  return fs.readFile(filename, 'utf-8').then(function (contents) {
     return (
       '```' + (typeof language === 'string' ? language : path.extname(filename).substr(1)) + '\n' + contents + '\n```\n'
     )
@@ -98,7 +98,7 @@ function includeRaw(filename) {
  * @memberOf helpers
  */
 function example(filename, options) {
-  return fs.readFile(filename, 'utf-8').then(function(contents) {
+  return fs.readFile(filename, 'utf-8').then(function (contents) {
     if (options && options.hash && options.hash.snippet) {
       contents = contents.match(/---<snip>---.*\n([\S\s]*?)\n.*---<\/snip>---/)[1]
     }
@@ -121,7 +121,7 @@ function example(filename, options) {
 function replaceRequireModule(contents, modulePath, packageName, quoteChar) {
   const requireModuleSingleQuoteRegex = new RegExp(regex`require\(${quoteChar}${modulePath}(/.*?)?${quoteChar}\)`, 'g')
 
-  return contents.replace(requireModuleSingleQuoteRegex, function(match, suffix) {
+  return contents.replace(requireModuleSingleQuoteRegex, function (match, suffix) {
     return `require(${quoteChar}${combineRequirePath(packageName, suffix)}${quoteChar})`
   })
 }
@@ -230,7 +230,7 @@ function renderTree(object, options) {
  * @memberOf helpers
  */
 function withPackageOf(filePath, options) {
-  return resolvePackageRoot(path.resolve(filePath)).then(function(resolvedPackageRoot) {
+  return resolvePackageRoot(path.resolve(filePath)).then(function (resolvedPackageRoot) {
     const data = Handlebars.createFrame(options.data)
     data.url = _githubUrl(resolvedPackageRoot)
     data.package = resolvedPackageRoot.packageJson
@@ -279,10 +279,7 @@ function htmlId(value) {
   // There are probably a lot of characters missing. Please make a PR, if you want to include more ranges in the valid characters.
   // Make sure to add a test-case
   const validChars = /[^A-Za-z0-9-_\u00C0-\u00D6\u00D8-\u00F6\u00F8-\u00FF\u30A0-\u30FF]/g
-  return value
-    .replace(/ /g, '-')
-    .replace(validChars, '')
-    .toLowerCase()
+  return value.replace(/ /g, '-').replace(validChars, '').toLowerCase()
 }
 
 /**
@@ -407,7 +404,7 @@ function transformTree(object, fn) {
   if (object.children) {
     return {
       label: label,
-      nodes: object.children.map(function(child) {
+      nodes: object.children.map(function (child) {
         return transformTree(child, fn)
       })
     }
