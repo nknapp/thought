@@ -40,7 +40,8 @@
     "changelog": "standard-changelog && git add CHANGELOG.md",
     "thought": "bin/thought.js run -a",
     "postthought": "node examples/run-thought.js",
-    "version": "npm run changelog && npm run thought"
+    "version": "npm run changelog && npm run thought",
+    "postversion": "git push --tags && npm publish"
   },
   "dependencies": {
     "archy": "^1.0.0",
